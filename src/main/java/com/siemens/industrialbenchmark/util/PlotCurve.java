@@ -19,10 +19,11 @@ import info.monitorenter.gui.chart.Chart2D;
 import info.monitorenter.gui.chart.ITrace2D;
 import info.monitorenter.gui.chart.IAxis.AxisTitle;
 import info.monitorenter.gui.chart.traces.Trace2DSimple;
-
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JFrame;
 
 /**
@@ -32,39 +33,55 @@ import javax.swing.JFrame;
  */
 public class PlotCurve {
 
-	public static void plot(String title, String xlabel, String ylabel, double[] data) {
+	public static Chart2D plotChart(final String xlabel, final String ylabel, final List<Double> data) {
 
 		//////////////////////////////////
 		// Create a chart:
 		//////////////////////////////////
-		Chart2D chart = new Chart2D();
+		final Chart2D chart = new Chart2D();
 
 		// Create an ITrace:
-		ITrace2D trace = new Trace2DSimple();
+		final ITrace2D trace = new Trace2DSimple();
 
 		// Add the trace to the chart. This has to be done before adding points
 		chart.addTrace(trace);
 		// Add all points, as it is static:
-		for (int i = 0; i < data.length; i++) {
-			trace.addPoint(i, data[i]);
+		for (int di = 0; di < data.size(); di++) {
+			trace.addPoint(di, data.get(di));
 		}
 		chart.getAxisX().setAxisTitle(new AxisTitle(xlabel));
 		chart.getAxisY().setAxisTitle(new AxisTitle(ylabel));
 
+		return chart;
+	}
+
+	public static void plot(final String title, final String xlabel, final String ylabel, final List<Double> data) {
+
+		final Chart2D chart = plotChart(xlabel, ylabel, data);
+
 		// Make it visible:
 		// Create a frame.
-		JFrame frame = new JFrame(title);
+		final JFrame frame = new JFrame(title);
 		// add the chart to the frame:
 		frame.getContentPane().add(chart);
 		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 400);
 
 		// Enable the termination button [cross on the upper right edge]:
 		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
+			@Override
+			public void windowClosing(final WindowEvent evt) {
 				System.exit(0);
 			}
 		});
 		frame.setVisible(true);
 	}
-}
 
+	public static void plot(final String title, final String xlabel, final String ylabel, final double[] data) {
+
+		final List<Double> dataList = new ArrayList<>(data.length);
+		for (int di = 0; di < data.length; di++) {
+			dataList.add(data[di]);
+		}
+		plot(title, xlabel, ylabel, dataList);
+	}
+}
