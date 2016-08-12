@@ -142,7 +142,7 @@ public class IndustrialBenchmarkDynamics implements Environment
         List<String> extNames = new ArrayList<String>();
         for (ExternalDriver d : this.externalDrivers) {
         	for (String n : d.getState().getKeys()) {
-            	if (!extNames.contains(n)) {
+            	if (!extNames.contains(n) && !markovStateAdditionalNames.contains(n)) {
             		extNames.add(n);
             	}
         	}
