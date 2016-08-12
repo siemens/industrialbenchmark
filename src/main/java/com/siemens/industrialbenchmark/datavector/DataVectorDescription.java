@@ -20,6 +20,8 @@ import java.util.List;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import java.util.Arrays;
+import java.util.HashSet;
 
 
 /**
@@ -36,6 +38,7 @@ abstract public class DataVectorDescription
 	public DataVectorDescription(List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.size() > 0, "name list has size 0");
+		Preconditions.checkArgument(new HashSet<>(names).size() == names.size(), "name list contains duplicates");
 
 		Builder<String> lb = ImmutableList.builder();
     	for (String key : names) {
@@ -51,6 +54,7 @@ abstract public class DataVectorDescription
 	public DataVectorDescription(String names[]) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.length > 0, "name list has size 0");
+		Preconditions.checkArgument(new HashSet<>(Arrays.asList(names)).size() == names.length, "name list contains duplicates");
 
 		Builder<String> lb = ImmutableList.builder();
     	for (String key : names) {
