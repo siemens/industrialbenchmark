@@ -3,6 +3,13 @@
 	<groupId>com.siemens.oss.industrialbenchmark</groupId>
 	<artifactId>industrialbenchmark</artifactId>
 	<version>1.0.3-SNAPSHOT</version>
+	
+	<properties>
+		<javaSource>1.8</javaSource>
+		<javaTarget>1.8</javaTarget>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	
 
 	<developers>
 		<developer>
@@ -24,16 +31,24 @@
 	</developers>
 
 	<scm>
+		<url>https://github.com/siemens/industrialbenchmark</url>
+		<connection>scm:git:https://github.com/siemens/industrialbenchmark.git</connection>
 		<developerConnection>scm:git:https://github.com/siemens/industrialbenchmark.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
+	
 
 	<distributionManagement>
 		<repository>
-			<id>artifactory</id>
-			<name>Internal Releases</name>
-			<url>URL</url>
+			<id>ossrh</id>
+			<name>Sonatype OSS Maven Repository : Releases</name>
+			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
 		</repository>
+		<snapshotRepository>
+			<id>ossrh</id>
+			<name>Sonatype OSS Maven Repository : Snapshots</name>
+			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
+		</snapshotRepository>
 	</distributionManagement>
 
 	<dependencies>
@@ -173,9 +188,9 @@
 					<artifactId>maven-compiler-plugin</artifactId>
 					<version>2.3.2</version>
 					<configuration>
-						<source>1.8</source>
-						<target>1.8</target>
-						<encoding>UTF-8</encoding>
+						<source>${javaSource}</source>
+						<target>${javaTarget}</target>
+						<encoding>${project.build.sourceEncoding}</encoding>
 					</configuration>
 				</plugin>
 			</plugins>
