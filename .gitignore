@@ -1,3 +1,5 @@
 /target/
 /IB.log
 /.settings/
+/dyn-markov.csv
+/dyn-observable.csv

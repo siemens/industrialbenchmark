@@ -69,9 +69,9 @@ public class PenaltyFunction {
 	// #                           Radius Transformation                                   #
 	// # --------------------------------------------------------------------------------- #
 	// # ################################################################################# #
-	private DoubleFunction transfer_function_factory(double r0, double chi, double xi) {
-		double exponent = chi / xi;
-		double scaling = xi / Math.pow(chi, exponent);
+	private DoubleFunction transfer_function_factory(final double r0, double chi, double xi) {
+		final double exponent = chi / xi;
+		final double scaling = xi / Math.pow(chi, exponent);
 		
 		return new DoubleFunction() {
 			@Override
@@ -99,7 +99,7 @@ public class PenaltyFunction {
 		Preconditions.checkArgument(x1>=x0 && r1>=r0, 
 				"required: (x0, r0) < (x1, r1), but was x0=%s, r0=%s x1=%s, r1=%s", x0, r0, x1, r1);
 		
-		double rscaler = r0 / x0;
+		final double rscaler = r0 / x0;
 		
 		final double final_r0 = r0;
 		final double final_x0 = x0;
