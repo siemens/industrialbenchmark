@@ -1,9 +1,10 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.siemens.oss.industrialbenchmark</groupId>
 	<artifactId>industrialbenchmark</artifactId>
-	<version>1.0.6-SNAPSHOT</version>
-	
+	<version>1.0.7-SNAPSHOT</version>
+
 	<properties>
 		<javaSource>1.8</javaSource>
 		<javaTarget>1.8</javaTarget>
@@ -17,7 +18,7 @@ The Industrial Benchmark aims at being be realistic in the sense, that it includ
 of aspects that we found to be vital in industrial applications. It is not designed to be an
 approximation of any real system, but to pose the same hardness and complexity.
 	</description>
-	
+
 
 	<developers>
 		<developer>
@@ -44,7 +45,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 		<developerConnection>scm:git:https://github.com/siemens/industrialbenchmark.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
-	
+
 
 	<distributionManagement>
 		<repository>
@@ -120,6 +121,17 @@ approximation of any real system, but to pose the same hardness and complexity.
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>${javaSource}</source>
+					<target>${javaTarget}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+				</configuration>
+			</plugin>
+
 			<!-- Build deliverables: JAR -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -181,29 +193,56 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<excludePackageNames>com.siemens.industrialbenchmark.*</excludePackageNames>
 				</configuration>
 			</plugin>
+
+			<!-- ####################### Maven central release plugins ###################### -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<version>1.6</version>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.sonatype.plugins</groupId>
+				<artifactId>nexus-staging-maven-plugin</artifactId>
+				<version>1.6.3</version>
+				<extensions>true</extensions>
+				<configuration>
+					<serverId>ossrh</serverId>
+					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.5.2</version><!--$NO-MVN-MAN-VER$ -->
+				<configuration>
+					<!-- During release:perform, enable the "release" profile -->
+					<releaseProfiles>release</releaseProfiles>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>buildnumber-maven-plugin</artifactId>
+				<version>1.1</version>
+				<executions>
+					<execution>
+						<phase>validate</phase>
+						<goals>
+							<goal>create</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
-		
-		<resources>
-			<resource>
-				<directory>src/main/resources</directory>
-			</resource>
-		</resources>
-
-		<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-compiler-plugin</artifactId>
-					<version>2.3.2</version>
-					<configuration>
-						<source>${javaSource}</source>
-						<target>${javaTarget}</target>
-						<encoding>${project.build.sourceEncoding}</encoding>
-					</configuration>
-				</plugin>
-			</plugins>
-		</pluginManagement>
-
 	</build>
 
 	<!-- Bug in Maven: disable javadoc in Java8, because otherwise the framework 
