@@ -227,8 +227,6 @@ approximation of any real system, but to pose the same hardness and complexity.
 		</plugins>
 	</build>
 
-	<!-- Bug in Maven: disable javadoc in Java8, because otherwise the framework 
-		cannot be released!!! -->
 	<profiles>
 		<profile>
 			<id>release</id>
