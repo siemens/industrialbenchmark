@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.siemens.oss.industrialbenchmark</groupId>
 	<artifactId>industrialbenchmark</artifactId>
-	<version>1.1.0</version>
+	<version>1.1.1-SNAPSHOT</version>
 
 	<properties>
 		<javaSource>1.8</javaSource>
@@ -50,7 +50,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 		<url>https://github.com/siemens/industrialbenchmark</url>
 		<connection>scm:git:https://github.com/siemens/industrialbenchmark.git</connection>
 		<developerConnection>scm:git:https://github.com/siemens/industrialbenchmark.git</developerConnection>
-		<tag>industrialbenchmark-1.1.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 
