@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.siemens.oss.industrialbenchmark</groupId>
 	<artifactId>industrialbenchmark</artifactId>
-	<version>1.0.8-SNAPSHOT</version>
+	<version>1.0.9-SNAPSHOT</version>
 
 	<properties>
 		<javaSource>1.8</javaSource>
@@ -124,7 +124,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.3</version>
+				<version>1.6.7</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
@@ -186,11 +186,13 @@ approximation of any real system, but to pose the same hardness and complexity.
 				<artifactId>maven-release-plugin</artifactId>
 				<version>2.5.2</version><!--$NO-MVN-MAN-VER$ -->
 				<configuration>
-					<!-- During release:perform, enable the "release" profile -->
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<useReleaseProfile>false</useReleaseProfile>
 					<releaseProfiles>release</releaseProfiles>
+					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-			
+
 			<!-- Build deliverables: Assembly as ZIP and Tar/GZ. -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
