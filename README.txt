@@ -29,3 +29,10 @@ Compilation + Run:
 	=> all observable state variables are written to file dyn-observable.csv.
 	=> all markov state variables are written to file dyn-markov.csv
 
+Example main()-Function:
+========================
+
+	An example usage of the industrial benchmark can be found in the class com.siemens.industrialbenchmark.ExampleMain.
+	This class is intented to be a template for data generation. 
+	
+	
