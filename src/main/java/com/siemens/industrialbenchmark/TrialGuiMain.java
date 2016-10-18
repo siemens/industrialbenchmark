@@ -51,7 +51,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		initComponents();
 
-		this.setSize(800, 600);
+		this.setSize(1024, 600);
 
 		this.simPropsTable = new PropertiesTable(loadDefaultSimulationProperties());
 		this.simPropsSP.getViewport().add(simPropsTable);
