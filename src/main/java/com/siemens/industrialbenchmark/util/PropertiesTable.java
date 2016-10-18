@@ -53,6 +53,13 @@ public class PropertiesTable extends JTable {
 		return ((PropertiesTableModel) getModel()).getProperties();
 	}
 
+	public void setProperty(final String key, final Object value) {
+
+		final PropertiesTableModel model = (PropertiesTableModel) getModel();
+		model.setValueAt(value, model.getPropertyRow(key), 1);
+		repaint();
+	}
+
 	private static class PropertiesTableModel extends AbstractTableModel {
 
 		// These are the names of the columns represented by this TableModel
@@ -78,6 +85,10 @@ public class PropertiesTable extends JTable {
 
 		public Properties getProperties() {
 			return properties;
+		}
+
+		public int getPropertyRow(final String key) {
+			return propertiesKeys.indexOf(key);
 		}
 
 		// These simple methods return basic information about the table
