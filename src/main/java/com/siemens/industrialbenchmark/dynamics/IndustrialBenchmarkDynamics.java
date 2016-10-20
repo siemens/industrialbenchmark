@@ -86,6 +86,8 @@ public class IndustrialBenchmarkDynamics implements Environment
     
     private List<String> markovStateAdditionalNames;
     private List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>(); 
+    private final ActionDelta zeroAction = new ActionDelta(0, 0, 0);
+	
 
     /**
      * Constructor with configuration Properties
@@ -101,6 +103,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 		externalDrivers.add(new SetPointGenerator(mProperties));
 
         init();
+        step(zeroAction);
     }
     
     /**
@@ -115,6 +118,7 @@ public class IndustrialBenchmarkDynamics implements Environment
     	this.externalDrivers = externalDrivers;
     	
     	init();
+    	step(zeroAction);
     }
 
 	/**
