@@ -53,7 +53,7 @@ import com.siemens.rl.interfaces.ExternalDriver;
 public class IndustrialBenchmarkDynamics implements Environment
 {
 	/** Variable Names */
-	protected Logger mLogger = Logger.getLogger(IndustrialBenchmarkDynamics.class);
+	//protected Logger mLogger = Logger.getLogger(IndustrialBenchmarkDynamics.class);
 	protected final float STEP_SIZE_VELOCITY;
 	protected final float STEP_SIZE_GAIN;
 
@@ -169,7 +169,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 
         // seed all random number generators for allowing to re-conduct the experiment 
         randomSeed = PropertiesUtil.getLong(mProperties, "SEED", System.currentTimeMillis());
-        mLogger.debug("init seed: " + randomSeed);
+        //mLogger.debug("init seed: " + randomSeed);
         rda.reSeed(randomSeed);
         
         //extDriver.setSeed(rda.nextLong(0, Long.MAX_VALUE));
@@ -187,9 +187,9 @@ public class IndustrialBenchmarkDynamics implements Environment
 			}
 		}
 			
-		for (String key : markovState.getKeys()) {
-			mLogger.debug(key  + "=" + markovState.getValue(key));
-		}
+		//for (String key : markovState.getKeys()) {
+		//	mLogger.debug(key  + "=" + markovState.getValue(key));
+		//}
 		//System.exit(-1);
 		//mRewardCore.setNormal(rda);
 	}
