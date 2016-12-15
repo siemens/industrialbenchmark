@@ -14,7 +14,7 @@ Inclusion as a dependency to your Java/Maven project:
 	<dependency>
 	    <groupId>com.siemens.oss.industrialbenchmark</groupId>
 	    <artifactId>industrialbenchmark</artifactId>
-	    <version>1.1.0</version>
+	    <version>1.1.1</version>
 	</dependency>
 
 
