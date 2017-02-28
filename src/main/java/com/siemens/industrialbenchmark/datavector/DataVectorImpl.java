@@ -81,10 +81,10 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	public Double getValue(String key) {
 		Preconditions.checkArgument(this.getKeys().contains(key), "%s is not a valid variable", key);
 
-		if (!indexMap.containsKey(key)) {
-			return Double.NaN;
-		} else {
+		if (indexMap.containsKey(key)) {
 			return values[indexMap.get(key)];
+		} else {
+			return Double.NaN;
 		}
 	}
 
@@ -114,7 +114,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 * @return a list of current values
 	 */
 	public List<Double> getValues() {
-		Builder<Double> valueBuilder = new ImmutableList.Builder<Double>();
+		final Builder<Double> valueBuilder = new ImmutableList.Builder<Double>();
 		for (String key : keys) {
 			valueBuilder.add(values[indexMap.get(key)]);
 		}
@@ -127,27 +127,28 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 */
 	@Override
 	public double[] getValuesArray() {
-		double[] valuesCopy = new double[keys.size()];
-		for (int i=0; i<this.keys.size(); i++) {
-			valuesCopy[i] = this.values[indexMap.get(keys.get(i))];
+		final double[] valuesCopy = new double[keys.size()];
+		for (int ki = 0; ki < keys.size(); ki++) {
+			valuesCopy[ki] = values[indexMap.get(keys.get(ki))];
 		}
 		return valuesCopy;
 	}
 
 	@Override
 	public String toString() {
-		String output = "{";
+		StringBuilder output = new StringBuilder("{");
 		String key;
-		for (int i=0; i<this.keys.size(); i++) {
-			key=this.keys.get(i);
+		for (int ki = 0; ki < keys.size(); ki++) {
+			key=keys.get(ki);
+			output.append(key).append("=").append(values[indexMap.get(key)]);
 			// last element with "]" instead of ", "
-			if (i==this.keys.size()-1) {
-				output += key + "=" + values[indexMap.get(key)] + "}";
+			if (ki == keys.size() - 1) {
+				output.append("}");
 			} else {
-				output += key + "=" + values[indexMap.get(key)] + ", ";
+				output.append(", ");
 			}
 		}
-		return output;
+		return output.toString();
 	}
 
 	@Override
