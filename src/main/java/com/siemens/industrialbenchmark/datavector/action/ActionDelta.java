@@ -31,7 +31,7 @@ public class ActionDelta extends DataVectorImpl {
 	 */
 	private static final long serialVersionUID = 1159603096632053185L;
 
-	protected double maxDelta = 10.0;
+	protected double maxDelta = 100.0; // HACK This was 10.0 before, but the default range is 100.0, so it produced runtime exceptions by default. why use this arbitrary value here anyway?
 
 	/**
 	 * Constructor with deltas and properties file
