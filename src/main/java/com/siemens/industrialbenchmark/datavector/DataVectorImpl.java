@@ -134,30 +134,30 @@ public class DataVectorImpl implements Cloneable, DataVector {
 		return valuesCopy;
 	}
 
-    @Override
-    public String toString() {
-    	String output = "{";
-    	String key;
-    	for (int i=0; i<this.keys.size(); i++) {
-    		key=this.keys.get(i);
+	@Override
+	public String toString() {
+		String output = "{";
+		String key;
+		for (int i=0; i<this.keys.size(); i++) {
+			key=this.keys.get(i);
 			// last element with "]" instead of ", "
-    		if (i==this.keys.size()-1) {
-        		output += key + "=" + values[indexMap.get(key)] + "}";
+			if (i==this.keys.size()-1) {
+				output += key + "=" + values[indexMap.get(key)] + "}";
 			} else {
 				output += key + "=" + values[indexMap.get(key)] + ", ";
 			}
 		}
-    	return output;
-    }
+		return output;
+	}
 
 	@Override
-    public DataVector clone() {
+	public DataVector clone() {
 		DataVector s = new DataVectorImpl(this.getKeys());
-    	for (String key : this.getKeys()) {
-    		s.setValue(key,  this.getValue(key));
-    	}
+		for (String key : this.getKeys()) {
+			s.setValue(key,  this.getValue(key));
+		}
 
-        return s;
-    }
+		return s;
+	}
 }
 
