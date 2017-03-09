@@ -25,31 +25,31 @@ import com.google.common.base.Preconditions;
 public class PenaltyFunction {
 
 	private final double phi;
-	private final double max_required_step;
-	private final DoubleFunction reward_function;
-	private final double optimum_radius;
-	private final double optimum_value;
+	private final double maxRequiredStep;
+	private final DoubleFunction rewardFunction;
+	private final double optimumRadius;
+	private final double optimumValue;
 
 	/**
 	 * generates the reward function for fixed phi
 	 * works ONLY WITH SCALAR inputs
 	 * @param phi angle in radians
-	 * @param max_required_step the max. required step by the optimal policy; must be positive
+	 * @param maxRequiredStep the max. required step by the optimal policy; must be positive
 	 */
-	public PenaltyFunction(double phi, double max_required_step) {
+	public PenaltyFunction(double phi, double maxRequiredStep) {
 
-		Preconditions.checkArgument(max_required_step > 0,
-				"max_required_step must be > 0, but was %s", max_required_step);
+		Preconditions.checkArgument(maxRequiredStep > 0,
+				"max_required_step must be > 0, but was %s", maxRequiredStep);
 		this.phi = phi;
-		this.max_required_step = max_required_step;
+		this.maxRequiredStep = maxRequiredStep;
 
-		reward_function = reward_function_factory(phi, max_required_step);
-		optimum_radius = compute_optimal_radius(phi, max_required_step);
-		optimum_value = reward_function.apply(optimum_radius);
+		rewardFunction = rewardFunctionFactory(phi, maxRequiredStep);
+		optimumRadius = computeOptimalRadius(phi, maxRequiredStep);
+		optimumValue = rewardFunction.apply(optimumRadius);
 	}
 
 	public double reward(double r) {
-		return reward_function.apply(r);
+		return rewardFunction.apply(r);
 	}
 
 	/**
@@ -57,9 +57,9 @@ public class PenaltyFunction {
 	 * @param r
 	 * @return
 	 */
-	public double[] reward(double r[]) {
-		double ret[] = new double [r.length];
-		for (int i=0; i<r.length; i++) {
+	public double[] reward(double[] r) {
+		double[] ret = new double[r.length];
+		for (int i = 0; i < r.length; i++) {
 			ret[i] = reward(r[i]);
 		}
 		return ret;
@@ -69,7 +69,7 @@ public class PenaltyFunction {
 	// #                           Radius Transformation                                   #
 	// # --------------------------------------------------------------------------------- #
 	// # ################################################################################# #
-	private DoubleFunction transfer_function_factory(double r0, double chi, double xi) {
+	private static DoubleFunction transferFunctionFactory(double r0, double chi, double xi) {
 		double exponent = chi / xi;
 		double scaling = xi / Math.pow(chi, exponent);
 
@@ -81,33 +81,33 @@ public class PenaltyFunction {
 		};
 	}
 
-	private DoubleFunction rad_transformation_factory(double x0, double r0, double x1, double r1) {
+	private static DoubleFunction radTransformationFactory(double x0, double r0, double x1, double r1) {
 
 		Preconditions.checkArgument(
-				(x0<=0 && r0<=0 && x1<=0 && r1<=0) ||
-				(x0>=0 && r0>=0 && x1>=0 && r1>=0),
-				"x0, r0, x1, r1 must be either all positive or all negative, " +
-				"but was x0=%s, r0=%s, x1=%s, r1=%s", x0, r0, x1, r1);
+				(x0 <= 0 && r0 <= 0 && x1 <= 0 && r1 <= 0)
+				|| (x0 >= 0 && r0 >= 0 && x1 >= 0 && r1 >= 0),
+				"x0, r0, x1, r1 must be either all positive or all negative, "
+				+ "but was x0=%s, r0=%s, x1=%s, r1=%s", x0, r0, x1, r1);
 
 		x0 = Math.abs(x0);
 		r0 = Math.abs(r0);
 		x1 = Math.abs(x1);
 		r1 = Math.abs(r1);
 
-		Preconditions.checkArgument(x0>0 && r0>0,
+		Preconditions.checkArgument(x0 > 0 && r0 > 0,
 				"x0 and r0 must be positive, but was x0=%s and r0=%s", x0, r0);
-		Preconditions.checkArgument(x1>=x0 && r1>=r0,
+		Preconditions.checkArgument(x1 >= x0 && r1 >= r0,
 				"required: (x0, r0) < (x1, r1), but was x0=%s, r0=%s x1=%s, r1=%s", x0, r0, x1, r1);
 
 		final double rscaler = r0 / x0;
 
-		final double final_r0 = r0;
-		final double final_x0 = x0;
-		final double final_x1 = x1;
-		final double final_r1 = r1;
+		final double finalR0 = r0;
+		final double finalR1 = r1;
+		final double finalX0 = x0;
+		final double finalX1 = x1;
 
-		final DoubleFunction seg2_tsf =
-				transfer_function_factory(final_r0, final_x1-final_x0, final_r1-final_r0);
+		final DoubleFunction seg2Tsf =
+				transferFunctionFactory(finalR0, finalX1 - finalX0, finalR1 - finalR0);
 
 		return new DoubleFunction() {
 			@Override
@@ -115,13 +115,13 @@ public class PenaltyFunction {
 				final double s = Math.signum(x);
 				x = Math.abs(x);
 
-				if (x<=final_x0) {
-					return s*rscaler*x;
+				if (x <= finalX0) {
+					return s * rscaler * x;
 				}
-				if (x<final_x1){
-					return s*seg2_tsf.apply(x-final_x0);
+				if (x < finalX1){
+					return s * seg2Tsf.apply(x - finalX0);
 				}
-				return s*(x-final_x1+final_r1);
+				return s * (x - finalX1 + finalR1);
 			}
 		};
 	}
@@ -146,13 +146,13 @@ public class PenaltyFunction {
 		   provides no indication about the sign of the opt
 	 *
 	 * @param phi
-	 * @param max_required_step
+	 * @param maxRequiredStep
 	 * @return
 	 */
-	private double compute_optimal_radius(double phi, double max_required_step) {
-		phi = phi % (2*Math.PI);
-		double opt = Math.max(Math.abs(Math.sin(phi)), max_required_step);
-		if (phi>=Math.PI) {
+	private static double computeOptimalRadius(double phi, double maxRequiredStep) {
+		phi = phi % (2 * Math.PI);
+		double opt = Math.max(Math.abs(Math.sin(phi)), maxRequiredStep);
+		if (phi >= Math.PI) {
 			opt *= -1;
 		}
 		return opt;
@@ -161,19 +161,19 @@ public class PenaltyFunction {
 	/**
 	 * Generates the reward function for fixed phi. Works ONLY WITH SCALAR inputs.
 	 * @param p angle in Radians
-	 * @param max_required_step the max. required step by the optimal policy; must be positive
+	 * @param maxRequiredStep the max. required step by the optimal policy; must be positive
 	 * @return
 	 */
-	private DoubleFunction reward_function_factory(double phi, double max_required_step) {
+	private static DoubleFunction rewardFunctionFactory(double phi, double maxRequiredStep) {
 
 		final NLGP l = new NLGP();
-		final double pTmp = phi % (2*Math.PI);
-		final double p = pTmp < 0 ? pTmp+(2*Math.PI) : pTmp;
+		final double pTmp = phi % (2 * Math.PI);
+		final double p = pTmp < 0 ? pTmp + (2 * Math.PI) : pTmp;
 
-		double opt_rad = compute_optimal_radius(p, max_required_step);
+		double optRad = computeOptimalRadius(p, maxRequiredStep);
 		double r0 = l.global_minimum_radius(p);
 
-		final DoubleFunction tr = rad_transformation_factory(opt_rad, r0, Math.signum(opt_rad)*2, Math.signum(r0)*2);
+		final DoubleFunction tr = radTransformationFactory(optRad, r0, Math.signum(optRad) * 2, Math.signum(r0) * 2);
 
 		return new DoubleFunction() {
 			@Override
@@ -184,16 +184,19 @@ public class PenaltyFunction {
 	}
 
 	public double getOptimumRadius() {
-		return optimum_radius;
+		return optimumRadius;
 	}
+
 	public double getOptimumValue() {
-		return optimum_value;
+		return optimumValue;
 	}
+
 	public double getPhi() {
 		return this.phi;
 	}
+
 	public double getMaxRequiredStep() {
-		return this.max_required_step;
+		return this.maxRequiredStep;
 	}
 }
 

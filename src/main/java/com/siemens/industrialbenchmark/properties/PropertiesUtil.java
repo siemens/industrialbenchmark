@@ -65,35 +65,42 @@ import java.util.Properties;
  *
  * @author duell
  */
-public class PropertiesUtil
-{
+public class PropertiesUtil {
 
-	public static float getFloat(Properties aProperties, String aTag) throws PropertiesException
+	private PropertiesUtil() {}
+
+	public static float getFloat(Properties aProperties, String aTag)
+			throws PropertiesException
 	{
 		return getFloat(aProperties, aTag, false);
 	}
 
-	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered)
+			throws PropertiesException
 	{
 		return getFloat(aProperties, aTag, aIsRequiered, 0);
 	}
 
-	public static long getLong(Properties aProperties, String aTag, long aDefault) throws PropertiesException
+	public static long getLong(Properties aProperties, String aTag, long aDefault)
+			throws PropertiesException
 	{
 		return getLong(aProperties, aTag, false, aDefault);
 	}
 
-	public static long getLong(Properties aProperties, String aTag) throws PropertiesException
+	public static long getLong(Properties aProperties, String aTag)
+			throws PropertiesException
 	{
 		return getLong(aProperties, aTag, false, 0L);
 	}
 
-	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered)
+			throws PropertiesException
 	{
 		return getLong(aProperties, aTag, aIsRequiered, 0L);
 	}
 
-	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered, long aDefault) throws PropertiesException
+	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered, long aDefault)
+			throws PropertiesException
 	{
 		final String value;
 		if (aIsRequiered) {
@@ -102,34 +109,31 @@ public class PropertiesUtil
 			value = aProperties.getProperty(aTag, Long.toString(aDefault));
 		}
 
-		try
-		{
+		try {
 			return Long.parseLong(value.trim());
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
 		}
 	}
 
-	public static double getDouble(Properties aProperties, String aTag) throws PropertiesException
+	public static double getDouble(Properties aProperties, String aTag)
+			throws PropertiesException
 	{
-		try
-		{
+		try {
 			return Double.parseDouble(aProperties.getProperty(aTag).trim());
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
 		}
 	}
 
-	public static boolean getBoolean(Properties aProperties, String aTag) throws PropertiesException
+	public static boolean getBoolean(Properties aProperties, String aTag)
+			throws PropertiesException
 	{
 		return getBoolean(aProperties, aTag, false);
 	}
 
-	public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered)
+			throws PropertiesException
 	{
 		return getBoolean(aProperties, aTag, aIsRequiered, false);
 	}
@@ -143,22 +147,21 @@ public class PropertiesUtil
 		} else {
 			value = aProperties.getProperty(aTag, Boolean.toString(aDefault));
 		}
-		try
-		{
+		try {
 			return Boolean.parseBoolean(value.trim());
-		}
-		catch (Exception e)
-		{
+		} catch (Exception e) {
 			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
 		}
 	}
 
-	public static float getFloat(Properties aProperties, String aTag, float aDefault) throws PropertiesException
+	public static float getFloat(Properties aProperties, String aTag, float aDefault)
+			throws PropertiesException
 	{
 		return getFloat(aProperties, aTag, false, aDefault);
 	}
 
-	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered, float aDefault) throws PropertiesException
+	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered, float aDefault)
+			throws PropertiesException
 	{
 		final String value;
 		if (aIsRequiered) {
@@ -166,32 +169,33 @@ public class PropertiesUtil
 		} else {
 			value = aProperties.getProperty(aTag, Float.toString(aDefault));
 		}
-		try
-		{
+		try {
 			return Float.parseFloat(value.trim());
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			throw new PropertiesException("Could not map " + aTag + " to a float value: ", e, aProperties, aTag);
 		}
 	}
 
-	public static int getInt(Properties aProperties, String aTag, int aDefault) throws PropertiesException
+	public static int getInt(Properties aProperties, String aTag, int aDefault)
+			throws PropertiesException
 	{
 		return getInt(aProperties, aTag, false, aDefault);
 	}
 
-	public static int getInt(Properties aProperties, String aTag) throws PropertiesException
+	public static int getInt(Properties aProperties, String aTag)
+			throws PropertiesException
 	{
 		return getInt(aProperties, aTag, false, 0);
 	}
 
-	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered)
+			throws PropertiesException
 	{
 		return getInt(aProperties, aTag, aIsRequiered, 0);
 	}
 
-	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered, int aDefault) throws PropertiesException
+	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered, int aDefault)
+			throws PropertiesException
 	{
 		final String value;
 		if (aIsRequiered) {
@@ -199,27 +203,22 @@ public class PropertiesUtil
 		} else {
 			value = aProperties.getProperty(aTag, Integer.toString(aDefault));
 		}
-		try
-		{
+		try {
 			return Integer.parseInt(value.trim());
-		}
-		catch (NumberFormatException e)
-		{
+		} catch (NumberFormatException e) {
 			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
 		}
 	}
 
-	public static Properties getProperties(String aFilename) throws IOException
-	{
+	public static Properties getProperties(String aFilename) throws IOException {
 		return getProperties(new File(aFilename));
 	}
 
-	public static Properties getProperties(File aFile) throws IOException
-	{
+	public static Properties getProperties(File aFile) throws IOException {
+
 		Properties p = new Properties();
 
-		try
-		(FileInputStream in = new FileInputStream(aFile)) {
+		try (FileInputStream in = new FileInputStream(aFile)) {
 			p.load(in);
 		}
 		return p;
@@ -232,7 +231,8 @@ public class PropertiesUtil
 	 * @throws PropertiesException if the property is not contained in the given
 	 *   {@link Properties} object
 	 */
-	public static String getRequiredProperty(Properties aProp, String aKey) throws PropertiesException
+	public static String getRequiredProperty(final Properties aProp, final String aKey)
+			throws PropertiesException
 	{
 		final String ret = aProp.getProperty(aKey);
 		if (ret == null) {
@@ -241,14 +241,13 @@ public class PropertiesUtil
 		return ret;
 	}
 
-	public static Properties setpointProperties(File aFile) throws IOException
-	{
+	public static Properties setpointProperties(File aFile) throws IOException {
+
 		if (!aFile.exists()) {
 			throw new FileNotFoundException("Properties file '" + aFile.getAbsolutePath() + "' does not exist");
 		}
 		Properties p = new Properties();
-		try
-		(FileInputStream in = new FileInputStream(aFile)) {
+		try (FileInputStream in = new FileInputStream(aFile)) {
 			p.load(in);
 		}
 		return p;

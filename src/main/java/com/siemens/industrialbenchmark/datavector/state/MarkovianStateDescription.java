@@ -40,11 +40,11 @@ public class MarkovianStateDescription extends DataVectorDescription {
 	public static final String EffectiveActionGainBeta = "EffectiveActionGainBeta";
 	public static final String EffectiveActionVelocityAlpha = "EffectiveActionVelocityAlpha";
 
-	public static final String RewardFatigue="RewardFatigue";
-	public static final String RewardFatigueWeighted="RewardFatigueWeighted";
-	public static final String RewardConsumption="RewardConsumption";
-	public static final String RewardConsumptionWeighted="RewardConsumptionWeighted";
-	public static final String MisCalibration ="MisCalibration";
+	public static final String RewardFatigue = "RewardFatigue";
+	public static final String RewardFatigueWeighted = "RewardFatigueWeighted";
+	public static final String RewardConsumption = "RewardConsumption";
+	public static final String RewardConsumptionWeighted = "RewardConsumptionWeighted";
+	public static final String MisCalibration = "MisCalibration";
 	public static final String RandomSeed = "RandomSeed";
 
 	/* observables */

@@ -57,8 +57,8 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @throws PropertiesException
 	 */
 	public SetPointGenerator(long seed, Properties aProperties)
-			throws PropertiesException {
-
+			throws PropertiesException
+	{
 		mIsStationary = aProperties.containsKey("STATIONARY_SETPOINT");
 		if (mIsStationary) {
 			mSetPoint = PropertiesUtil.getFloat(aProperties, "STATIONARY_SETPOINT", true);
@@ -146,8 +146,9 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @return
 	 */
 	private double step(double aSetPoint) {
-		if (mIsStationary)
+		if (mIsStationary) {
 			return aSetPoint;
+		}
 
 		double setpointLevel = aSetPoint;
 		if (mCurrentSteps >= mLastSequenceSteps) {
@@ -201,13 +202,13 @@ public class SetPointGenerator implements ExternalDriver {
 	public static void main(String[] args) throws IOException, PropertiesException {
 
 		final int episodeLength = 10000;
-		double data[] = new double[episodeLength];
+		double[] data = new double[episodeLength];
 
 		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 
 		SetPointGenerator lg = new SetPointGenerator(props);
 
-		for (int i=0; i<episodeLength; i++) {
+		for (int i = 0; i < episodeLength; i++) {
 			data[i] = lg.step();
 		}
 

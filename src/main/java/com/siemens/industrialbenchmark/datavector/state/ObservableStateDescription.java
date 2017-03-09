@@ -31,7 +31,7 @@ public class ObservableStateDescription extends DataVectorDescription {
 	public static final String Consumption = MarkovianStateDescription.Consumption;
 	public static final String RewardTotal = MarkovianStateDescription.RewardTotal;
 
-	private final static String[] STATE_VARS = new String[] {
+	private static final String[] STATE_VARS = new String[] {
 		SetPoint,
 		Action_Velocity,
 		Action_Gain,

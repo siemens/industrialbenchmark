@@ -30,7 +30,7 @@ public class NLGP {
 
 	private static final double U0 = Math.cbrt(1 + Math.sqrt(2)) / Math.sqrt(3);
 	private static final double R0 = U0 + 1. / (3.*U0);
-	private static final double LMBD = 2. * R0*R0 - Math.pow(R0,4) + 8. * Math.sqrt(2./27.) * R0;
+	private static final double LMBD = 2. * R0 * R0 - Math.pow(R0, 4) + 8. * Math.sqrt(2. / 27.) * R0;
 
 	private static final double NORM_ALPHA = 2. / LMBD;
 	private static final double NORM_BETA = 1. / LMBD;
@@ -48,7 +48,7 @@ public class NLGP {
 
 	/**
 	 * Function value of normalized, linearly biased Goldstone Potential
-	 * in euclidean coordinates.
+	 * in euclidian coordinates.
 	 * @param x in R
 	 * @param y in R
 	 * @return
@@ -117,10 +117,10 @@ public class NLGP {
 
 		final double r0;
 		if (qh <= QH_B) {
-			final double u = Math.cbrt(-qh + Math.sqrt(qh*qh - 1. / 27.));
+			final double u = Math.cbrt(-qh + Math.sqrt(qh * qh - 1. / 27.));
 			r0 = u + 1. / (3.*u);
 		} else {
-			r0 = Math.sqrt(4./3.) * Math.cos(1./3. * Math.acos(-qh*Math.sqrt(27.)) );
+			r0 = Math.sqrt(4. / 3.) * Math.cos(1. / 3. * Math.acos(-qh * Math.sqrt(27.)));
 		}
 		return scalar*r0;
 	}
@@ -131,8 +131,8 @@ public class NLGP {
 	 * @return
 	 */
 	public double[] global_minimum_radius(double[] phi) {
-		double ret[] = new double [phi.length];
-		for (int i=0; i<phi.length; i++) {
+		double[] ret = new double[phi.length];
+		for (int i = 0; i < phi.length; i++) {
 			ret[i] = global_minimum_radius(phi[i]);
 		}
 		return ret;

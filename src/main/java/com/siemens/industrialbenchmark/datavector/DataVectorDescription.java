@@ -28,9 +28,9 @@ import java.util.Objects;
 /**
  * state/action description for the industrial benchmark
  */
-abstract public class DataVectorDescription
-{
-	protected List<String> names;
+public abstract class DataVectorDescription {
+
+	private List<String> names;
 
 	/**
 	 * Constructor with a given List of state/action dimension names
@@ -52,7 +52,7 @@ abstract public class DataVectorDescription
 	 * Constructor with a given set of state/action description names
 	 * @param names
 	 */
-	public DataVectorDescription(String names[]) {
+	public DataVectorDescription(final String[] names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.length > 0, "name list has size 0");
 		Preconditions.checkArgument(new HashSet<>(Arrays.asList(names)).size() == names.length, "name list contains duplicates");
@@ -65,19 +65,18 @@ abstract public class DataVectorDescription
 	}
 
 	/**
-	 * Returns the number of variables
-	 * @return the number of variables
+	 * Returns the number of variables.
+	 * @return
 	 */
-	public int getNumberVariables()
-	{
+	public int getNumberVariables() {
 		return names.size();
 	}
 
 	/**
-	 * returns a List containing the variable names
-	 * @return A List containing the variable names
+	 * Returns a list containing the variable names.
+	 * @return
 	 */
-	public List <String> getVarNames() {
+	public List<String> getVarNames() {
 		return names;
 	}
 

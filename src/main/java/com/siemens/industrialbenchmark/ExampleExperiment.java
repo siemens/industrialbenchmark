@@ -29,6 +29,8 @@ import java.util.concurrent.Executors;
  */
 public class ExampleExperiment {
 
+	private ExampleExperiment() {}
+
 	private static class SimulationWrapper<R> implements Callable<R> {
 
 		private final Callable<R> simulation;

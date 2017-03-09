@@ -29,12 +29,12 @@ import com.siemens.rl.interfaces.DataVector;
  */
 public class IndustrialBenchmarkRewardFunction {
 
-	private final double CRD;
-	private final double CRE;
+	private final double crd;
+	private final double cre;
 
 	public IndustrialBenchmarkRewardFunction(Properties aProperties) throws PropertiesException{
-		CRD = PropertiesUtil.getFloat(aProperties, "CRD", true);
-		CRE = PropertiesUtil.getFloat(aProperties, "CRE", true);
+		crd = PropertiesUtil.getFloat(aProperties, "CRD", true);
+		cre = PropertiesUtil.getFloat(aProperties, "CRE", true);
 	}
 
 	/**
@@ -52,11 +52,11 @@ public class IndustrialBenchmarkRewardFunction {
 		// OperationalCost
 		double rE = -mState.getValue(MarkovianStateDescription.Consumption);
 
-		mState.setValue(MarkovianStateDescription.RewardConsumptionWeighted, CRE * rE);
-		mState.setValue(MarkovianStateDescription.RewardFatigueWeighted, CRD * rD);
+		mState.setValue(MarkovianStateDescription.RewardConsumptionWeighted, cre * rE);
+		mState.setValue(MarkovianStateDescription.RewardFatigueWeighted, crd * rD);
 		mState.setValue(MarkovianStateDescription.RewardConsumption, rE);
 		mState.setValue(MarkovianStateDescription.RewardFatigue, rD);
-		mState.setValue(MarkovianStateDescription.RewardTotal, CRD * rD + CRE * rE);
+		mState.setValue(MarkovianStateDescription.RewardTotal, crd * rD + cre * rE);
 	}
 }
 

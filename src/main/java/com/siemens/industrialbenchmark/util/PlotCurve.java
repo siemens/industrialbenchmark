@@ -32,6 +32,8 @@ import javax.swing.JFrame;
  */
 public class PlotCurve {
 
+	private PlotCurve() {}
+
 	public static Chart2D plotChart(final String xlabel, final String ylabel, final List<Double> data) {
 
 		// Create a chart

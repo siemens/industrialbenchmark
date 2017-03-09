@@ -46,7 +46,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 		this.keys = ImmutableList.copyOf(keys);
 		this.indexMap = new HashMap<>();
 		this.values = new double[this.keys.size()];
-		for (int i=0; i < this.keys.size(); i++) {
+		for (int i = 0; i < this.keys.size(); i++) {
 			this.indexMap.put(this.keys.get(i), i);
 			this.values[i] = Double.NaN;
 		}
@@ -135,10 +135,9 @@ public class DataVectorImpl implements Cloneable, DataVector {
 
 	@Override
 	public String toString() {
-		StringBuilder output = new StringBuilder("{");
-		String key;
+		final StringBuilder output = new StringBuilder("{");
 		for (int ki = 0; ki < keys.size(); ki++) {
-			key=keys.get(ki);
+			final String key = keys.get(ki);
 			output.append(key).append("=").append(values[indexMap.get(key)]);
 			// last element with "]" instead of ", "
 			if (ki == keys.size() - 1) {

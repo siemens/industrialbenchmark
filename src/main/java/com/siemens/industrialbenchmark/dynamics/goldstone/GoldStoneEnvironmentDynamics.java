@@ -29,7 +29,7 @@ public class GoldStoneEnvironmentDynamics {
 	private int phiIdx = 0;
 	private final double safeZone;
 	private final PenaltyFunction[] penaltyFunctionsArray;
-	final static Logger LOGGER = LoggerFactory.getLogger(GoldStoneEnvironmentDynamics.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(GoldStoneEnvironmentDynamics.class);
 
 	public enum Domain {
 		POSITIVE(+1),
@@ -40,9 +40,9 @@ public class GoldStoneEnvironmentDynamics {
 		Domain(int id) { this.id = id; }
 		public int getValue() { return id; }
 		public static Domain fromDouble(double id) {
-			if (id == -1.0) return NEGATIVE;
-			if (id == 0.0) return INITIAL;
-			if (id == 1.0) return POSITIVE;
+			if (id == -1.0) { return NEGATIVE; }
+			if (id == 0.0) { return INITIAL; }
+			if (id == 1.0) { return POSITIVE; }
 			throw new IllegalArgumentException("id must be either [-1, 0, 1], but is " + id);
 		}
 	}
@@ -56,9 +56,9 @@ public class GoldStoneEnvironmentDynamics {
 		SystemResponse(int id) { this.id = id; }
 		public int getValue() { return id; }
 		public static SystemResponse fromDouble(double id) {
-			if (id == -1.0) return DISADVANTAGEOUS;
-			if (id == 0.0) return NEUTRAL;
-			if (id == 1.0) return ADVANTAGEOUS;
+			if (id == -1.0) { return DISADVANTAGEOUS; }
+			if (id == 0.0) { return NEUTRAL; }
+			if (id == 1.0) { return ADVANTAGEOUS; }
 			throw new IllegalArgumentException("id must be either [-1, 0, 1], but is " + id);
 		}
 	}
@@ -286,13 +286,13 @@ public class GoldStoneEnvironmentDynamics {
 	private static PenaltyFunction[] defineRewardFunctions(int numberSteps, double maxRequiredStep) {
 
 		final int k = computeStrongestPenaltyAbsIdx(numberSteps);
-		double angle_gid[] = new double[k*2+1];
-		for (int i=-k; i<=k; i++) {
-			angle_gid[i+k] = i * 2*Math.PI / numberSteps;
+		double[] angleGid = new double[k * 2 + 1];
+		for (int i = -k; i <= k; i++) {
+			angleGid[i + k] = i * 2 * Math.PI / numberSteps;
 		}
-		PenaltyFunction[] penaltyFunctionsArray = new PenaltyFunction[angle_gid.length];
-		for (int i=0; i<angle_gid.length; i++) {
-			penaltyFunctionsArray[i] = new PenaltyFunction(angle_gid[i], maxRequiredStep);
+		PenaltyFunction[] penaltyFunctionsArray = new PenaltyFunction[angleGid.length];
+		for (int i = 0; i < angleGid.length; i++) {
+			penaltyFunctionsArray[i] = new PenaltyFunction(angleGid[i], maxRequiredStep);
 		}
 
 		return penaltyFunctionsArray;

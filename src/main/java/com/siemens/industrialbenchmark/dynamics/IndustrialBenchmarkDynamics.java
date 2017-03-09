@@ -51,14 +51,14 @@ import com.siemens.rl.interfaces.ExternalDriver;
  *
  * @author Siegmund Duell, Alexander Hentschel, Michel Tokic
  */
-public class IndustrialBenchmarkDynamics implements Environment
-{
-	//protected Logger mLogger = Logger.getLogger(IndustrialBenchmarkDynamics.class);
-	protected final float stepSizeVelocity;
-	protected final float stepSizeGain;
+public class IndustrialBenchmarkDynamics implements Environment {
+
+	//private Logger mLogger = Logger.getLogger(IndustrialBenchmarkDynamics.class);
+	private final float stepSizeVelocity;
+	private final float stepSizeGain;
 
 	/** Ring Buffer of fixed size implementing a FIFO queue */
-	protected CircularFifoBuffer mOperationalCostsBuffer;
+	private CircularFifoBuffer mOperationalCostsBuffer;
 
 	private float[] mEmConvWeights;
 	private boolean convToInit = true;
@@ -82,7 +82,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 	private IndustrialBenchmarkRewardFunction mRewardCore;
 	private final RandomDataGenerator rda;
 	private long randomSeed;
-	private float CRGS;
+	private float crgs;
 
 	private List<String> markovStateAdditionalNames;
 	private final List<ExternalDriver> externalDrivers;
@@ -129,7 +129,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 	protected void init() throws PropertiesException {
 
 		// configure convolution variables
-		CRGS = PropertiesUtil.getFloat(mProperties, "CRGS", true);
+		crgs = PropertiesUtil.getFloat(mProperties, "CRGS", true);
 		mEmConvWeights = getFloatArray(mProperties.getProperty("ConvArray"));
 		markovStateAdditionalNames = new ArrayList<>();
 		mOperationalCostsBuffer = new CircularFifoBuffer(mEmConvWeights.length);
@@ -276,8 +276,8 @@ public class IndustrialBenchmarkDynamics implements Environment
 		double rGS = markovState.getValue(MarkovianStateDescription.MisCalibration);
 
 		// set new OperationalCosts
-		double eNewHidden = (markovState.getValue(MarkovianStateDescription.OperationalCostsConv) - (CRGS * (rGS - 1.0)));
-		double operationalcosts = eNewHidden - rda.nextGaussian(0,  1) * (1+0.005*eNewHidden);
+		double eNewHidden = (markovState.getValue(MarkovianStateDescription.OperationalCostsConv) - (crgs * (rGS - 1.0)));
+		double operationalcosts = eNewHidden - rda.nextGaussian(0, 1) * (1+0.005*eNewHidden);
 
 		markovState.setValue(MarkovianStateDescription.Consumption, operationalcosts);
 	}
@@ -362,8 +362,8 @@ public class IndustrialBenchmarkDynamics implements Environment
 
 		// add spikes
 		// keep error within range of [0.001, 0.999] because otherwise Binomial.staticNextInt() will fail.
-		noiseGain += (1-noiseGain) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionGainBeta), 0.999)) * effActionGainBeta;
-		noiseVelocity += (1-noiseVelocity) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionVelocityAlpha), 0.999)) * effActionVelocityAlpha;
+		noiseGain += (1 - noiseGain) * rda.nextUniform(0, 1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionGainBeta), 0.999)) * effActionGainBeta;
+		noiseVelocity += (1 - noiseVelocity) * rda.nextUniform(0, 1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionVelocityAlpha), 0.999)) * effActionVelocityAlpha;
 
 		// compute internal dynamics
 		if (hiddenStateGain >= fatigueAmplificationStart) {
@@ -430,8 +430,8 @@ public class IndustrialBenchmarkDynamics implements Environment
 		markovState.setValue(MarkovianStateDescription.CurrentOperationalCost, operationalcosts);
 		mOperationalCostsBuffer.add(operationalcosts);
 
-		if(convToInit){
-			for(int i=1; i<mOperationalCostsBuffer.size(); i++){
+		if (convToInit) {
+			for(int i = 1; i < mOperationalCostsBuffer.size(); i++) {
 				mOperationalCostsBuffer.add(operationalcosts);
 			}
 			convToInit = false;

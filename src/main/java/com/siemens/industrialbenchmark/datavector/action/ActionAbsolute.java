@@ -112,7 +112,7 @@ public class ActionAbsolute extends ActionDelta {
 	 */
 	public void setGain(double gain) {
 		double delta = Math.abs(gain- absGain);
-		Preconditions.checkArgument(gain>= gainMin && gain <= gainMax, "gain=%s must be in range [%s, %s].", gain, gainMin, gainMax);
+		Preconditions.checkArgument(gain >= gainMin && gain <= gainMax, "gain=%s must be in range [%s, %s].", gain, gainMin, gainMax);
 		Preconditions.checkArgument(delta <= maxDelta, "delta_gain=%s out of range. 'gain' must be in range [%s, %s].", absGain-delta, absGain+delta);
 		this.setValue(ActionDeltaDescription.DeltaGain, gain - this.absGain);
 		//this.deltaGain = gain - this.absGain; // update delta
@@ -124,7 +124,7 @@ public class ActionAbsolute extends ActionDelta {
 	 */
 	public void setShift(float shift) {
 		double delta = Math.abs(shift- absShift);
-		Preconditions.checkArgument(shift>= shiftMin && shift <= shiftMax, "=%s must be in range [%s, %s].", shift, shiftMin, shiftMax);
+		Preconditions.checkArgument(shift >= shiftMin && shift <= shiftMax, "=%s must be in range [%s, %s].", shift, shiftMin, shiftMax);
 		Preconditions.checkArgument(delta <= maxDelta, "delta_shift=%s out of range. 'C' must be in range [%s, %s].", absShift-delta, absShift+delta);
 		this.setValue(ActionDeltaDescription.DeltaShift, shift - this.absShift);
 		//this.deltaGS = gs - this.absGS;

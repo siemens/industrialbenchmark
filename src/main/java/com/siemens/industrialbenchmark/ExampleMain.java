@@ -29,6 +29,8 @@ public class ExampleMain {
 
 	public static final String DEFALT_SIM_PROPS_FILE_PATH = "src/main/resources/sim.properties";
 
+	private ExampleMain() {}
+
 	/**
 	 * Run example benchmark with random actions for data generation purposes.
 	 *

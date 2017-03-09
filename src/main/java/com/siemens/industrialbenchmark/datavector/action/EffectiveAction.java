@@ -49,7 +49,7 @@ public class EffectiveAction {
 		return this.effectiveB;
 	}
 
-	private double calcAlphaScaled(double a, double b, double setpoint) {
+	private static double calcAlphaScaled(double a, double b, double setpoint) {
 		final double minAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(100, setpoint), calcEffectiveB(0, setpoint));
 		final double maxAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(0, setpoint), calcEffectiveB(100, setpoint));
 		final double alphaUnscaled = calcAlphaUnscaled(calcEffectiveA(a, setpoint), calcEffectiveB(b, setpoint));
@@ -57,7 +57,7 @@ public class EffectiveAction {
 		return (alphaUnscaled - minAlphaUnscaled) / (maxAlphaUnscaled - minAlphaUnscaled);
 	}
 
-	private double calcBetaScaled(double b, double setpoint) {
+	private static double calcBetaScaled(double b, double setpoint) {
 		final double minBetaUnscaled = calcBetaUnscaled(calcEffectiveB(100, setpoint));
 		final double maxBetaUnscaled = calcBetaUnscaled(calcEffectiveB(0, setpoint));
 		final double betaUnscaled = calcBetaUnscaled(calcEffectiveB(b, setpoint));
@@ -65,19 +65,19 @@ public class EffectiveAction {
 		return (betaUnscaled - minBetaUnscaled) / (maxBetaUnscaled - minBetaUnscaled);
 	}
 
-	private double calcEffectiveA(double a, double setpoint) {
+	private static double calcEffectiveA(double a, double setpoint) {
 		return a + 101.f - setpoint;
 	}
 
-	private double calcEffectiveB(double b, double setpoint) {
+	private static double calcEffectiveB(double b, double setpoint) {
 		return b + 1.f + setpoint;
 	}
 
-	private double calcAlphaUnscaled(double effectiveA, double effectiveB) {
+	private static double calcAlphaUnscaled(double effectiveA, double effectiveB) {
 		return (effectiveB + 1.0f) / effectiveA;
 	}
 
-	private double calcBetaUnscaled(double effectiveB) {
+	private static double calcBetaUnscaled(double effectiveB) {
 		return 1.0f / effectiveB;
 	}
 
@@ -92,11 +92,11 @@ public class EffectiveAction {
 	public static void main(String[] args) {
 
 		final float steps = 50;
-		final int min=0;
-		final int max=100;
-		final float step = (max-min) / steps;
+		final int min = 0;
+		final int max = 100;
+		final float step = (max - min) / steps;
 
-		File file = new File("output.txt");
+		final File file = new File("output.txt");
 		try (PrintWriter writer = new PrintWriter(file)) {
 			// evaluate EffectiveAction class
 			final int setpoint = 100;
@@ -104,8 +104,8 @@ public class EffectiveAction {
 			props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 			writer.println("x,y,alpha,beta");
 
-			for (float x=min; x<=max; x+=step) {
-				for (float y=min; y<=max; y+=step) {
+			for (float x = min; x <= max; x += step) {
+				for (float y = min; y <= max; y += step) {
 					EffectiveAction action = new EffectiveAction(new ActionAbsolute(x, y, 0.0f, props), setpoint);
 					writer.println(x + "," + y + "," + action.getVelocityAlpha() + "," + action.getGainBeta());
 				}
