@@ -101,10 +101,10 @@ public class IndustrialBenchmarkDynamics implements Environment
 		this.STEP_SIZE_VELOCITY = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_VELOCITY.name(), true);
 
 		if (externalDrivers == null) {
-			this.externalDrivers = new ArrayList<ExternalDriver>(1);
+			this.externalDrivers = new ArrayList<>(1);
 			this.externalDrivers.add(new SetPointGenerator(mProperties));
 		} else {
-			this.externalDrivers = new ArrayList(externalDrivers);
+			this.externalDrivers = new ArrayList<>(externalDrivers);
 		}
 
 		init();
@@ -129,7 +129,7 @@ public class IndustrialBenchmarkDynamics implements Environment
         // configure convolution variables
 		CRGS = PropertiesUtil.getFloat(mProperties, "CRGS", true);
         mEmConvWeights = getFloatArray(mProperties.getProperty("ConvArray"));
-        markovStateAdditionalNames = new ArrayList<String>();
+        markovStateAdditionalNames = new ArrayList<>();
         mOperationalCostsBuffer = new CircularFifoBuffer(mEmConvWeights.length);
         for (int i = 0; i < mEmConvWeights.length; i++) {
             mOperationalCostsBuffer.add(0.0d); // initialize all operationalcosts with zero
@@ -138,7 +138,7 @@ public class IndustrialBenchmarkDynamics implements Environment
         markovStateAdditionalNames.addAll(MarkovianStateDescription.getNonConvolutedInternalVariables());
 
         // add variables from external driver
-        List<String> extNames = new ArrayList<String>();
+        List<String> extNames = new ArrayList<>();
         for (ExternalDriver d : this.externalDrivers) {
         	for (String n : d.getState().getKeys()) {
             	if (!extNames.contains(n) && !markovStateAdditionalNames.contains(n)) {

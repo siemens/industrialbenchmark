@@ -81,7 +81,7 @@ public class ExampleExperiment {
 
 				final String outputFileName = TrialGuiMain.formatSaveFileName(outputFileNameTemplate, props);
 				final RandomSimulation randomSimulation = new RandomSimulation(simulationSteps, props, null, new File(outputFileName));
-				simulationThreadPool.submit(new SimulationWrapper(randomSimulation, experimentIndex, numExperiments, startTimeMillis));
+				simulationThreadPool.submit(new SimulationWrapper<>(randomSimulation, experimentIndex, numExperiments, startTimeMillis));
 				experimentIndex++;
 			}
 		}

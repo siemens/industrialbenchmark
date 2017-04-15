@@ -446,7 +446,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 			try {
 				final RandomSimulation randomSimulation = new RandomSimulation(simulationSteps, simulationProperties, progessModel, csvSaveFile);
-				final Callable<Map<String, List<Double>>> simulationWrapper = new Callable() {
+				final Callable<Map<String, List<Double>>> simulationWrapper = new Callable<Map<String, List<Double>>>() {
 					@Override
 					public Map<String, List<Double>> call() throws Exception {
 
