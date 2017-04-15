@@ -27,7 +27,9 @@ import java.awt.event.ItemListener;
 import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.Collections;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -37,17 +39,23 @@ import java.util.Properties;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.prefs.Preferences;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BoundedRangeModel;
 import javax.swing.DefaultBoundedRangeModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.InputVerifier;
+import javax.swing.JCheckBox;
+import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
 
@@ -59,12 +67,31 @@ public class TrialGuiMain extends javax.swing.JFrame {
 	private static final String PRIMARY_INPUT_VAR = "STATIONARY_SETPOINT";
 	private static final String PRIMARY_OUTPUT_VAR = "RewardTotal";
 
+	private static final String PREF_SAVE_FILE_TEMPLATE = "saveFileTemplate";
+	private static final String SAVE_FILE_TEMPLATE_DEFAULT
+			= System.getProperty("user.home")
+			+ "/industrialBenchmarkSimResults_"
+			+ "SetPoint${STATIONARY_SETPOINT}_"
+			+ "Seed${SEED}_"
+			+ "Time${time:yyyy-MM-dd_HH:mm:ss:SSS}.csv"; // see http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
+
+	private static final String PREF_AUTO_SAVE = "autoSave";
+	private static final boolean AUTO_SAVE_DEFAULT = false;
+
+	private static final String PREF_SIMULATION_STEPS = "simulationSteps";
+	private static final Integer SIMULATION_STEPS_DEFAULT = 1500;
+
+	private static final String PREF_SHOWN_OUTPUT = "shownOutput";
+	private static final String SHOWN_OUTPUT_DEFAULT = PRIMARY_OUTPUT_VAR;
+
 	private Map<String, List<Double>> states;
 	private final PropertiesTable simPropsTable;
+	private final Preferences preferences;
 
 	public TrialGuiMain() {
 
 		this.states = null;
+		this.preferences = Preferences.userNodeForPackage(TrialGuiMain.class);
 
 		initComponents();
 
@@ -107,7 +134,88 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		this.shownStateKeyCB.setSelectedItem(PRIMARY_OUTPUT_VAR);
 		this.shownStateKeyCB.addItemListener(new OutputVarKeyChangeListener());
 
+		final String safeFileTemplate = this.preferences.get(PREF_SAVE_FILE_TEMPLATE, SAVE_FILE_TEMPLATE_DEFAULT);
+		final StringBuilder tt = new StringBuilder();
+		tt.append("<html>\n");
+		tt.append("<h3>File-Name template for the results in CSV format</h3>\n");
+		tt.append("The file-name has to end in \".csv\",<br>\n");
+		tt.append(" and may use any of the following variables,<br>\n");
+		tt.append(" which will be substituted to create the actual file name:<br>\n");
+		tt.append("<ul>\n");
+		tt.append("<li>${time:<i>format</i>} (special), gets replaced with the time at the end of the simulation,<br>\n");
+		tt.append(" according to the given <i>format</i><br>\n");
+		tt.append(" (see <a href=\"http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\">the Javadoc</a> for formatting details).<br>\n");
+		tt.append(" example: \"${time:yyyy-MM-dd_HH:mm:ss:SSS}\"\n");
+		tt.append("</li>\n");
+		for (final String key : simulationProps.stringPropertyNames()) {
+			tt.append("<li>${").append(key).append("}</li>\n");
+		}
+		tt.append("</ul>\n");
+		tt.append("</html>\n");
+		this.saveFileNameTF.setToolTipText(tt.toString());
+		this.saveFileNameTF.setText(safeFileTemplate);
+		this.saveFileNameTF.getDocument().addDocumentListener(new DocumentListener() {
+			@Override
+			public void changedUpdate(final DocumentEvent evt) {
+				textChanged();
+			}
+
+			@Override
+			public void removeUpdate(final DocumentEvent evt) {
+				textChanged();
+			}
+
+			@Override
+			public void insertUpdate(final DocumentEvent evt) {
+				textChanged();
+			}
+
+			private void textChanged() {
+				preferences.put(PREF_SAVE_FILE_TEMPLATE, saveFileNameTF.getText());
+			}
+		});
+
+		this.saveFileChooserB.setAction(new ChooseSaveFileAction());
+		this.saveAutoCB.setAction(new AutoSaveAction(new JComponent[] {saveFileNameTF, saveFileChooserB}));
+
+		final boolean autoSave = this.preferences.getBoolean(PREF_AUTO_SAVE, AUTO_SAVE_DEFAULT);
+		this.saveAutoCB.setSelected(autoSave);
+		this.saveFileNameTF.setEnabled(autoSave);
+		this.saveFileChooserB.setEnabled(autoSave);
+
+		final int nSimSteps = this.preferences.getInt(PREF_SIMULATION_STEPS, SIMULATION_STEPS_DEFAULT);
+		this.nSimStepsS.setValue(nSimSteps);
+
+		final String shownOutputVar = this.preferences.get(PREF_SHOWN_OUTPUT, SHOWN_OUTPUT_DEFAULT);
+		this.shownStateKeyCB.setSelectedItem(shownOutputVar);
+
 		simulationRunAction.actionPerformed(null);
+	}
+
+	public static String formatSaveFileName(final String saveFileNameTemplate, final Properties inputParams) {
+
+		final Date now = new Date();
+		String saveFileName = saveFileNameTemplate;
+		while (saveFileName.contains("${")) {
+			final int startIndex = saveFileName.indexOf("${");
+			final int endIndex = saveFileName.indexOf("}", startIndex) + 1;
+			final String replaceVarRaw = saveFileName.substring(startIndex, endIndex);
+			final String replaceVar = replaceVarRaw.substring(2, replaceVarRaw.length() - 1);
+			final String replaceValue;
+			if (replaceVar.startsWith("time:")) {
+				final String timeFormat = replaceVar.substring(replaceVar.indexOf(":") + 1);
+				final String formattedTime = new SimpleDateFormat(timeFormat).format(now);
+				replaceValue = formattedTime;
+			} else if (inputParams.containsKey(replaceVar)) {
+				replaceValue = inputParams.getProperty(replaceVar);
+			} else {
+				// do nothing
+				replaceValue = replaceVarRaw;
+				break;
+			}
+			saveFileName = saveFileName.replace(replaceVarRaw, replaceValue);
+		}
+		return saveFileName;
 	}
 
 	/**
@@ -298,6 +406,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 			}
 
 			final String newlySelectedKey = (String) event.getItem();
+			preferences.put(PREF_SHOWN_OUTPUT, newlySelectedKey);
 			final List<Double> shownValues = states.get(newlySelectedKey);
 			final Chart2D chart = PlotCurve.plotChart("t", newlySelectedKey, shownValues);
 			chartSP.getViewport().removeAll();
@@ -316,7 +425,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent evt) {
+		public void actionPerformed(final ActionEvent evt) {
 
 			chartSP.getViewport().removeAll();
 			states = null;
@@ -326,8 +435,17 @@ public class TrialGuiMain extends javax.swing.JFrame {
 			final BoundedRangeModel progessModel = new DefaultBoundedRangeModel(0, 0, 0, simulationSteps);
 			simulationProgressPB.setModel(progessModel);
 			states = null;
+			File csvSaveFile = null;
+			if (saveAutoCB.isSelected()) {
+				final String saveFileNameTemplate = saveFileNameTF.getText();
+				final String saveFileNameFormatted = formatSaveFileName(saveFileNameTemplate, simPropsTable.getProperties());
+				csvSaveFile = new File(saveFileNameFormatted);
+			}
+
+			preferences.putInt(PREF_SIMULATION_STEPS, getSimulationSteps());
+
 			try {
-				final RandomSimulation randomSimulation = new RandomSimulation(simulationSteps, simulationProperties, progessModel, null);
+				final RandomSimulation randomSimulation = new RandomSimulation(simulationSteps, simulationProperties, progessModel, csvSaveFile);
 				final Callable<Map<String, List<Double>>> simulationWrapper = new Callable() {
 					@Override
 					public Map<String, List<Double>> call() throws Exception {
@@ -351,6 +469,54 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		}
 	}
 
+	private class ChooseSaveFileAction extends AbstractAction {
+
+		private final JFileChooser fileChooser;
+
+		public ChooseSaveFileAction() {
+
+			this.fileChooser = new JFileChooser();
+			this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+			this.fileChooser.setAcceptAllFileFilterUsed(false);
+			this.fileChooser.setFileFilter(new FileNameExtensionFilter("CSV Files", ".csv"));
+			putValue(NAME, "...");
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent evt) {
+
+			fileChooser.setSelectedFile(new File(saveFileNameTF.getText()));
+
+			final int usersChoice = fileChooser.showOpenDialog(TrialGuiMain.this);
+
+			if (usersChoice == JFileChooser.APPROVE_OPTION) {
+				final File file = fileChooser.getSelectedFile();
+				saveFileNameTF.setText(file.getAbsolutePath());
+			}
+		}
+	}
+
+	private class AutoSaveAction extends AbstractAction {
+
+		private final JComponent[] relatedComponents;
+
+		public AutoSaveAction(final JComponent... relatedComponents) {
+
+			this.relatedComponents = relatedComponents;
+			putValue(NAME, "Auto Save");
+		}
+
+		@Override
+		public void actionPerformed(final ActionEvent evt) {
+
+			final boolean activated = ((JCheckBox) evt.getSource()).isSelected();
+			preferences.putBoolean(PREF_AUTO_SAVE, activated);
+			for (final JComponent relatedComponent : relatedComponents) {
+				relatedComponent.setEnabled(activated);
+			}
+		}
+	}
+
 	/**
 	 * This method is called from within the constructor to initialize the form.
 	 * WARNING: Do NOT modify this code. The content of this method is always
@@ -369,13 +535,21 @@ public class TrialGuiMain extends javax.swing.JFrame {
         propNumberSliderFrom = new javax.swing.JTextField();
         propNumberSliderS = new javax.swing.JSlider();
         propNumberSliderTo = new javax.swing.JTextField();
+        outputP = new javax.swing.JPanel();
         chartSP = new javax.swing.JScrollPane();
+        shownStateKeyP = new javax.swing.JPanel();
+        shownStateKeyCB = new javax.swing.JComboBox<>();
         bottomP = new javax.swing.JPanel();
         simulationProgressPB = new javax.swing.JProgressBar();
         controllsP = new javax.swing.JPanel();
         nSimStepsS = new javax.swing.JSpinner();
         runB = new javax.swing.JButton();
-        shownStateKeyCB = new javax.swing.JComboBox<>();
+        saveP = new javax.swing.JPanel();
+        saveActionsP = new javax.swing.JPanel();
+        saveAutoCB = new javax.swing.JCheckBox();
+        saveFileP = new javax.swing.JPanel();
+        saveFileNameTF = new javax.swing.JFormattedTextField();
+        saveFileChooserB = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Industrial Benchmark - Random Simulation");
@@ -408,14 +582,24 @@ public class TrialGuiMain extends javax.swing.JFrame {
         westP.add(simPropsP, java.awt.BorderLayout.CENTER);
 
         mainSP.setLeftComponent(westP);
-        mainSP.setRightComponent(chartSP);
+
+        outputP.setLayout(new java.awt.BorderLayout());
+        outputP.add(chartSP, java.awt.BorderLayout.CENTER);
+
+        shownStateKeyCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        shownStateKeyCB.setToolTipText("Shown Output Value");
+        shownStateKeyP.add(shownStateKeyCB);
+
+        outputP.add(shownStateKeyP, java.awt.BorderLayout.SOUTH);
+
+        mainSP.setRightComponent(outputP);
 
         getContentPane().add(mainSP, java.awt.BorderLayout.CENTER);
 
         bottomP.setLayout(new java.awt.BorderLayout());
 
         simulationProgressPB.setToolTipText("Simulation Progress");
-        bottomP.add(simulationProgressPB, java.awt.BorderLayout.CENTER);
+        bottomP.add(simulationProgressPB, java.awt.BorderLayout.NORTH);
 
         nSimStepsS.setModel(new javax.swing.SpinnerNumberModel(1500, 1, null, 500));
         nSimStepsS.setToolTipText("Simulation Steps");
@@ -425,11 +609,30 @@ public class TrialGuiMain extends javax.swing.JFrame {
         runB.setText("Run");
         controllsP.add(runB);
 
-        shownStateKeyCB.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        shownStateKeyCB.setToolTipText("Shown Output Value");
-        controllsP.add(shownStateKeyCB);
+        bottomP.add(controllsP, java.awt.BorderLayout.CENTER);
 
-        bottomP.add(controllsP, java.awt.BorderLayout.PAGE_END);
+        saveP.setBorder(javax.swing.BorderFactory.createTitledBorder("Save results to CSV"));
+        saveP.setLayout(new java.awt.BorderLayout());
+
+        saveAutoCB.setText("Auto Save");
+        saveAutoCB.setToolTipText("save the results automatically after every simulation run");
+        saveActionsP.add(saveAutoCB);
+
+        saveP.add(saveActionsP, java.awt.BorderLayout.CENTER);
+
+        saveFileP.setLayout(new java.awt.BorderLayout());
+
+        saveFileNameTF.setText("jFormattedTextField1");
+        saveFileNameTF.setEnabled(false);
+        saveFileP.add(saveFileNameTF, java.awt.BorderLayout.CENTER);
+
+        saveFileChooserB.setText("...");
+        saveFileChooserB.setEnabled(false);
+        saveFileP.add(saveFileChooserB, java.awt.BorderLayout.EAST);
+
+        saveP.add(saveFileP, java.awt.BorderLayout.NORTH);
+
+        bottomP.add(saveP, java.awt.BorderLayout.SOUTH);
 
         getContentPane().add(bottomP, java.awt.BorderLayout.SOUTH);
 
@@ -478,13 +681,21 @@ public class TrialGuiMain extends javax.swing.JFrame {
     private javax.swing.JPanel controllsP;
     private javax.swing.JSplitPane mainSP;
     private javax.swing.JSpinner nSimStepsS;
+    private javax.swing.JPanel outputP;
     private javax.swing.JComboBox<String> propNumberSliderCB;
     private javax.swing.JTextField propNumberSliderFrom;
     private javax.swing.JPanel propNumberSliderP;
     private javax.swing.JSlider propNumberSliderS;
     private javax.swing.JTextField propNumberSliderTo;
     private javax.swing.JButton runB;
+    private javax.swing.JPanel saveActionsP;
+    private javax.swing.JCheckBox saveAutoCB;
+    private javax.swing.JButton saveFileChooserB;
+    private javax.swing.JFormattedTextField saveFileNameTF;
+    private javax.swing.JPanel saveFileP;
+    private javax.swing.JPanel saveP;
     private javax.swing.JComboBox<String> shownStateKeyCB;
+    private javax.swing.JPanel shownStateKeyP;
     private javax.swing.JPanel simPropsP;
     private javax.swing.JScrollPane simPropsSP;
     private javax.swing.JProgressBar simulationProgressPB;
