@@ -162,7 +162,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 								used to specify that all needed libraries are found under lib/ directory. -->
 							<classpathPrefix>lib/</classpathPrefix>
 							<!-- Specifies the main class of the application -->
-							<mainClass>com.siemens.industrialbenchmark.ExampleMain</mainClass>
+							<mainClass>com.siemens.industrialbenchmark.TrialGuiMain</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -225,7 +225,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.siemens.industrialbenchmark.ExampleMain</mainClass>
+							<mainClass>com.siemens.industrialbenchmark.TrialGuiMain</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
