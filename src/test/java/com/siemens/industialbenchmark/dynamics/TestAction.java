@@ -32,14 +32,14 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 public class TestAction {
 
 	/**
-	 * This function tests whether the absolute action would produce the deltas as expected. 
+	 * This function tests whether the absolute action would produce the deltas as expected.
 	 * @throws IOException
 	 * @throws PropertiesException
 	 */
-	
+
 	@Test
 	public void testActionAbsolute() throws IOException, PropertiesException {
-		
+
 		float b = 0;
 		float a = 0;
 		float c = 0;
@@ -53,19 +53,19 @@ public class TestAction {
 		float deltaB = 0;
 		float deltaA = 0;
 		float deltaC = 0;
-		
+
 		for (int i=0; i<100000; i++) {
-			
-			// search for valid gain delta 
+
+			// search for valid gain delta
 			do {
 				deltaB = 2.f*(actionRand.nextFloat()-0.5f);
 			} while ((b+deltaB) < 0 || (b+deltaB) > 100 );
-			
+
 			// search for valid velocity delta
 			do {
 				deltaA= 2.f*(actionRand.nextFloat()-0.5f);
 			} while ((a+deltaA) < 0 || (a+deltaA) > 100 );
-			
+
 			// search for valid velocity delta
 			do {
 				deltaC = 2.f*(actionRand.nextFloat()-0.5f);
@@ -73,23 +73,23 @@ public class TestAction {
 
 			//System.out.println("gain=" + gain + ", deltaGain=" + deltaGain + ", newGain=" + (gain+deltaGain));
 			//System.out.println("velocity=" + velocity + ", deltaVelocity=" + deltaVelocity + ", newVelocity=" + (velocity+deltaVelocity));
-			
+
 			aa.setGain(b + deltaB);
 			aa.setVelocity(a + deltaA);
 			aa.setShift(c + deltaC);
-			
+
 			ad.setDeltaGain(deltaB);
 			ad.setDeltaVelocity(deltaA);
 			ad.setDeltaShift(deltaC);
-			
+
 			assertEquals (aa.getDeltaGain(), ad.getDeltaGain(), 0.0001);
 			assertEquals (aa.getDeltaVelocity(), ad.getDeltaVelocity(), 0.0001);
 			assertEquals (aa.getDeltaShift(), ad.getDeltaShift(), 0.0001);
-			
+
 			b += deltaB;
 			a += deltaA;
 			c += deltaC;
-			
+
 			assertEquals (aa.getGain(), b, 0.0001);
 			assertEquals (aa.getVelocity(), a, 0.0001);
 			assertEquals (aa.getShift(), c, 0.0001);

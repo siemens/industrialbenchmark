@@ -16,13 +16,13 @@ limitations under the License.
 package com.siemens.rl.interfaces;
 
 /**
- * This interface describes all relevant methods for implementing the dynamics of an environment. 
- * 
+ * This interface describes all relevant methods for implementing the dynamics of an environment.
+ *
  * @author Michel Tokic
  *
  */
 public interface Environment {
-	
+
 	/**
 	 * Returns the reward.
 	 * @return the reward
@@ -33,21 +33,21 @@ public interface Environment {
 	 * Returns the observable state.
 	 * @return the observable state
 	 */
-	DataVector getState(); 
-	
+	DataVector getState();
+
 	/**
 	 * Returns the internal Markovian state.
 	 * @return the internal Markovian state
 	 */
 	DataVector getInternalMarkovState();
-	
+
 	/**
 	 * Performs an action within the environment and returns the reward
 	 * @param action The action to perform
-	 * @return The reward 
+	 * @return The reward
 	 */
 	double step (DataVector action);
-	
+
 	/**
 	 * Function for resetting the environment.
 	 */

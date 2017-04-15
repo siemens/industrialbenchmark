@@ -38,37 +38,37 @@ public class TestGoldstoneDynamics {
 		ClassLoader classLoader = getClass().getClassLoader();
 		File f = new File (classLoader.getResource("dynamics_class_regression_data.xa").getFile());
 
-		ArrayList<Double> position = new ArrayList<Double>();			
+		ArrayList<Double> position = new ArrayList<Double>();
 		ArrayList<Double> penalty = new ArrayList<Double>();
-		
+
 		try {
-			
+
 			BufferedReader reader = new BufferedReader(new FileReader(f));
 
 			while (reader.ready()) {
 				String line = reader.readLine();
-				
+
 				// only catch non-comment lines
 				if (!line.startsWith("#")){
 					String[] fields = line.split(" ");
-					
-					Preconditions.checkArgument(fields.length == 3, 
+
+					Preconditions.checkArgument(fields.length == 3,
 							"three fields (step, action, penalty) are expected, but " + fields.length + " fields were parsed.");
 
 					position.add(Double.parseDouble(fields[1]));
-					penalty.add(Double.parseDouble(fields[2]));	
+					penalty.add(Double.parseDouble(fields[2]));
 				}
 			}
-			
+
 			reader.close();
 			System.out.println ("Goldstone dynamics class regression test: read " + position.size() + " rows.");
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		// TODO: implement Test
 		int numberOfSteps = 24;
 		double maxRequiredStep = 0.25;

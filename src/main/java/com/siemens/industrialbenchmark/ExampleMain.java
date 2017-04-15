@@ -33,29 +33,29 @@ import com.siemens.rl.interfaces.Environment;
 public class ExampleMain {
 
 	/**
-	 * Run example benchmark with random actions for data generation purposes. 
-	 * 
+	 * Run example benchmark with random actions for data generation purposes.
+	 *
 	 * @param args
 	 * @throws IOException
 	 * @throws PropertiesException
 	 */
 	public static void main(String[] args) throws IOException, PropertiesException {
-		
+
 		// configuration of the properties file
 		String filename = "src/main/resources/sim.properties"; // default filepath
-		if (args.length >= 1) {  // if filepath was given to main() 
+		if (args.length >= 1) {  // if filepath was given to main()
 			filename = args[0];
 			System.out.println("Using config file: '" + filename + "'");
 		} else {
 			System.out.println("Using default config file: '" + filename + "'. A custom config file can be passed as an additional parameter.");
 		}
-		
+
 		/**
 		 * Instantiate benchmark
 		 */
 		// setpoint configuration parameters
 		Properties props = PropertiesUtil.setpointProperties( new File (filename));
-		
+
 		// instantiate industrial benchmark
 		Environment db = new IndustrialBenchmarkDynamics(props);
 
@@ -77,14 +77,14 @@ public class ExampleMain {
 			fwm.write(key + " ");
 		}
 		fwm.write("\n");
-		
+
 		FileWriter fw = new FileWriter("dyn-observable.csv");
 		fw.write("time ");
 		for (String key : db.getState().getKeys()) {
 			fw.write(key + " ");
 		}
 		fw.write("\n");
-		
+
 
 		// data array for memorizing the reward
 		final int steps = PropertiesUtil.getInt(props, "SIM_STEPS", 1500);
@@ -95,7 +95,7 @@ public class ExampleMain {
 		 *************************************************************/
 		for (int i = 0; i < steps; i++) {
 
-			// set random action from the interval [-1, 1] 
+			// set random action from the interval [-1, 1]
 			deltaAction.setDeltaGain(2.f * (rand.nextFloat() - 0.5f));
 			deltaAction.setDeltaVelocity(2.f * (rand.nextFloat() - 0.5f));
 			deltaAction.setDeltaShift(2.f * (rand.nextFloat() - 0.5f));
@@ -110,8 +110,8 @@ public class ExampleMain {
 				fw.write(observableState.getValue(key) + " ");
 			}
 			fw.write("\n");
-			
-			fwm.write(Integer.toString(i+1) + " ");			
+
+			fwm.write(Integer.toString(i+1) + " ");
 			for (String key : markovState.getKeys()) {
 				fwm.write(markovState.getValue(key) + " ");
 			}
@@ -123,7 +123,7 @@ public class ExampleMain {
 		fw.close();
 		fwm.close();
 
-		// plot reward 
+		// plot reward
 		PlotCurve.plot("RewardTotal", "t", "reward", data);
 	}
 

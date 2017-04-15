@@ -25,10 +25,10 @@ import com.google.common.collect.ImmutableList.Builder;
 /**
  * state/action description for the industrial benchmark
  */
-abstract public class DataVectorDescription 
+abstract public class DataVectorDescription
 {
 	protected List<String> names;
-	
+
 	/**
 	 * Constructor with a given List of state/action dimension names
 	 * @param names
@@ -36,14 +36,14 @@ abstract public class DataVectorDescription
 	public DataVectorDescription (List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.size() > 0, "name list has size 0");
-		
+
 		Builder<String> lb = ImmutableList.builder();
     	for (String key : names) {
     		lb.add(key);
     	}
-    	this.names = lb.build(); 
+    	this.names = lb.build();
 	}
-	
+
 	/**
 	 * Constructor with a given set of state/action description names
 	 * @param names
@@ -51,14 +51,14 @@ abstract public class DataVectorDescription
 	public DataVectorDescription (String names[]) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.length > 0, "name list has size 0");
-		
+
 		Builder<String> lb = ImmutableList.builder();
     	for (String key : names) {
     		lb.add(key);
     	}
-    	this.names = lb.build(); 
+    	this.names = lb.build();
 	}
-	    
+
 	/**
 	 * Returns the number of variables
 	 * @return the number of variables
@@ -67,21 +67,21 @@ abstract public class DataVectorDescription
 	{
 		return names.size();
 	}
-    
+
 	/**
 	 * returns a List containing the variable names
 	 * @return A List containing the variable names
 	 */
-    public List <String> getVarNames() {    	
-    	return names;    	
+    public List <String> getVarNames() {
+    	return names;
     }
-    
+
     @Override
     public boolean equals (Object o) {
     	DataVectorDescription os = (DataVectorDescription)o;
     	return names.equals(os.getVarNames());
     }
-    
+
     @Override
     public String toString() {
     	return names.toString();

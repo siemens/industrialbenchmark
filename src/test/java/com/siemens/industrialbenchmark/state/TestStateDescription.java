@@ -30,34 +30,34 @@ public class TestStateDescription {
 	@Test
 	public void testObservableStateDescription() {
 
-		// test ObservableStateDescription 
+		// test ObservableStateDescription
 		ObservableStateDescription o1 = new ObservableStateDescription();
 		ObservableStateDescription o2 = new ObservableStateDescription();
 		assertTrue (o1.equals(o2));
-		
+
 	}
 	@Test
 	public void testMarkovianStateDescription() {
 
-		
-		// test MarkovianStateDescription 
+
+		// test MarkovianStateDescription
 		List <String> mNames = new ArrayList<String>();
 		mNames.add("TestVar");
-		
-		MarkovianStateDescription m1 = new MarkovianStateDescription(mNames);
-		MarkovianStateDescription m2 = new MarkovianStateDescription(mNames);		
 
-		assertTrue (m1.toString().equals(m2.toString()));	
+		MarkovianStateDescription m1 = new MarkovianStateDescription(mNames);
+		MarkovianStateDescription m2 = new MarkovianStateDescription(mNames);
+
+		assertTrue (m1.toString().equals(m2.toString()));
 	}
-	
+
 	@Test
 	public void testSizes() {
-		
+
 		ObservableStateDescription o1 = new ObservableStateDescription();
 		ObservableStateDescription o2 = new ObservableStateDescription();
-		
+
 		assertTrue (o1.getNumberVariables() == o2.getVarNames().size());
-				
+
 	}
-	
+
 }

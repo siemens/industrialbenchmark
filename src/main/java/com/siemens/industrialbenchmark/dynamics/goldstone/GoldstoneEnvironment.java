@@ -22,7 +22,7 @@ public class GoldstoneEnvironment {
 
 	final GoldStoneEnvironmentDynamics dynamics;
 	private double controlPosition;
-	
+
 	public GoldstoneEnvironment(int numberSteps, double maxRequiredStep, double safeZone) {
 		dynamics = new GoldStoneEnvironmentDynamics(numberSteps, maxRequiredStep, safeZone);
 		this.reset();
@@ -31,23 +31,23 @@ public class GoldstoneEnvironment {
 	public void reset() {
 		this.reset(0);
 	}
-	
+
 	public void reset(double controlStartValue) {
 		this.controlPosition = controlStartValue;
 	}
-	
+
 	public double reward() {
 		return this.dynamics.rewardAt(controlPosition);
 	}
-	
+
 	public double optimalPosition() {
 		return this.dynamics.optimalPosition();
 	}
-	
+
 	public double optimalReward() {
 		return this.dynamics.optimalReward();
 	}
-	
+
 	/**
 	 * Applies action and returns reward
 	 */
@@ -57,7 +57,7 @@ public class GoldstoneEnvironment {
 		this.dynamics.stateTransition(controlPosition);
 		return this.reward();
 	}
-	
+
 	public PenaltyFunction getRewardFunction() {
 		return this.dynamics.getPenaltyFunction();
 	}
@@ -71,27 +71,27 @@ public class GoldstoneEnvironment {
 		this.dynamics.stateTransition(controlPosition);
 		reward();
 	}
-	
+
 	public float getDomain(){
 		return dynamics.getDomain().getValue();
 	}
-	
+
 	public void setDomain(double double1){
 		dynamics.setDomain(Domain.fromDouble(double1));
 	}
-	
+
 	public float getSystemResponse(){
 		return dynamics.getSystemResponse().getValue();
 	}
-	
+
 	public void setSystemResponse(double systemResponse){
 		dynamics.setSystemResponse(SystemResponse.fromDouble(systemResponse));
 	}
-	
+
 	public float getPhiIdx(){
 		return dynamics.getPhiIdx();
 	}
-	
+
 	public void setPhiIdx(double phiIdx){
 		dynamics.setPhiIdx((int) phiIdx);
 	}

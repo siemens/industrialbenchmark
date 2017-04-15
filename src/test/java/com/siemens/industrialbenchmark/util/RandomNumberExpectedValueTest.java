@@ -23,21 +23,21 @@ import org.apache.commons.math3.random.RandomDataGenerator;
 import org.junit.Test;
 
 public class RandomNumberExpectedValueTest {
-	
+
 	@Test
 	public void testExpectedValues() {
-		
+
 		long seed = 0;
 		Random rand = new Random (seed);
-		RandomDataGenerator randomData = new RandomDataGenerator(); 
+		RandomDataGenerator randomData = new RandomDataGenerator();
 
 		double uniformAverage = 0.0;
 		double binomialAverage = 0.0;
 		double normalAverage = 0.0;
 		double exponentialAverage = 0.0;
-		
+
 		for(int i=0; i<1e6; i++){
-			
+
 			// set current seed
 			randomData.reSeed(seed);
 
@@ -46,17 +46,17 @@ public class RandomNumberExpectedValueTest {
 			double u = randomData.nextUniform(0, 1);
 			double b = randomData.nextBinomial(1, 0.5);
 			double e = randomData.nextExponential(0.25);
-			
+
 			// average mean random number
 			uniformAverage += (1. / (1.+i))*(u - uniformAverage);
 			binomialAverage += (1. / (1.+i))*(b - binomialAverage);
 			normalAverage += (1. / (1.+i))*(n - normalAverage);
 			exponentialAverage += (1. / (1.+i))*(e - exponentialAverage);
-			
+
 			// draw new seed from global random generator
 			seed = rand.nextLong();
 		}
-		
+
 		assertEquals (0.5, uniformAverage, 0.001);
 		assertEquals (0.5, binomialAverage, 0.001);
 		assertEquals (0.0, normalAverage, 0.001);

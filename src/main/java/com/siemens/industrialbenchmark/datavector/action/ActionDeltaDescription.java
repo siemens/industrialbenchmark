@@ -20,9 +20,9 @@ import java.util.List;
 
 import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
 
-/** 
- * Action description for the ActionDelta 
- * 
+/**
+ * Action description for the ActionDelta
+ *
  * @author Michel Tokic
  */
 public class ActionDeltaDescription extends DataVectorDescription {
@@ -30,7 +30,7 @@ public class ActionDeltaDescription extends DataVectorDescription {
 	public static final String DeltaVelocity = "DeltaVelocity"; // Velocity
     public static final String DeltaGain = "DeltaGain"; // Gain
     public static final String DeltaShift = "DeltaShift"; // GS
-    
+
     private static List<String> actionVars = new ArrayList<String>();
 
     static{

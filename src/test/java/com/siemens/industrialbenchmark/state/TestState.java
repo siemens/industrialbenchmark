@@ -23,14 +23,14 @@ import com.siemens.industrialbenchmark.datavector.state.ObservableState;
 import com.siemens.industrialbenchmark.datavector.state.ObservableStateDescription;
 
 public class TestState {
-	
+
 	@Test(expected=IllegalArgumentException.class)
 	public void testRuntimeException() {
 		ObservableState s = new ObservableState();
 		// the following should throw the RuntimeException, because key "NOT_DEFINED" does not exists
-		System.out.println ("value=" + s.getValue("NOT_DEFINED")); 
+		System.out.println ("value=" + s.getValue("NOT_DEFINED"));
 	}
-	
+
 	@Test
 	public void testNAN() {
 		ObservableState s = new ObservableState();
@@ -42,15 +42,15 @@ public class TestState {
 
 	@Test
 	public void testSetAndCheckValues() {
-		
+
 		ObservableState s = new ObservableState();
-		
+
 		double value = 1.2345;
 		s.setValue(ObservableStateDescription.SetPoint, value);
 		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
-		
+
 		value = value * 2.0f;
 		s.setValue(ObservableStateDescription.SetPoint, value);
-		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);		
-	}	
+		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
+	}
 }

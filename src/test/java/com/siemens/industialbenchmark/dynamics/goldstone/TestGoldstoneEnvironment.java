@@ -38,37 +38,37 @@ public class TestGoldstoneEnvironment {
 		ClassLoader classLoader = getClass().getClassLoader();
 		File f = new File (classLoader.getResource("environment_class_regression_data.xa").getFile());
 
-		ArrayList<Double> action = new ArrayList<Double>();			
+		ArrayList<Double> action = new ArrayList<Double>();
 		ArrayList<Double> penalty = new ArrayList<Double>();
-		
+
 		try {
-			
+
 			BufferedReader reader = new BufferedReader(new FileReader(f));
 
 			while (reader.ready()) {
 				String line = reader.readLine();
-				
+
 				// only catch non-comment lines
 				if (!line.startsWith("#")){
 					String[] fields = line.split(" ");
 
-					Preconditions.checkArgument(fields.length == 3, 
+					Preconditions.checkArgument(fields.length == 3,
 							"three fields (step, action, penalty) are expected, but " + fields.length + " fields were parsed.");
-				
+
 					action.add(Double.parseDouble(fields[1]));
-					penalty.add(Double.parseDouble(fields[2]));	
+					penalty.add(Double.parseDouble(fields[2]));
 				}
 			}
-			
+
 			reader.close();
 			System.out.println ("Goldstone environment class regression test: read " + action.size() + " rows.");
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
+
 		int numberOfSteps = 24;
 		double maxRequiredStep = 0.25;
 		double safeZone = 0.5 * maxRequiredStep;
@@ -76,7 +76,7 @@ public class TestGoldstoneEnvironment {
 		for (int step=0; step< action.size(); step++) {
 
 			double reward = env.stateTransition(action.get(step));
-			
+
 			//System.out.println ("step: " + step + ", pos=" + position.get(step) + ", reward=" + reward);
 			assertEquals (-penalty.get(step), reward, 1e-8);
 		}

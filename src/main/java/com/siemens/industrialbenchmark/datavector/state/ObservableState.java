@@ -21,7 +21,7 @@ import com.siemens.industrialbenchmark.datavector.DataVectorImpl;
 public class ObservableState extends DataVectorImpl {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 6835795950225418933L;
 

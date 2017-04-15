@@ -27,7 +27,7 @@ public class MissingPropertyException extends PropertiesException {
 	public MissingPropertyException(String aMessage, Throwable aThrowable, Properties aProperties, String aKey) {
         super(aMessage, aThrowable, aProperties, aKey);
     }
-    
+
     public MissingPropertyException(Properties aProperties, String aKey) {
         super("property '" + aKey + "' missing from configuration.", aProperties, aKey);
     }

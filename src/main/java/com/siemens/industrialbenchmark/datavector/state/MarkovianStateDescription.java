@@ -20,9 +20,9 @@ import java.util.List;
 
 import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
 
-/** 
+/**
  * Markovian state description for the industrial benchmark
- * 
+ *
  * @author Alexander Hentschel, Michel Tokic
  */
 public class MarkovianStateDescription extends DataVectorDescription {
@@ -30,7 +30,7 @@ public class MarkovianStateDescription extends DataVectorDescription {
     public static final String CurrentOperationalCost = "CurrentOperationalCost";
     public static final String FatigueLatent2 = "FatigueLatent2";
     public static final String FatigueLatent1 = "FatigueLatent1";
-    
+
     // gold stone
     public static final String EffectiveShift = "EffectiveShift";
     public static final String MisCalibrationDomain = "MisCalibrationDomain";
@@ -39,16 +39,16 @@ public class MarkovianStateDescription extends DataVectorDescription {
 
     public static final String EffectiveActionGainBeta = "EffectiveActionGainBeta";
     public static final String EffectiveActionVelocityAlpha = "EffectiveActionVelocityAlpha";
-    
+
     public static final String RewardFatigue="RewardFatigue";
     public static final String RewardFatigueWeighted="RewardFatigueWeighted";
     public static final String RewardConsumption="RewardConsumption";
     public static final String RewardConsumptionWeighted="RewardConsumptionWeighted";
     public static final String MisCalibration ="MisCalibration";
 	public static final String RandomSeed = "RandomSeed";
-    
+
     /* observables */
-	public static final String SetPoint = "SetPoint"; 
+	public static final String SetPoint = "SetPoint";
     public static final String Action_Velocity = "Velocity";
     public static final String Action_Gain = "Gain";
     public static final String Action_Shift = "Shift";
@@ -65,21 +65,21 @@ public class MarkovianStateDescription extends DataVectorDescription {
     	// hidden state variables:
     	mStateVars.add(CurrentOperationalCost);
     	mStateVars.add(FatigueLatent2);
-    	mStateVars.add(FatigueLatent1);	
+    	mStateVars.add(FatigueLatent1);
     	mStateVars.add(EffectiveShift);
-    	mStateVars.add(MisCalibrationDomain);	
-    	mStateVars.add(MisCalibrationSystemResponse);	
-    	mStateVars.add(MisCalibrationPhiIdx);	
+    	mStateVars.add(MisCalibrationDomain);
+    	mStateVars.add(MisCalibrationSystemResponse);
+    	mStateVars.add(MisCalibrationPhiIdx);
     	mStateVars.add(EffectiveActionGainBeta);
-    	mStateVars.add(EffectiveActionVelocityAlpha);	
+    	mStateVars.add(EffectiveActionVelocityAlpha);
     	mStateVars.add(RewardConsumption);
     	mStateVars.add(RewardFatigue);
-    	mStateVars.add(MisCalibration); 
+    	mStateVars.add(MisCalibration);
     	mStateVars.add(RewardConsumptionWeighted);
     	mStateVars.add(RewardFatigueWeighted);
     	mStateVars.add(RandomSeed);
     	mStateVars.add(Consumption);
-    	
+
     	// observables:
     	mStateVars.add(SetPoint);
     	mStateVars.add(Action_Velocity);
@@ -99,11 +99,11 @@ public class MarkovianStateDescription extends DataVectorDescription {
     	super (names);
     	//System.out.println ("MarkovianState names: " + names.toString());
     }
-    
+
     /**
      * returns the list of non-convoluted internal variables
      * @return the list of non-convoluted internal variables
-     * 
+     *
      */
     public static List<String> getNonConvolutedInternalVariables() {
     	return mStateVars;

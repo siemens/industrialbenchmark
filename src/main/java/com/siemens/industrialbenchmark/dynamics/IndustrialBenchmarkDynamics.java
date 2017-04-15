@@ -47,7 +47,7 @@ import com.siemens.rl.interfaces.ExternalDriver;
  *  	<li> operationalcosts are computed</li>
  *  	<li> operationalcosts are delayed and a convoluted operationalcost level is calculated</li>
  *  </ul>
- *  
+ *
  * @author Siegmund Duell, Alexander Hentschel, Michel Tokic
  */
 public class IndustrialBenchmarkDynamics implements Environment
@@ -62,32 +62,32 @@ public class IndustrialBenchmarkDynamics implements Environment
 
 	private float[] mEmConvWeights;
 	private boolean convToInit = true;
-	
+
 	private GoldstoneEnvironment gsEnvironment;
 	private final float maxRequiredStep = (float) Math.sin(15.0f/180.0f*Math.PI);
-	private final float gsBound = 1.5f; 
+	private final float gsBound = 1.5f;
 	private final float gsSetPointDependency = 0.02f;
 
 	private enum C {
-		DGain, DVelocity, DSetPoint, 
+		DGain, DVelocity, DSetPoint,
 		CostSetPoint, CostGain, CostVelocity, DBase,
 		STEP_SIZE_GAIN, STEP_SIZE_VELOCITY
 	}
 
     protected MarkovianState markovState;
-    protected MarkovianState mMax; 
+    protected MarkovianState mMax;
     protected MarkovianState mMin;
     protected final Properties mProperties;
 
 	private IndustrialBenchmarkRewardFunction mRewardCore;
-    private RandomDataGenerator rda = new RandomDataGenerator(); 
+    private RandomDataGenerator rda = new RandomDataGenerator();
     private long randomSeed = 0;
     private float CRGS;
-    
+
     private List<String> markovStateAdditionalNames;
-    private List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>(); 
+    private List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>();
     private final ActionDelta zeroAction = new ActionDelta(0, 0, 0);
-	
+
 
     /**
      * Constructor with configuration Properties
@@ -99,13 +99,13 @@ public class IndustrialBenchmarkDynamics implements Environment
         mRewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
         STEP_SIZE_GAIN = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_GAIN.name(), true);
         STEP_SIZE_VELOCITY = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_VELOCITY.name(), true);
-		
+
 		externalDrivers.add(new SetPointGenerator(mProperties));
 
         init();
         step(zeroAction);
     }
-    
+
     /**
      * Constructor with configuration Properties and external driver list
      * @param aProperties The properties objects
@@ -114,9 +114,9 @@ public class IndustrialBenchmarkDynamics implements Environment
      */
     public IndustrialBenchmarkDynamics(Properties aProperties, List<ExternalDriver> externalDrivers) throws PropertiesException {
     	this(aProperties);
-    	
+
     	this.externalDrivers = externalDrivers;
-    	
+
     	init();
     	step(zeroAction);
     }
@@ -137,7 +137,7 @@ public class IndustrialBenchmarkDynamics implements Environment
             markovStateAdditionalNames.add("OPERATIONALCOST_" + i); // add operationalcost_lag to list of convoluted markov variables
         }
         markovStateAdditionalNames.addAll(MarkovianStateDescription.getNonConvolutedInternalVariables());
-        
+
         // add variables from external driver
         List<String> extNames = new ArrayList<String>();
         for (ExternalDriver d : this.externalDrivers) {
@@ -148,14 +148,14 @@ public class IndustrialBenchmarkDynamics implements Environment
         	}
         }
         markovStateAdditionalNames.addAll(extNames);
-        //markovStateAdditionalNames.addAll(extDriver.getState().getKeys());       
-        
+        //markovStateAdditionalNames.addAll(extDriver.getState().getKeys());
+
         // instantiate markov state with additional convolution variable names
         markovState = new MarkovianState(markovStateAdditionalNames);
         mMin = new MarkovianState(markovStateAdditionalNames); // lower variable boundaries
         mMax = new MarkovianState(markovStateAdditionalNames); // upper variable boundaries
-        
-    	// extract variable boundings + initial values from Properties 
+
+    	// extract variable boundings + initial values from Properties
         for (String v : this.markovState.getKeys()) {
             float init = PropertiesUtil.getFloat(mProperties, v + "_INIT", 0);
             float max = PropertiesUtil.getFloat(mProperties, v + "_MAX", Float.MAX_VALUE);
@@ -167,26 +167,26 @@ public class IndustrialBenchmarkDynamics implements Environment
             markovState.setValue(v, init);
         }
 
-        // seed all random number generators for allowing to re-conduct the experiment 
+        // seed all random number generators for allowing to re-conduct the experiment
         randomSeed = PropertiesUtil.getLong(mProperties, "SEED", System.currentTimeMillis());
         //mLogger.debug("init seed: " + randomSeed);
         rda.reSeed(randomSeed);
-        
+
         //extDriver.setSeed(rda.nextLong(0, Long.MAX_VALUE));
         for (ExternalDriver d : this.externalDrivers) {
         	d.setSeed(rda.nextLong(0, Long.MAX_VALUE));
         	d.filter(markovState);
         }
-            
+
 		this.gsEnvironment = new GoldstoneEnvironment(24, maxRequiredStep, maxRequiredStep/2.0);
 
 		// set all NaN values to 0.0
 		for (String key : markovState.getKeys()) {
 			if (Double.isNaN(markovState.getValue(key))) {
-				markovState.setValue(key, 0.0);				
+				markovState.setValue(key, 0.0);
 			}
 		}
-			
+
 		//for (String key : markovState.getKeys()) {
 		//	mLogger.debug(key  + "=" + markovState.getValue(key));
 		//}
@@ -195,7 +195,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 	}
 
 	/**
-	 * converts a float array represented as a string (e.g. "0.01, 0.2, 0.9") to a Java float[] 
+	 * converts a float array represented as a string (e.g. "0.01, 0.2, 0.9") to a Java float[]
 	 * @param aFloatArrayAsString The float array represented as a String
 	 * @return The float[] array
 	 */
@@ -212,9 +212,9 @@ public class IndustrialBenchmarkDynamics implements Environment
 
     /**
      * Returns the observable components from the markovian state.
-     *  
+     *
      * @return current state of the industrial benchmark
-     */    
+     */
     public ObservableState getState() {
     	ObservableState s = new ObservableState();
     	for (String key : s.getKeys()) {
@@ -236,7 +236,7 @@ public class IndustrialBenchmarkDynamics implements Environment
         // apply randomSeed to PRNGs and external drivers + filter (e.g. setpoint)
     	this.rda.reSeed(randomSeed);
     	for (ExternalDriver d : externalDrivers) {
-        	d.setSeed(rda.nextLong(0, Long.MAX_VALUE));    		
+        	d.setSeed(rda.nextLong(0, Long.MAX_VALUE));
         	d.filter(this.markovState);
     	}
 
@@ -249,45 +249,45 @@ public class IndustrialBenchmarkDynamics implements Environment
 
 			// updated current operationalcost
 			updateCurrentOperationalCost();
-			
+
 		} catch (PropertiesException e) {
 			e.printStackTrace();
 		}
 
 		// update convoluted operationalcosts
 		updateOperationalCostCovolution();
-		
+
 		// update gs
 		updateGS();
-	
+
 		updateOperationalCosts();
-		
-        		
+
+
         // update reward
         mRewardCore.calcReward(markovState);
 
         // set random seed for next iteration
         this.randomSeed = rda.nextLong(0, Long.MAX_VALUE);
         this.markovState.setValue(MarkovianStateDescription.RandomSeed, Double.longBitsToDouble(this.randomSeed));
-                
-        //return observableState;        
-        return this.markovState.getValue(ObservableStateDescription.RewardTotal); 
+
+        //return observableState;
+        return this.markovState.getValue(ObservableStateDescription.RewardTotal);
 	}
-	
+
 	private void updateOperationalCosts() {
-		
-		
+
+
 		double rGS = markovState.getValue(MarkovianStateDescription.MisCalibration);
 
 	    // set new OperationalCosts
 	    double eNewHidden = (markovState.getValue(MarkovianStateDescription.OperationalCostsConv) - (CRGS * (rGS - 1.0)));
 	 	double operationalcosts = eNewHidden - rda.nextGaussian(0,  1) * (1+0.005*eNewHidden);
-	 	
+
 	 	markovState.setValue(MarkovianStateDescription.Consumption, operationalcosts);
 	}
 
 	private void addAction(ActionDelta aAction) {
-		
+
 	  	double velocityMax = mMax.getValue(MarkovianStateDescription.Action_Velocity);
 	  	double velocityMin = mMin.getValue(MarkovianStateDescription.Action_Velocity);
 	  	double velocity = Math.min(velocityMax, Math.max(velocityMin, markovState.getValue(MarkovianStateDescription.Action_Velocity) + aAction.getDeltaVelocity() * STEP_SIZE_VELOCITY));
@@ -301,7 +301,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 	  		}
 	  		velocity = Math.min(velocityMax, Math.max(velocityMin, markovState.getValue(MarkovianStateDescription.Action_Velocity) + diff));
 	  	}
-	  	
+
 	  	double gainMax = mMax.getValue(MarkovianStateDescription.Action_Gain);
 	  	double gainMin = mMin.getValue(MarkovianStateDescription.Action_Gain);
 	  	double gain = Math.min(gainMax, Math.max(gainMin, markovState.getValue(MarkovianStateDescription.Action_Gain) + aAction.getDeltaGain() * STEP_SIZE_GAIN));
@@ -315,7 +315,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 	  		}
 	  		gain = Math.min(gainMax, Math.max(gainMin, markovState.getValue(MarkovianStateDescription.Action_Gain) + diff));
 	  	}
-	  	
+
 		// beide: 10 = 2*1.5 + 0.07*100
 	  	final double gsScale = 2.0f*gsBound + 100.0f*gsSetPointDependency;
 	  	double shift = (float) Math.min(100.0f, Math.max(0.0f, markovState.getValue(MarkovianStateDescription.Action_Shift) + aAction.getDeltaShift()*(maxRequiredStep/0.9f)*100.0f/gsScale));
@@ -330,7 +330,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 	  		shift = (float) Math.min(100.0f, Math.max(0.0f, markovState.getValue(MarkovianStateDescription.Action_Shift) + diff));
 	  	}
 	  	double hiddenShift = (float) Math.min(gsBound, Math.max(-gsBound, (gsScale*shift/100.0f - gsSetPointDependency*markovState.getValue(MarkovianStateDescription.SetPoint) - gsBound)));
-	  	
+
 	  	markovState.setValue(MarkovianStateDescription.Action_Velocity, velocity);
 	  	markovState.setValue(MarkovianStateDescription.Action_Gain, gain);
 	  	markovState.setValue(MarkovianStateDescription.Action_Shift, shift);
@@ -339,14 +339,14 @@ public class IndustrialBenchmarkDynamics implements Environment
 
 	/**
 	 * updates the spiking fatigue dynamics
-	 * @throws PropertiesException 
+	 * @throws PropertiesException
 	 */
 	private void updateFatigue() throws PropertiesException {
 		final float expLambda = 0.1f; // => scale = 1/lambda
 		final float actionTolerance = 0.05f;
-		final float fatigueAmplification = 1.1f;        
+		final float fatigueAmplification = 1.1f;
 		final float fatigueAmplificationMax = 5.0f;
-		final float fatigueAmplificationStart = 1.2f;     
+		final float fatigueAmplificationStart = 1.2f;
 
 		// action
 		double velocity = markovState.getValue(MarkovianStateDescription.Action_Velocity);
@@ -354,7 +354,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 		double setpoint = markovState.getValue(MarkovianStateDescription.SetPoint);
 
 		// hidden state variables for fatigue
-		double hiddenStateVelocity = markovState.getValue(MarkovianStateDescription.FatigueLatent1); 
+		double hiddenStateVelocity = markovState.getValue(MarkovianStateDescription.FatigueLatent1);
 		double hiddenStateGain = markovState.getValue(MarkovianStateDescription.FatigueLatent2);
 
 		// dyn variables
@@ -372,28 +372,28 @@ public class IndustrialBenchmarkDynamics implements Environment
         // keep error within range of [0.001, 0.999] because otherwise Binomial.staticNextInt() will fail.
         noiseGain += (1-noiseGain) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionGainBeta), 0.999)) * effActionGainBeta;
         noiseVelocity += (1-noiseVelocity) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionVelocityAlpha), 0.999)) * effActionVelocityAlpha;
-           
+
         // compute internal dynamics
         if (hiddenStateGain >= fatigueAmplificationStart) {
         	hiddenStateGain = Math.min(fatigueAmplificationMax,  hiddenStateGain*fatigueAmplification);
         } else if (effActionGainBeta > actionTolerance) {
         	hiddenStateGain = (hiddenStateGain*0.9f) + ((float)noiseGain/3.0f);
-        } 
-                
+        }
+
         if (hiddenStateVelocity >= fatigueAmplificationStart) {
         	hiddenStateVelocity = Math.min(fatigueAmplificationMax,  hiddenStateVelocity*fatigueAmplification);
         } else if (effActionVelocityAlpha > actionTolerance) {
         	hiddenStateVelocity = (hiddenStateVelocity*0.9f) + ((float)noiseVelocity/3.0f);
         }
-        
-        // reset hiddenState in case actionError is within actionTolerance 
+
+        // reset hiddenState in case actionError is within actionTolerance
         if (effActionVelocityAlpha <= actionTolerance) {
         	hiddenStateVelocity = effActionVelocityAlpha;
-        }        
+        }
         if (effActionGainBeta <= actionTolerance) {
         	hiddenStateGain = effActionGainBeta;
         }
-        
+
         // compute observation variables
         if (Math.max(hiddenStateVelocity, hiddenStateGain) == fatigueAmplificationMax) {
         	// bad noise in case fatigueAmplificationMax is reached
@@ -401,27 +401,27 @@ public class IndustrialBenchmarkDynamics implements Environment
         } else {
         	dyn = Math.max(noiseGain,  noiseVelocity);
         }
-        
+
         final float cDGain = getConst(C.DGain);
         final float cDVelocity = getConst(C.DVelocity);
         final float cDSetPoint = getConst(C.DSetPoint);
         final float cDynBase = getConst(C.DBase);
-           
+
         double dynOld = ((cDynBase / ((cDVelocity * velocity) + cDSetPoint)) - cDGain * gain*gain);
         if(dynOld<0) dynOld=0;
         dyn = ((2.f*dyn+1.0) * dynOld )/ 3.f;
 
-        markovState.setValue(MarkovianStateDescription.Fatigue, dyn);  
-        markovState.setValue(MarkovianStateDescription.FatigueBase, dynOld);  
+        markovState.setValue(MarkovianStateDescription.Fatigue, dyn);
+        markovState.setValue(MarkovianStateDescription.FatigueBase, dynOld);
 
         // hidden state variables for fatigue
-    	markovState.setValue(MarkovianStateDescription.FatigueLatent1, hiddenStateVelocity); 
+    	markovState.setValue(MarkovianStateDescription.FatigueLatent1, hiddenStateVelocity);
     	markovState.setValue(MarkovianStateDescription.FatigueLatent2, hiddenStateGain);
-    	markovState.setValue(MarkovianStateDescription.EffectiveActionVelocityAlpha, effActionVelocityAlpha); 
+    	markovState.setValue(MarkovianStateDescription.EffectiveActionVelocityAlpha, effActionVelocityAlpha);
     	markovState.setValue(MarkovianStateDescription.EffectiveActionGainBeta, effActionGainBeta);
 	}
 
-	
+
 	private void updateCurrentOperationalCost() throws PropertiesException {
 
 	    final float cCostSetPoint = getConst(C.CostSetPoint);
@@ -431,11 +431,11 @@ public class IndustrialBenchmarkDynamics implements Environment
 	    double gain = markovState.getValue(MarkovianStateDescription.Action_Gain);
 	    double velocity = markovState.getValue(MarkovianStateDescription.Action_Velocity);
 	    double costs = cCostSetPoint * setpoint + cCostGain * gain + cCostVelocity * velocity;
-		
+
 	    double operationalcosts = (float) Math.exp(costs / 100.);
 	    markovState.setValue(MarkovianStateDescription.CurrentOperationalCost, operationalcosts);
 	    mOperationalCostsBuffer.add(operationalcosts);
-	    
+
 	    if(convToInit){
 	    	for(int i=1; i<mOperationalCostsBuffer.size(); i++){
 	    	    mOperationalCostsBuffer.add(operationalcosts);
@@ -443,20 +443,20 @@ public class IndustrialBenchmarkDynamics implements Environment
 	    	convToInit = false;
 	    }
 	}
-	
+
 	private void updateOperationalCostCovolution() {
 		double aggregatedOperationalCosts = 0;
 	    int i = 0;
 	    Iterator<?> iterator = mOperationalCostsBuffer.iterator();
 	    while(iterator.hasNext()) {
-	    	double operationalcost = (Double)iterator.next();   	
+	    	double operationalcost = (Double)iterator.next();
 	    	aggregatedOperationalCosts += mEmConvWeights[i] * operationalcost;
 	    	markovState.setValue("OPERATIONALCOST_"+i, operationalcost);
 	    	i += 1;
 	    }
-	    markovState.setValue(MarkovianStateDescription.OperationalCostsConv, aggregatedOperationalCosts);	 		
+	    markovState.setValue(MarkovianStateDescription.OperationalCostsConv, aggregatedOperationalCosts);
 	}
-	
+
 	private void updateGS() {
 		gsEnvironment.setControlPosition(markovState.getValue(MarkovianStateDescription.EffectiveShift));
 		markovState.setValue(MarkovianStateDescription.MisCalibration, (float) gsEnvironment.reward());
@@ -469,30 +469,30 @@ public class IndustrialBenchmarkDynamics implements Environment
 		return PropertiesUtil.getFloat(mProperties, aConst.name());
 	}
 
-	/** Returns the operationalcosts history length. The current operationalcosts value is part of the history.    
-	 *  @return length of the operationalcosts history (including current value) 
+	/** Returns the operationalcosts history length. The current operationalcosts value is part of the history.
+	 *  @return length of the operationalcosts history (including current value)
 	 */
 	public int getOperationalCostsHistoryLength() {
 		return mOperationalCostsBuffer.size();
 	}
 
     /**
-     * Returns a copy of the the current <b>markovian</b> state of the dynamics. 
-     *  
-     * @return current internal markovian state of the industrial benchmark 
-     */    
+     * Returns a copy of the the current <b>markovian</b> state of the dynamics.
+     *
+     * @return current internal markovian state of the industrial benchmark
+     */
     public DataVector getInternalMarkovState() {
     	return this.markovState.clone();
     }
 
     /**
-     * Sets the current <b>markovian</b> state of the dynamics. Also the 
+     * Sets the current <b>markovian</b> state of the dynamics. Also the
      * setpoint generator is set and the operationalcosts are convoluted (+reward recomputed).
-     *   
-     * @param markovState The markovian state from which the values are copied 
-     */   
+     *
+     * @param markovState The markovian state from which the values are copied
+     */
     public void setInternalMarkovState(DataVector markovState) {
-    	
+
     	// 1) import all key/value pairs
     	for (String key : markovState.getKeys()) {
     		this.markovState.setValue(key, markovState.getValue(key));
@@ -500,12 +500,12 @@ public class IndustrialBenchmarkDynamics implements Environment
 
     	// 2) set random number generator states
     	this.randomSeed = Double.doubleToLongBits(this.markovState.getValue(MarkovianStateDescription.RandomSeed));
-		
+
 		this.gsEnvironment.setControlPosition(markovState.getValue(MarkovianStateDescription.EffectiveShift));
 		this.gsEnvironment.setDomain(markovState.getValue(MarkovianStateDescription.MisCalibrationDomain));
 		this.gsEnvironment.setSystemResponse(markovState.getValue(MarkovianStateDescription.MisCalibrationSystemResponse));
 		this.gsEnvironment.setPhiIdx(markovState.getValue(MarkovianStateDescription.MisCalibrationPhiIdx));
-    	   	
+
     	// 3) reconstruct operationalcost convolution + reward computation
     	double aggregatedOperationalCosts = 0;
     	double operationalcost = 0;
@@ -518,10 +518,10 @@ public class IndustrialBenchmarkDynamics implements Environment
     	markovState.setValue(MarkovianStateDescription.OperationalCostsConv, aggregatedOperationalCosts);
 		//mRewardCore.setNormal(rda);
         mRewardCore.calcReward(markovState);
-        
+
         // 4) set state variables to external driver (e.g. SetPointGenerator parameters)
         for (ExternalDriver d : externalDrivers) {
-            d.setConfiguration(markovState);        	
+            d.setConfiguration(markovState);
         }
 	}
 
@@ -532,12 +532,12 @@ public class IndustrialBenchmarkDynamics implements Environment
 			this.init();
 		} catch (PropertiesException e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
 	public double getReward() {
 		return this.markovState.getValue(ObservableStateDescription.RewardTotal);
 	}
-   
+
 }

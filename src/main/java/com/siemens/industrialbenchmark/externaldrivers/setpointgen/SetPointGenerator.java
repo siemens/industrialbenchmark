@@ -31,7 +31,7 @@ import com.siemens.rl.interfaces.ExternalDriver;
 
 /**
  * The seedable setpoint generator
- * 
+ *
  * @author Siegmund Duell, Michel Tokic
  *
  */
@@ -48,14 +48,14 @@ public class SetPointGenerator implements ExternalDriver {
 	private double mChangeRatePerStep;
 	private boolean mIsStationary;
 	private double mSetPoint;
-	
-	private RandomDataGenerator mRandom = new RandomDataGenerator(); 
-	
+
+	private RandomDataGenerator mRandom = new RandomDataGenerator();
+
 
 	/**
 	 Constructor with given seed and properties file
-	 * @param seed The seed for the random number generator 
-	 * @param aProperties The properties file to parse 
+	 * @param seed The seed for the random number generator
+	 * @param aProperties The properties file to parse
 	 * @throws PropertiesException
 	 */
 	public SetPointGenerator(long seed, Properties aProperties)
@@ -63,7 +63,7 @@ public class SetPointGenerator implements ExternalDriver {
 
 		mIsStationary = aProperties.containsKey("STATIONARY_SETPOINT");
 		if (mIsStationary) {
-			mSetPoint = PropertiesUtil.getFloat (aProperties, "STATIONARY_SETPOINT", true);			
+			mSetPoint = PropertiesUtil.getFloat (aProperties, "STATIONARY_SETPOINT", true);
 			Preconditions.checkArgument(mSetPoint >= 0.0f && mSetPoint <= 100.0f, "setpoint must be in range [0, 100]");
 		}
 		MAX_CHANGE_RATE_PER_STEP_SETPOINT = PropertiesUtil.getFloat(aProperties, "MAX_CHANGE_RATE_PER_STEP_SETPOINT", true);
@@ -71,7 +71,7 @@ public class SetPointGenerator implements ExternalDriver {
 		MINSETPOINT = PropertiesUtil.getFloat(aProperties, "SetPoint_MIN", true);
 		MAXSETPOINT = PropertiesUtil.getFloat(aProperties, "SetPoint_MAX", true);
 		SETPOINT_STEP_SIZE = PropertiesUtil.getFloat(aProperties, "SETPOINT_STEP_SIZE", true);
-		
+
 		this.mRandom = new RandomDataGenerator();
 		this.mRandom.reSeed(seed);
 		defineNewSequence();
@@ -93,7 +93,7 @@ public class SetPointGenerator implements ExternalDriver {
 	public double getChangeRatePerStep () {
 		return this.mChangeRatePerStep;
 	}
-	
+
 	/**
 	 * sets the current state of the setpoint generation engine
 	 * @param currentSteps
@@ -106,34 +106,34 @@ public class SetPointGenerator implements ExternalDriver {
 		this.mLastSequenceSteps = lastSequenceSteps;
 		this.mChangeRatePerStep = changeRatePerStep;
 	}
-	
+
 	/**
 	 * returns the current setpoint
 	 * @return the last sequence steps
 	 */
-	public double getSetPoint() {		
-		return this.mSetPoint; 
+	public double getSetPoint() {
+		return this.mSetPoint;
 	}
-	
+
 	/**
 	 * returns the last sequence steps
 	 * @return the last sequence steps
 	 */
-	public int getLastSequenceSteps() {		
+	public int getLastSequenceSteps() {
 		return this.mLastSequenceSteps;
 	}
-	
-	
+
+
 	/**
 	 * Default constructor with seed=System.currentTimeMillis()
-	 * @param aProperties The properties file to parse 
+	 * @param aProperties The properties file to parse
 	 * @throws PropertiesException
 	 */
 	public SetPointGenerator(Properties aProperties) throws PropertiesException {
 		this(System.currentTimeMillis(), aProperties);
 	}
 
-	
+
 	/**
 	 * Returns the next setpoint and on the internal memorized old setpoint
 	 * @return the next setpoint
@@ -157,7 +157,7 @@ public class SetPointGenerator implements ExternalDriver {
 		if (mCurrentSteps >= mLastSequenceSteps) {
 			defineNewSequence();
 		}
-		
+
 		mCurrentSteps++;
 		setpointLevel += mChangeRatePerStep * SETPOINT_STEP_SIZE;
 
@@ -184,7 +184,7 @@ public class SetPointGenerator implements ExternalDriver {
 	private void defineNewSequence() {
 		//mLastSequenceSteps = mRandom.nextIntFromTo(0, MAX_SEQUENCE_LENGTH) + 1;
 		mLastSequenceSteps = mRandom.nextInt(1, MAX_SEQUENCE_LENGTH);
-		mCurrentSteps = 0; 
+		mCurrentSteps = 0;
 		mChangeRatePerStep = mRandom.nextUniform(0, 1) * MAX_CHANGE_RATE_PER_STEP_SETPOINT;
 		double r = mRandom.nextUniform(0, 1);
 		if (r < 0.45f) {
@@ -194,10 +194,10 @@ public class SetPointGenerator implements ExternalDriver {
 			mChangeRatePerStep = 0;
 		}
 	}
-	
+
 	/**
 	 * plots a setpoint trajectory for 10000 points
-	 * 
+	 *
 	 * @throws IOException
 	 * @throws PropertiesException
 	 */
@@ -205,12 +205,12 @@ public class SetPointGenerator implements ExternalDriver {
 
 		final int episodeLength = 10000;
 		double data[] = new double[episodeLength];
-		
+
 		Properties props = null;
 		props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
-		
+
 		SetPointGenerator lg = new SetPointGenerator(props);
-		
+
 		for (int i=0; i<episodeLength; i++) {
 			data[i] = lg.step();
 		}
@@ -248,7 +248,7 @@ public class SetPointGenerator implements ExternalDriver {
 		s.setValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep, mChangeRatePerStep);
 		s.setValue(SetPointGeneratorStateDescription.SetPointCurrentSteps, mCurrentSteps);
 		s.setValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps, mLastSequenceSteps);
-		
-		return s; 		
+
+		return s;
 	}
 }

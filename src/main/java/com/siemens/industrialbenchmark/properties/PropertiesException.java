@@ -19,13 +19,13 @@ import java.util.Properties;
 
 /**
  * Exception used for properties that are not available within a given property object
- * 
+ *
  * @author duell
  */
 public class PropertiesException extends Exception {
 
     /**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 4372660914816539735L;
 	private Properties        mProperties;
@@ -73,7 +73,7 @@ public class PropertiesException extends Exception {
 
     /**
      * property key causing the exception
-     * 
+     *
      * @return
      */
     public String getKey() {

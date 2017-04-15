@@ -31,8 +31,8 @@ public class TestProperties {
 		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
 		PropertiesUtil.getBoolean(props, "NOT_IN_PROPERTIES_FILES", true);
 	}
-	
-	@Test 
+
+	@Test
 	public void testReadProperty() throws IOException, PropertiesException {
 		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
 		PropertiesUtil.getFloat(props, "CRD", true);

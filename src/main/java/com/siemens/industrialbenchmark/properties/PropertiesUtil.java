@@ -23,7 +23,7 @@ import java.util.Properties;
 
 /**
  * Properties util to retrieve typed property values from a properties object general pattern of methods:
- * 
+ *
  * <pre>
  * {@code
  * public type getType(Properties aProperties, String aKey)
@@ -32,7 +32,7 @@ import java.util.Properties;
  * public type getType(Properties aProperties, String aKey, booelan aIsRequiered, Type aDefault)
  * }
  * </pre>
- * 
+ *
  * where <br>
  * <li>type is the requested value of type Type <li>aProperties is the properties object that should contain the property <li>aKey is the
  * key to the requested property <li>aDefault value is a possible default value. If the property is not available from the properties
@@ -40,29 +40,29 @@ import java.util.Properties;
  * {@link PropertiesException} is thrown if unavailable <br>
  * <br>
  * Default behavior: the method
- * 
+ *
  * <pre>
  * {@code
  * public type getType(aProperties, aKey)
  * }
  * </pre>
- * 
+ *
  * shall be equivalent to:
- * 
+ *
  * <pre>
  * {@code
  * public type getType(aProperties, aKey, false) // false: not required
  * }
  * </pre>
- * 
+ *
  * resulting in
- * 
+ *
  * <pre>
  * {@code
  * public type getType(aProperties, aKey, false, javaDefault)// javaDefault is 0 for number, null for objects
  * }
  * </pre>
- * 
+ *
  * @author duell
  */
 public class PropertiesUtil

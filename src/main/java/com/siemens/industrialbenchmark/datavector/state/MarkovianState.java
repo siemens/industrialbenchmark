@@ -23,7 +23,7 @@ public class MarkovianState extends DataVectorImpl {
 
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -4104133495199919343L;
 

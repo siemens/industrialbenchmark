@@ -26,22 +26,22 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 /**
- * This class is a simple curve plotter. 
+ * This class is a simple curve plotter.
  * @author Michel Tokic
  *
  */
 public class PlotCurve {
-	
+
 	public static void plot (String title, String xlabel, String ylabel, double[] data) {
-	
+
 		//////////////////////////////////
-		// Create a chart:		
+		// Create a chart:
 		//////////////////////////////////
 		Chart2D chart = new Chart2D();
-		
+
 		// Create an ITrace:
 		ITrace2D trace = new Trace2DSimple();
-	
+
 		// Add the trace to the chart. This has to be done before adding points
 		chart.addTrace(trace);
 		// Add all points, as it is static:
@@ -50,14 +50,14 @@ public class PlotCurve {
 		}
 		chart.getAxisX().setAxisTitle(new AxisTitle(xlabel));
 		chart.getAxisY().setAxisTitle(new AxisTitle(ylabel));
-		
+
 		// Make it visible:
 		// Create a frame.
 		JFrame frame = new JFrame(title);
 		// add the chart to the frame:
-		frame.getContentPane().add(chart);		
+		frame.getContentPane().add(chart);
 		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 400);
-		
+
 		// Enable the termination button [cross on the upper right edge]:
 		frame.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

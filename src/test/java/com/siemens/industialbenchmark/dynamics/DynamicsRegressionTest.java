@@ -50,21 +50,21 @@ public class DynamicsRegressionTest {
 		// parse regression data file
 		ClassLoader classLoader = getClass().getClassLoader();
 		File f = new File (classLoader.getResource("dynamics/dyn-markov-old.csv").getFile());
-		HashMap<String,Integer> keyMap = new HashMap<String,Integer>();			
-		
+		HashMap<String,Integer> keyMap = new HashMap<String,Integer>();
+
 		try {
-			
+
 			BufferedReader reader = new BufferedReader(new FileReader(f));
 
 			// parse CSV keys
 			if (reader.ready()) {
-				String[] fields = reader.readLine().split(" ");	
-				
+				String[] fields = reader.readLine().split(" ");
+
 				for (int i=0; i<fields.length; i++) {
 					keyMap.put(fields[i], i);
-				}					
+				}
 			}
-			
+
 			// Instantiate benchmark
 			// setpoint configuration parameters
 			Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
@@ -82,42 +82,42 @@ public class DynamicsRegressionTest {
 
 			// apply constant action (gain and velocity transitions from 0 => 100)
 			final ActionDelta action = new ActionDelta(0.1f, 0.1f, 0.1f);
-			
-			//parse data rows and compare current dynamics to the test data 
+
+			//parse data rows and compare current dynamics to the test data
 			while (reader.ready()) {
 				String values[] = reader.readLine().split(" ");
-				
+
 				// apply random action and retrieve markov state
 				action.setDeltaGain(2.f * (rand.nextFloat() - 0.5f));
 				action.setDeltaVelocity(2.f * (rand.nextFloat() - 0.5f));
 				db.step(action);
 				DataVector markovState = db.getInternalMarkovState();
 
-				// compare values 
+				// compare values
 				assertEquals(Double.parseDouble(values[keyMap.get("Velocity")]), markovState.getValue(MarkovianStateDescription.Action_Velocity), 0.01);
 				assertEquals(Double.parseDouble(values[keyMap.get("Gain")]), markovState.getValue(MarkovianStateDescription.Action_Gain), 0.01);
 				assertEquals(Double.parseDouble(values[keyMap.get("HiddenDynVelocity")]), markovState.getValue(MarkovianStateDescription.FatigueLatent1), 0.01);
 				assertEquals(Double.parseDouble(values[keyMap.get("HiddenDynGain")]), markovState.getValue(MarkovianStateDescription.FatigueLatent2), 0.01);
 				assertEquals(Double.parseDouble(values[keyMap.get("Dynamics")]), markovState.getValue(MarkovianStateDescription.Fatigue), 0.01);
-				
+
 				// check goldstone variables
 				assertEquals(Double.parseDouble(values[keyMap.get("HiddenGSDomain")]), markovState.getValue(MarkovianStateDescription.MisCalibrationDomain), 0.01);
 				assertEquals(Double.parseDouble(values[keyMap.get("HiddenGSSystemResponse")]), markovState.getValue(MarkovianStateDescription.MisCalibrationSystemResponse), 0.01);
 				assertEquals(Double.parseDouble(values[keyMap.get("HiddenGSPhiIdx")]), markovState.getValue(MarkovianStateDescription.MisCalibrationPhiIdx), 0.01);
-				
+
 				// check operationalcosts
 				assertEquals(Double.parseDouble(values[keyMap.get("OperationalCostsConv")]), markovState.getValue(MarkovianStateDescription.OperationalCostsConv), 0.01);
-				assertEquals(Double.parseDouble(values[keyMap.get("OperationalCosts")]), markovState.getValue(MarkovianStateDescription.CurrentOperationalCost), 0.01);				
+				assertEquals(Double.parseDouble(values[keyMap.get("OperationalCosts")]), markovState.getValue(MarkovianStateDescription.CurrentOperationalCost), 0.01);
 				for (int i=0; i<10; i++) {
 					String e = "OPERATIONALCOST_" + i;
 					assertEquals(Double.parseDouble(values[keyMap.get(e)]), markovState.getValue(e), 0.01);
 				}
-				assertEquals(Double.parseDouble(values[keyMap.get("RewardOperationalCosts")]), markovState.getValue(MarkovianStateDescription.RewardConsumption), 0.01);				
-				assertEquals(Double.parseDouble(values[keyMap.get("RewardTotal")]), markovState.getValue(MarkovianStateDescription.RewardTotal), 0.01);				
+				assertEquals(Double.parseDouble(values[keyMap.get("RewardOperationalCosts")]), markovState.getValue(MarkovianStateDescription.RewardConsumption), 0.01);
+				assertEquals(Double.parseDouble(values[keyMap.get("RewardTotal")]), markovState.getValue(MarkovianStateDescription.RewardTotal), 0.01);
 			}
-			
+
 			reader.close();
-			
+
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {

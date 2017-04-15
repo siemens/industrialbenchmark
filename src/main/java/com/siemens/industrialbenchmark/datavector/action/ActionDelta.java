@@ -21,18 +21,18 @@ import com.siemens.industrialbenchmark.properties.PropertiesException;
 
 /**
  * This class keeps and checks the deltaA, deltaB and deltaC.
- *  
+ *
  * @author Michel Tokic
  */
 public class ActionDelta extends DataVectorImpl {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1159603096632053185L;
 
 	protected double maxDelta = 10.0;
-	
+
 	/**
 	 * Constructor with deltas and properties file
 	 * @param deltaVelocity The delta velocity to apply
@@ -43,7 +43,7 @@ public class ActionDelta extends DataVectorImpl {
 	public ActionDelta (double deltaVelocity, double deltaGain, double deltaShift) throws PropertiesException {
 
 		super (new ActionDeltaDescription());
-		
+
 		Preconditions.checkArgument(Math.abs(deltaVelocity) <= maxDelta, "Math.abs(deltaA=%s) must be <= %s", deltaVelocity, maxDelta);
 		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta, "Math.abs(deltaB=%s) must be <= %s", deltaGain, maxDelta);
 
@@ -65,7 +65,7 @@ public class ActionDelta extends DataVectorImpl {
 	public double  getDeltaGain() {
 		return getValue(ActionDeltaDescription.DeltaGain);
 	}
-	
+
 	/**
 	 * @return the deltaC
 	 */
@@ -88,7 +88,7 @@ public class ActionDelta extends DataVectorImpl {
 		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta, "Math.abs(deltaGain=%s) must be <= %s", deltaGain, maxDelta);
 		this.setValue(ActionDeltaDescription.DeltaGain, deltaGain);
 	}
-	
+
 	/**
 	 * @param deltaShift The delta shift to set.
 	 */
