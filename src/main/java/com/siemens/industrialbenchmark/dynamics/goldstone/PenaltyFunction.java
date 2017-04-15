@@ -48,7 +48,7 @@ public class PenaltyFunction {
 		optimum_value = reward_function.apply(optimum_radius);
 	}
 
-	public double reward (double r) {
+	public double reward(double r) {
 		return reward_function.apply(r);
 	}
 
@@ -57,7 +57,7 @@ public class PenaltyFunction {
 	 * @param r
 	 * @return
 	 */
-	public double[] reward (double r[]) {
+	public double[] reward(double r[]) {
 		double ret[] = new double [r.length];
 		for (int i=0; i<r.length; i++) {
 			ret[i] = reward(r[i]);
@@ -154,7 +154,7 @@ public class PenaltyFunction {
 	 * @param max_required_step
 	 * @return
 	 */
-	private double compute_optimal_radius (double phi, double max_required_step) {
+	private double compute_optimal_radius(double phi, double max_required_step) {
     	phi = phi % (2*Math.PI);
     	double opt = Math.max(Math.abs(Math.sin(phi)), max_required_step);
     	if (phi>=Math.PI) {

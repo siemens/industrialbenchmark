@@ -95,9 +95,9 @@ public class MarkovianStateDescription extends DataVectorDescription {
      * constructor with operationalcost_XXX
      * @param names
      */
-    public MarkovianStateDescription (List<String> names) {
-    	super (names);
-    	//System.out.println ("MarkovianState names: " + names.toString());
+    public MarkovianStateDescription(List<String> names) {
+    	super(names);
+    	//System.out.println("MarkovianState names: " + names.toString());
     }
 
     /**

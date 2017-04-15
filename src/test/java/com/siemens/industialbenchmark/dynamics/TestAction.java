@@ -44,9 +44,9 @@ public class TestAction {
 		float a = 0;
 		float c = 0;
 
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
-		ActionAbsolute aa = new ActionAbsolute (b, a, c, props);
-		ActionDelta ad = new ActionDelta (0, 0, 0);
+		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		ActionAbsolute aa = new ActionAbsolute(b, a, c, props);
+		ActionDelta ad = new ActionDelta(0, 0, 0);
 
 		Random actionRand = new Random(System.currentTimeMillis());
 
@@ -82,17 +82,17 @@ public class TestAction {
 			ad.setDeltaVelocity(deltaA);
 			ad.setDeltaShift(deltaC);
 
-			assertEquals (aa.getDeltaGain(), ad.getDeltaGain(), 0.0001);
-			assertEquals (aa.getDeltaVelocity(), ad.getDeltaVelocity(), 0.0001);
-			assertEquals (aa.getDeltaShift(), ad.getDeltaShift(), 0.0001);
+			assertEquals(aa.getDeltaGain(), ad.getDeltaGain(), 0.0001);
+			assertEquals(aa.getDeltaVelocity(), ad.getDeltaVelocity(), 0.0001);
+			assertEquals(aa.getDeltaShift(), ad.getDeltaShift(), 0.0001);
 
 			b += deltaB;
 			a += deltaA;
 			c += deltaC;
 
-			assertEquals (aa.getGain(), b, 0.0001);
-			assertEquals (aa.getVelocity(), a, 0.0001);
-			assertEquals (aa.getShift(), c, 0.0001);
+			assertEquals(aa.getGain(), b, 0.0001);
+			assertEquals(aa.getVelocity(), a, 0.0001);
+			assertEquals(aa.getShift(), c, 0.0001);
 		}
 	}
 }

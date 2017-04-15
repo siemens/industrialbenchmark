@@ -39,7 +39,7 @@ public class GoldStoneEnvironmentDynamics {
 		private final int id;
 		Domain(int id) { this.id = id; }
 		public int getValue() { return id; }
-		public static Domain fromDouble (double id) {
+		public static Domain fromDouble(double id) {
 			if (id == -1.0) return  NEGATIVE;
 			if (id == 0.0) return INITIAL;
 			if (id == 1.0) return POSITIVE;
@@ -55,7 +55,7 @@ public class GoldStoneEnvironmentDynamics {
 		private final int id;
 		SystemResponse(int id) { this.id = id; }
 		public int getValue() { return id; }
-		public static SystemResponse fromDouble (double id) {
+		public static SystemResponse fromDouble(double id) {
 			if (id == -1.0) return  DISADVANTAGEOUS;
 			if (id == 0.0) return NEUTRAL;
 			if (id == 1.0) return ADVANTAGEOUS;
@@ -79,7 +79,7 @@ public class GoldStoneEnvironmentDynamics {
 		currentPenaltyFunction = getPenaltyFunction();
 	}
 
-	public double rewardAt (double pos) {
+	public double rewardAt(double pos) {
 		return -currentPenaltyFunction.reward(pos);
 	}
 
@@ -108,7 +108,7 @@ public class GoldStoneEnvironmentDynamics {
 		this.phiIdx += computeAngularStep(newControlValue);
 
 		// (3) update system response if necessary
-		this.systemResponse = updateSystemResponse (this.phiIdx, newControlValue);
+		this.systemResponse = updateSystemResponse(this.phiIdx, newControlValue);
 
 		// (4) if Phi_index == 0: reset internal state
 		if (this.phiIdx == 0 && Math.abs(newControlValue) <= this.safeZone) {
@@ -118,7 +118,7 @@ public class GoldStoneEnvironmentDynamics {
 		// (5) apply symmetry
 		this.phiIdx = this.applySymmetry(this.phiIdx);
 
-		LOGGER.trace ("  phiIdx = " + phiIdx);
+		LOGGER.trace("  phiIdx = " + phiIdx);
 		this.currentPenaltyFunction = this.getPenaltyFunction();
 	}
 
@@ -149,7 +149,7 @@ public class GoldStoneEnvironmentDynamics {
 	 	}
 
 	 	if (this.phiIdx == (-this.domain.getValue() * strongestPenaltyAbsIdx)) {
-	 		LOGGER.trace ("  no turning");
+	 		LOGGER.trace("  no turning");
 	 		return 0;
 	 	}
 
@@ -168,7 +168,7 @@ public class GoldStoneEnvironmentDynamics {
 	 */
 	private SystemResponse updateSystemResponse(int newPhiIdx, double newControlValue) {
 		if (Math.abs(newPhiIdx) >= strongestPenaltyAbsIdx) {
-			LOGGER.trace ("  turning sys behavior -> disadvantageous");
+			LOGGER.trace("  turning sys behavior -> disadvantageous");
 			return SystemResponse.DISADVANTAGEOUS;
 		} else {
 			return this.systemResponse;
@@ -298,7 +298,7 @@ public class GoldStoneEnvironmentDynamics {
 		return penaltyFunctionsArray;
 	}
 
-	private int computeStrongestPenaltyAbsIdx (int numberSteps) {
+	private int computeStrongestPenaltyAbsIdx(int numberSteps) {
 		Preconditions.checkArgument(numberSteps >= 1 && (numberSteps %4) == 0,
 				"numberSteps must be positive and an integer multiple of 4, but is %s", numberSteps);
 

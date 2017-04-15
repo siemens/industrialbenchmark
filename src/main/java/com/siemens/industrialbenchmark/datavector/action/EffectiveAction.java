@@ -66,23 +66,23 @@ public class EffectiveAction {
 		return (betaUnscaled - minBetaUnscaled) / (maxBetaUnscaled - minBetaUnscaled);
 	}
 
-	private double  calcEffectiveA (double  a, double  setpoint) {
+	private double  calcEffectiveA(double  a, double  setpoint) {
 		return a + 101.f - setpoint;
 	}
 
-	private double  calcEffectiveB (double  b, double  setpoint) {
+	private double  calcEffectiveB(double  b, double  setpoint) {
 		return b + 1.f + setpoint;
 	}
 
-	private double  calcAlphaUnscaled (double  effectiveA, double  effectiveB) {
+	private double  calcAlphaUnscaled(double  effectiveA, double  effectiveB) {
 		return (effectiveB + 1.0f) / effectiveA;
 	}
 
-	private double  calcBetaUnscaled (double  effectiveB) {
+	private double  calcBetaUnscaled(double  effectiveB) {
 		return 1.0f / effectiveB;
 	}
 
-	public double  getVelocityAlpha () {
+	public double  getVelocityAlpha() {
 		return this.alpha;
 	}
 
@@ -98,20 +98,20 @@ public class EffectiveAction {
 		final float step = (max-min) / steps;
 
 		try {
-			File f = new File ("output.txt");
+			File f = new File("output.txt");
 			PrintWriter writer = null;
-			writer = new PrintWriter (f);
+			writer = new PrintWriter(f);
 
 			// evaluate EffectiveAction class
 			final int setpoint = 100;
 			Properties props;
-			props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
-			writer.println ("x,y,alpha,beta");
+			props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+			writer.println("x,y,alpha,beta");
 
 			for (float x=min; x<=max; x+=step) {
 				for (float y=min; y<=max; y+=step) {
-					EffectiveAction action = new EffectiveAction (new ActionAbsolute (x, y, 0.0f, props), setpoint);
-					writer.println (x + "," + y + "," + action.getVelocityAlpha() + "," + action.getGainBeta());
+					EffectiveAction action = new EffectiveAction(new ActionAbsolute(x, y, 0.0f, props), setpoint);
+					writer.println(x + "," + y + "," + action.getVelocityAlpha() + "," + action.getGainBeta());
 				}
 			}
 
@@ -124,4 +124,3 @@ public class EffectiveAction {
 		}
 	}
 }
-

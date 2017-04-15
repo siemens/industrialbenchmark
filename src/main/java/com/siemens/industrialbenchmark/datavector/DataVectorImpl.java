@@ -46,7 +46,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 * Initializes the state with a given StateVectorDescription. All associated values are set to NaN initially.
 	 * @param desc The StateVectorDescription
 	 */
-	public DataVectorImpl (DataVectorDescription desc) {
+	public DataVectorImpl(DataVectorDescription desc) {
 		Preconditions.checkNotNull(desc, "Description must not be null.");
 		this.description = desc;
 		this.keys = ImmutableList.copyOf(desc.getVarNames());
@@ -61,7 +61,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 * Initializes the state with a given list of state dimension names. All associated values are set to NaN initially.
 	 * @param keys A list of keys.
 	 */
-	public DataVectorImpl (List<String> keys) {
+	public DataVectorImpl(List<String> keys) {
 		Preconditions.checkNotNull(keys, "Description must not be null.");
 		this.keys = ImmutableList.copyOf(keys);
 		values = new double[this.keys.size()];
@@ -91,7 +91,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 * @param key The state/action dimension
 	 * @param value The value
 	 */
-	public void setValue (String key, double value) {
+	public void setValue(String key, double value) {
 		Preconditions.checkNotNull(this.getKeys(), "keySet is null!!");
 		Preconditions.checkArgument(this.getKeys().contains(key), "%s is not a valid variable. Available names are: %s", key, this.getKeys());
 		values[indexMap.get(key)] = value;
@@ -146,7 +146,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
     }
 
     public DataVector clone() {
-		DataVector s = new DataVectorImpl (this.getKeys());
+		DataVector s = new DataVectorImpl(this.getKeys());
     	for (String key : this.getKeys()) {
     		s.setValue(key,  this.getValue(key));
     	}

@@ -26,15 +26,15 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 
 public class TestProperties {
 
-	@Test (expected=PropertiesException.class)
+	@Test(expected=PropertiesException.class)
 	public void testExceptions() throws IOException, PropertiesException {
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
+		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 		PropertiesUtil.getBoolean(props, "NOT_IN_PROPERTIES_FILES", true);
 	}
 
 	@Test
 	public void testReadProperty() throws IOException, PropertiesException {
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
+		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 		PropertiesUtil.getFloat(props, "CRD", true);
 	}
 }

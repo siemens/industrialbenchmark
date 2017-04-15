@@ -54,7 +54,7 @@ public class ExampleMain {
 		 * Instantiate benchmark
 		 */
 		// setpoint configuration parameters
-		Properties props = PropertiesUtil.setpointProperties( new File (filename));
+		Properties props = PropertiesUtil.setpointProperties(new File(filename));
 
 		// instantiate industrial benchmark
 		Environment db = new IndustrialBenchmarkDynamics(props);

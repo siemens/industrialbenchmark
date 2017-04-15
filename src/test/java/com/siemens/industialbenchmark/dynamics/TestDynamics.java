@@ -67,11 +67,11 @@ public class TestDynamics {
 
 
 		// INSTANTIATE benchmark
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
-		SetPointGenerator lg = new SetPointGenerator (props);
+		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		SetPointGenerator lg = new SetPointGenerator(props);
 		List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>();
 		externalDrivers.add(lg);
-		IndustrialBenchmarkDynamics d = new IndustrialBenchmarkDynamics (props, externalDrivers);
+		IndustrialBenchmarkDynamics d = new IndustrialBenchmarkDynamics(props, externalDrivers);
 		Random actionRand = new Random(System.currentTimeMillis());
 
         // 1) do 100000 random steps, in order to initialize dynamics
@@ -86,8 +86,8 @@ public class TestDynamics {
 		// 2) memorize current observable state and current markov state
 		final ObservableState os = d.getState();
 		final DataVector ms = d.getInternalMarkovState();
-		System.out.println ("init o-state: " + os.toString());
-		System.out.println ("init m-state: " + ms.toString());
+		System.out.println("init o-state: " + os.toString());
+		System.out.println("init m-state: " + ms.toString());
 
 
 		// 3) perform test trajectory and memorize states
@@ -122,45 +122,45 @@ public class TestDynamics {
 			mState = d.getInternalMarkovState();
 
 			// check observable state
-			assertEquals (oStates[i].getValue(ObservableStateDescription.SetPoint), oState.getValue(ObservableStateDescription.SetPoint), 0.0001);
-			assertEquals (oStates[i].getValue(ObservableStateDescription.Fatigue), oState.getValue(ObservableStateDescription.Fatigue), 0.0001);
-			assertEquals (oStates[i].getValue(ObservableStateDescription.Consumption), oState.getValue(ObservableStateDescription.Consumption), 0.0001);
-			assertEquals (oStates[i].getValue(ObservableStateDescription.RewardTotal), oState.getValue(ObservableStateDescription.RewardTotal), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.SetPoint), oState.getValue(ObservableStateDescription.SetPoint), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.Fatigue), oState.getValue(ObservableStateDescription.Fatigue), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.Consumption), oState.getValue(ObservableStateDescription.Consumption), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.RewardTotal), oState.getValue(ObservableStateDescription.RewardTotal), 0.0001);
 
 			//
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.CurrentOperationalCost), mState.getValue(MarkovianStateDescription.CurrentOperationalCost), 0.0001);
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.FatigueLatent2), mState.getValue(MarkovianStateDescription.FatigueLatent2), 0.0001);
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.FatigueLatent1), mState.getValue(MarkovianStateDescription.FatigueLatent1), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.CurrentOperationalCost), mState.getValue(MarkovianStateDescription.CurrentOperationalCost), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.FatigueLatent2), mState.getValue(MarkovianStateDescription.FatigueLatent2), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.FatigueLatent1), mState.getValue(MarkovianStateDescription.FatigueLatent1), 0.0001);
 
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.EffectiveActionGainBeta), mState.getValue(MarkovianStateDescription.EffectiveActionGainBeta), 0.0001);
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.EffectiveActionVelocityAlpha), mState.getValue(MarkovianStateDescription.EffectiveActionVelocityAlpha), 0.0001);
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.EffectiveShift), mState.getValue(MarkovianStateDescription.EffectiveShift), 0.0001);
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.MisCalibration), mState.getValue(MarkovianStateDescription.MisCalibration), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.EffectiveActionGainBeta), mState.getValue(MarkovianStateDescription.EffectiveActionGainBeta), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.EffectiveActionVelocityAlpha), mState.getValue(MarkovianStateDescription.EffectiveActionVelocityAlpha), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.EffectiveShift), mState.getValue(MarkovianStateDescription.EffectiveShift), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.MisCalibration), mState.getValue(MarkovianStateDescription.MisCalibration), 0.0001);
 
-			assertEquals (mStates[i].getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), mState.getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), 0.0001);
-			assertEquals (mStates[i].getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), 0.0001);
-			assertEquals (mStates[i].getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), 0.0001);
+			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), mState.getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), 0.0001);
+			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), 0.0001);
+			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), 0.0001);
 
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.RewardFatigue), mState.getValue(MarkovianStateDescription.RewardFatigue), 0.0001);
-			assertEquals (mStates[i].getValue(MarkovianStateDescription.RewardConsumption), mState.getValue(MarkovianStateDescription.RewardConsumption), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.RewardFatigue), mState.getValue(MarkovianStateDescription.RewardFatigue), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.RewardConsumption), mState.getValue(MarkovianStateDescription.RewardConsumption), 0.0001);
 		}
 
-		System.out.println ("last o-state 1st trajectory: " + oStates[oStates.length-1]);
-		System.out.println ("last o-state 2nd trajectory: " + oState);
+		System.out.println("last o-state 1st trajectory: " + oStates[oStates.length-1]);
+		System.out.println("last o-state 2nd trajectory: " + oState);
 
-		System.out.println ("last m-state 1st trajectory: " + mStates[oStates.length-1]);
-		System.out.println ("last m-state 2nd trajectory: " + mState);
+		System.out.println("last m-state 1st trajectory: " + mStates[oStates.length-1]);
+		System.out.println("last m-state 2nd trajectory: " + mState);
 	}
 
 	@Test
 	public void testHistoryLength() throws IOException, PropertiesException {
 
 		// INSTANTIATE benchmark
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
-		SetPointGenerator lg = new SetPointGenerator (props);
+		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		SetPointGenerator lg = new SetPointGenerator(props);
 		List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>();
 		externalDrivers.add(lg);
-		IndustrialBenchmarkDynamics d = new IndustrialBenchmarkDynamics (props, externalDrivers);
+		IndustrialBenchmarkDynamics d = new IndustrialBenchmarkDynamics(props, externalDrivers);
 
 		int expHistSize = 0;
 		for (String key : d.getInternalMarkovState().getKeys()) {
@@ -169,7 +169,7 @@ public class TestDynamics {
 			}
 		}
 
-		assertEquals (expHistSize, d.getOperationalCostsHistoryLength());
+		assertEquals(expHistSize, d.getOperationalCostsHistoryLength());
 	}
 }
 

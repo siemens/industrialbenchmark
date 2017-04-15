@@ -28,7 +28,7 @@ public class RandomNumberExpectedValueTest {
 	public void testExpectedValues() {
 
 		long seed = 0;
-		Random rand = new Random (seed);
+		Random rand = new Random(seed);
 		RandomDataGenerator randomData = new RandomDataGenerator();
 
 		double uniformAverage = 0.0;
@@ -57,10 +57,10 @@ public class RandomNumberExpectedValueTest {
 			seed = rand.nextLong();
 		}
 
-		assertEquals (0.5, uniformAverage, 0.001);
-		assertEquals (0.5, binomialAverage, 0.001);
-		assertEquals (0.0, normalAverage, 0.001);
-		assertEquals (0.25, exponentialAverage, 0.001);
+		assertEquals(0.5, uniformAverage, 0.001);
+		assertEquals(0.5, binomialAverage, 0.001);
+		assertEquals(0.0, normalAverage, 0.001);
+		assertEquals(0.25, exponentialAverage, 0.001);
 	}
 }
 

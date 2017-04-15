@@ -34,7 +34,7 @@ public class TestGoldstoneReward {
 
 		// Open File
 		ClassLoader classLoader = getClass().getClassLoader();
-		File f = new File (classLoader.getResource("reward_function_regression_data.xa").getFile());
+		File f = new File(classLoader.getResource("reward_function_regression_data.xa").getFile());
 
 		ArrayList<ArrayList<Double>> data = new ArrayList<ArrayList<Double>>();
 		ArrayList<Double> posIdx = new ArrayList<Double>();
@@ -78,9 +78,9 @@ public class TestGoldstoneReward {
 			}
 
 			reader.close();
-			System.out.println ("Goldstone reward regression test: read " + rows + " rows and " + columns + " columns.");
-			//System.out.println ("Column headers: " + header.toString());
-			//System.out.println ("PosIdx: " + posIdx.toString());
+			System.out.println("Goldstone reward regression test: read " + rows + " rows and " + columns + " columns.");
+			//System.out.println("Column headers: " + header.toString());
+			//System.out.println("PosIdx: " + posIdx.toString());
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -96,22 +96,22 @@ public class TestGoldstoneReward {
 		for each column:
 
 			h = column_header, e.g. 0.350637827502
-			expected_penalties = value_array (column)
+			expected_penalties = value_array(column)
 
 			Initialize RewardFunction r:
-				r = new RewardFunction (h, 0.25 <= constant for test data!)
+				r = new RewardFunction(h, 0.25 <= constant for test data!)
 
 			for i in range (0, len(expected_penalties):
 			 	ControlValue = PosIdx[i] * 0.001 - 2
 			 	ActualPenalty= r.reward(ControlValue)
-			 	Assert.assertEquals (ActualPanelty, expected_penalties[i], 0.000001)
+			 	Assert.assertEquals(ActualPanelty, expected_penalties[i], 0.000001)
 		*/
 
 		int tests=0;
 		for (int i=0; i<header.size(); i++) {
 			double h = header.get(i);
 			ArrayList<Double> expected_penalties = data.get(i);
-			PenaltyFunction r = new PenaltyFunction (h, 0.25);
+			PenaltyFunction r = new PenaltyFunction(h, 0.25);
 
 			for (int row=0; row<expected_penalties.size(); row++) {
 				double controlValue = posIdx.get(i) * 0.001 - 2;
@@ -121,7 +121,7 @@ public class TestGoldstoneReward {
 			}
 		}
 
-		System.out.println ("Goldstone reward regression test: performed tests: " + tests);
+		System.out.println("Goldstone reward regression test: performed tests: " + tests);
 	}
 }
 

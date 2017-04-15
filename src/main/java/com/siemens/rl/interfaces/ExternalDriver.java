@@ -28,19 +28,19 @@ public interface ExternalDriver {
 	 * Sets the random seed.
 	 * @param seed The random seed to set.
 	 */
-	public void setSeed (long seed);
+	public void setSeed(long seed);
 
 	/**
 	 * Applies "in-place" the external drivers to the given data vector.
 	 * @param state The data vector to apply the external drivers to.
 	 */
-	public void filter (DataVector state);
+	public void filter(DataVector state);
 
 	/**
 	 * Sets the external driver configuration from within the given data vector.
 	 * @param state The data vector containing the configuration variables.
 	 */
-	public void setConfiguration (DataVector state);
+	public void setConfiguration(DataVector state);
 
 	/**
 	 * Returns the current configuration.

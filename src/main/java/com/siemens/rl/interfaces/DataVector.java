@@ -39,7 +39,7 @@ public interface DataVector extends Serializable {
 	 * @param key The state or action dimension.
 	 * @param value The associated value.
 	 */
-	public void setValue (String key, double value);
+	public void setValue(String key, double value);
 
 	/**
 	 * Returns a list containing the data-vector dimension names.

@@ -33,7 +33,7 @@ public class TestStateDescription {
 		// test ObservableStateDescription
 		ObservableStateDescription o1 = new ObservableStateDescription();
 		ObservableStateDescription o2 = new ObservableStateDescription();
-		assertTrue (o1.equals(o2));
+		assertTrue(o1.equals(o2));
 
 	}
 	@Test
@@ -47,7 +47,7 @@ public class TestStateDescription {
 		MarkovianStateDescription m1 = new MarkovianStateDescription(mNames);
 		MarkovianStateDescription m2 = new MarkovianStateDescription(mNames);
 
-		assertTrue (m1.toString().equals(m2.toString()));
+		assertTrue(m1.toString().equals(m2.toString()));
 	}
 
 	@Test
@@ -56,7 +56,7 @@ public class TestStateDescription {
 		ObservableStateDescription o1 = new ObservableStateDescription();
 		ObservableStateDescription o2 = new ObservableStateDescription();
 
-		assertTrue (o1.getNumberVariables() == o2.getVarNames().size());
+		assertTrue(o1.getNumberVariables() == o2.getVarNames().size());
 
 	}
 

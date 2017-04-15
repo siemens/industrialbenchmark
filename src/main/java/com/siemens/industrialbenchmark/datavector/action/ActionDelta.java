@@ -40,9 +40,9 @@ public class ActionDelta extends DataVectorImpl {
 	 * @param deltaShift The delta shift to apply
 	 * @throws PropertiesException
 	 */
-	public ActionDelta (double deltaVelocity, double deltaGain, double deltaShift) throws PropertiesException {
+	public ActionDelta(double deltaVelocity, double deltaGain, double deltaShift) throws PropertiesException {
 
-		super (new ActionDeltaDescription());
+		super(new ActionDeltaDescription());
 
 		Preconditions.checkArgument(Math.abs(deltaVelocity) <= maxDelta, "Math.abs(deltaA=%s) must be <= %s", deltaVelocity, maxDelta);
 		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta, "Math.abs(deltaB=%s) must be <= %s", deltaGain, maxDelta);

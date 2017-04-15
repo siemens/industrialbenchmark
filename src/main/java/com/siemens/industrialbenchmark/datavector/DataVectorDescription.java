@@ -33,7 +33,7 @@ abstract public class DataVectorDescription
 	 * Constructor with a given List of state/action dimension names
 	 * @param names
 	 */
-	public DataVectorDescription (List<String> names) {
+	public DataVectorDescription(List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.size() > 0, "name list has size 0");
 
@@ -48,7 +48,7 @@ abstract public class DataVectorDescription
 	 * Constructor with a given set of state/action description names
 	 * @param names
 	 */
-	public DataVectorDescription (String names[]) {
+	public DataVectorDescription(String names[]) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.length > 0, "name list has size 0");
 
@@ -77,7 +77,7 @@ abstract public class DataVectorDescription
     }
 
     @Override
-    public boolean equals (Object o) {
+    public boolean equals(Object o) {
     	DataVectorDescription os = (DataVectorDescription)o;
     	return names.equals(os.getVarNames());
     }

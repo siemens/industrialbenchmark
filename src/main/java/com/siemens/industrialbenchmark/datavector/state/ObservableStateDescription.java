@@ -35,7 +35,7 @@ public class ObservableStateDescription extends DataVectorDescription {
         	SetPoint, Action_Velocity, Action_Gain, Action_Shift, Fatigue, RewardTotal, Consumption
     };
 
-    public ObservableStateDescription () {
-    	super (mStateVars);
+    public ObservableStateDescription() {
+    	super(mStateVars);
     }
 }

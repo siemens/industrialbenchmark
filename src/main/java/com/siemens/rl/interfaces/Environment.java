@@ -46,7 +46,7 @@ public interface Environment {
 	 * @param action The action to perform
 	 * @return The reward
 	 */
-	double step (DataVector action);
+	double step(DataVector action);
 
 	/**
 	 * Function for resetting the environment.

@@ -84,7 +84,7 @@ public class TestSetPointRepeat {
 		// 5) compare if setpoint is equivalent
 		for (int i=0; i<setpointTrajectory.length; i++) {
 			step = setpointgen.step();
-			assertEquals (step, setpointTrajectory[i], 0.0001);
+			assertEquals(step, setpointTrajectory[i], 0.0001);
 		}
 	}
 
@@ -99,7 +99,7 @@ public class TestSetPointRepeat {
 		SetPointGenerator setpointgen = new SetPointGenerator(props);
 
 		for (int i=0; i<100000; i++) {
-			assertEquals (setpointgen.step(), stationarySetPoint, 0.0001);
+			assertEquals(setpointgen.step(), stationarySetPoint, 0.0001);
 		}
 	}
 }

@@ -63,7 +63,7 @@ public class SetPointGenerator implements ExternalDriver {
 
 		mIsStationary = aProperties.containsKey("STATIONARY_SETPOINT");
 		if (mIsStationary) {
-			mSetPoint = PropertiesUtil.getFloat (aProperties, "STATIONARY_SETPOINT", true);
+			mSetPoint = PropertiesUtil.getFloat(aProperties, "STATIONARY_SETPOINT", true);
 			Preconditions.checkArgument(mSetPoint >= 0.0f && mSetPoint <= 100.0f, "setpoint must be in range [0, 100]");
 		}
 		MAX_CHANGE_RATE_PER_STEP_SETPOINT = PropertiesUtil.getFloat(aProperties, "MAX_CHANGE_RATE_PER_STEP_SETPOINT", true);
@@ -82,7 +82,7 @@ public class SetPointGenerator implements ExternalDriver {
 	 * returns the current steps
 	 * @return the current steps
 	 */
-	public int getCurrentSteps () {
+	public int getCurrentSteps() {
 		return this.mCurrentSteps;
 	}
 
@@ -90,7 +90,7 @@ public class SetPointGenerator implements ExternalDriver {
 	 * returns the change rate per step
 	 * @return the change rate per step
 	 */
-	public double getChangeRatePerStep () {
+	public double getChangeRatePerStep() {
 		return this.mChangeRatePerStep;
 	}
 
@@ -100,7 +100,7 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @param lastSequenceSteps
 	 * @param changeRatePerStep
 	 */
-	public void setState (double setpoint, int currentSteps, int lastSequenceSteps, double changeRatePerStep) {
+	public void setState(double setpoint, int currentSteps, int lastSequenceSteps, double changeRatePerStep) {
 		this.mSetPoint = setpoint;
 		this.mCurrentSteps = currentSteps;
 		this.mLastSequenceSteps = lastSequenceSteps;
@@ -215,7 +215,7 @@ public class SetPointGenerator implements ExternalDriver {
 			data[i] = lg.step();
 		}
 
-		PlotCurve.plot ("SetPoint Trajectory", "Time", "SetPoint [%]", data);
+		PlotCurve.plot("SetPoint Trajectory", "Time", "SetPoint [%]", data);
 	}
 
 
@@ -243,7 +243,7 @@ public class SetPointGenerator implements ExternalDriver {
 
 	@Override
 	public DataVector getState() {
-		DataVectorImpl s = new DataVectorImpl (new SetPointGeneratorStateDescription());
+		DataVectorImpl s = new DataVectorImpl(new SetPointGeneratorStateDescription());
 		s.setValue(SetPointGeneratorStateDescription.SetPoint, mSetPoint);
 		s.setValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep, mChangeRatePerStep);
 		s.setValue(SetPointGeneratorStateDescription.SetPointCurrentSteps, mCurrentSteps);

@@ -67,7 +67,7 @@ public class NLGP {
 	 * @param phi angle in Radians
 	 * @return
 	 */
-	public double polar_nlgp (final double r, final double phi) {
+	public double polar_nlgp(final double r, final double phi) {
         //rsq = np.square(r)
         //return -self.__norm_alpha * rsq   + self.__norm_beta * np.square(rsq) + self.__norm_kappa * sin(phi) * r
 		final double rsq = r*r;
@@ -144,7 +144,7 @@ public class NLGP {
 	 * @param phi angle in Radians
 	 * @return the minimal functional value along phi-axis
 	 */
-	public double global_minimum (double phi) {
+	public double global_minimum(double phi) {
 		double r0 = global_minimum_radius(phi);
 		return polar_nlgp(r0, phi);
 	}

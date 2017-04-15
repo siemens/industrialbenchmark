@@ -49,7 +49,7 @@ public class DynamicsRegressionTest {
 		/*
 		// parse regression data file
 		ClassLoader classLoader = getClass().getClassLoader();
-		File f = new File (classLoader.getResource("dynamics/dyn-markov-old.csv").getFile());
+		File f = new File(classLoader.getResource("dynamics/dyn-markov-old.csv").getFile());
 		HashMap<String,Integer> keyMap = new HashMap<String,Integer>();
 
 		try {

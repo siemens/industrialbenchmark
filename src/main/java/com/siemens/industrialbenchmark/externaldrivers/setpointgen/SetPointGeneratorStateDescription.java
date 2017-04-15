@@ -36,7 +36,7 @@ public class SetPointGeneratorStateDescription extends DataVectorDescription {
         	SetPoint, SetPointLastSequenceSteps, SetPointCurrentSteps, SetPointChangeRatePerStep
     };
 
-    public SetPointGeneratorStateDescription () {
-    	super (stateVars);
+    public SetPointGeneratorStateDescription() {
+    	super(stateVars);
     }
 }

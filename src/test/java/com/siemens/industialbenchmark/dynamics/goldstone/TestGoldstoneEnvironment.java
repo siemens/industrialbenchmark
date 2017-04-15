@@ -36,7 +36,7 @@ public class TestGoldstoneEnvironment {
 
 		// parse regression data file
 		ClassLoader classLoader = getClass().getClassLoader();
-		File f = new File (classLoader.getResource("environment_class_regression_data.xa").getFile());
+		File f = new File(classLoader.getResource("environment_class_regression_data.xa").getFile());
 
 		ArrayList<Double> action = new ArrayList<Double>();
 		ArrayList<Double> penalty = new ArrayList<Double>();
@@ -61,7 +61,7 @@ public class TestGoldstoneEnvironment {
 			}
 
 			reader.close();
-			System.out.println ("Goldstone environment class regression test: read " + action.size() + " rows.");
+			System.out.println("Goldstone environment class regression test: read " + action.size() + " rows.");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -77,8 +77,8 @@ public class TestGoldstoneEnvironment {
 
 			double reward = env.stateTransition(action.get(step));
 
-			//System.out.println ("step: " + step + ", pos=" + position.get(step) + ", reward=" + reward);
-			assertEquals (-penalty.get(step), reward, 1e-8);
+			//System.out.println("step: " + step + ", pos=" + position.get(step) + ", reward=" + reward);
+			assertEquals(-penalty.get(step), reward, 1e-8);
 		}
 	}
 

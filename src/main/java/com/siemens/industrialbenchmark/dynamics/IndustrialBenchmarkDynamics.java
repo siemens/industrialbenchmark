@@ -360,7 +360,7 @@ public class IndustrialBenchmarkDynamics implements Environment
 		// dyn variables
 		double dyn = 0.0f;
 
-        EffectiveAction effAction = new EffectiveAction (new ActionAbsolute(velocity, gain, 0.0, this.mProperties), setpoint);
+        EffectiveAction effAction = new EffectiveAction(new ActionAbsolute(velocity, gain, 0.0, this.mProperties), setpoint);
         double  effActionVelocityAlpha = effAction.getVelocityAlpha(); // => gain
         double  effActionGainBeta = effAction.getGainBeta();  // => velocity
 

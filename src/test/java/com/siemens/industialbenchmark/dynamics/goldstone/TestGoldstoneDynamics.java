@@ -36,7 +36,7 @@ public class TestGoldstoneDynamics {
 
 		// parse regression data file
 		ClassLoader classLoader = getClass().getClassLoader();
-		File f = new File (classLoader.getResource("dynamics_class_regression_data.xa").getFile());
+		File f = new File(classLoader.getResource("dynamics_class_regression_data.xa").getFile());
 
 		ArrayList<Double> position = new ArrayList<Double>();
 		ArrayList<Double> penalty = new ArrayList<Double>();
@@ -61,7 +61,7 @@ public class TestGoldstoneDynamics {
 			}
 
 			reader.close();
-			System.out.println ("Goldstone dynamics class regression test: read " + position.size() + " rows.");
+			System.out.println("Goldstone dynamics class regression test: read " + position.size() + " rows.");
 
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -78,8 +78,8 @@ public class TestGoldstoneDynamics {
 
 			dyn.stateTransition(position.get(step));
 			double reward = dyn.rewardAt(position.get(step));
-			//System.out.println ("step: " + step + ", pos=" + position.get(step) + ", reward=" + reward);
-			assertEquals (-penalty.get(step), reward, 1e-8);
+			//System.out.println("step: " + step + ", pos=" + position.get(step) + ", reward=" + reward);
+			assertEquals(-penalty.get(step), reward, 1e-8);
 		}
 	}
 }

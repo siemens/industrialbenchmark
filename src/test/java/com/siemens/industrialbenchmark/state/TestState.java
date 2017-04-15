@@ -28,7 +28,7 @@ public class TestState {
 	public void testRuntimeException() {
 		ObservableState s = new ObservableState();
 		// the following should throw the RuntimeException, because key "NOT_DEFINED" does not exists
-		System.out.println ("value=" + s.getValue("NOT_DEFINED"));
+		System.out.println("value=" + s.getValue("NOT_DEFINED"));
 	}
 
 	@Test
@@ -36,8 +36,8 @@ public class TestState {
 		ObservableState s = new ObservableState();
 		// read unset value
 		double gainValue = s.getValue(ObservableStateDescription.Action_Gain);
-		System.out.println ("gain: actual=" + gainValue + ", expected=NaN");
-		assertTrue (Double.isNaN(gainValue));
+		System.out.println("gain: actual=" + gainValue + ", expected=NaN");
+		assertTrue(Double.isNaN(gainValue));
 	}
 
 	@Test

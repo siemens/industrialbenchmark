@@ -32,7 +32,7 @@ import javax.swing.JFrame;
  */
 public class PlotCurve {
 
-	public static void plot (String title, String xlabel, String ylabel, double[] data) {
+	public static void plot(String title, String xlabel, String ylabel, double[] data) {
 
 		//////////////////////////////////
 		// Create a chart:

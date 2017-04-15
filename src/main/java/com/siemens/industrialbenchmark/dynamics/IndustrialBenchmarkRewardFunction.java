@@ -34,7 +34,7 @@ public class IndustrialBenchmarkRewardFunction {
     private final double CRD;
     private final double CRE;
 
-    public IndustrialBenchmarkRewardFunction (Properties aProperties) throws PropertiesException{
+    public IndustrialBenchmarkRewardFunction(Properties aProperties) throws PropertiesException{
         CRD = PropertiesUtil.getFloat(aProperties, "CRD", true);
         CRE = PropertiesUtil.getFloat(aProperties, "CRE", true);
 	}
@@ -43,7 +43,7 @@ public class IndustrialBenchmarkRewardFunction {
 	 * Calculates the reward for a given state. Values are updated in the State object.
 	 * @param mState The state to calculate the reward for
 	 */
-	public void calcReward (DataVector mState) {
+	public void calcReward(DataVector mState) {
 
 		// Dynamics
 		double rD = -mState.getValue(MarkovianStateDescription.Fatigue);
