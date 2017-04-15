@@ -85,41 +85,40 @@ public class IndustrialBenchmarkDynamics implements Environment
     private float CRGS;
 
     private List<String> markovStateAdditionalNames;
-    private List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>();
+    private final List<ExternalDriver> externalDrivers;
     private final ActionDelta zeroAction = new ActionDelta(0, 0, 0);
 
+	/**
+	 * Constructor with configuration Properties
+	 * @param aProperties The properties objects
+	 * @param externalDrivers The list containing external drivers
+	 * @throws PropertiesException
+	 */
+	public IndustrialBenchmarkDynamics(final Properties aProperties, final List<ExternalDriver> externalDrivers) throws PropertiesException {
+		this.mProperties = aProperties;
+		this.mRewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
+		this.STEP_SIZE_GAIN = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_GAIN.name(), true);
+		this.STEP_SIZE_VELOCITY = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_VELOCITY.name(), true);
 
-    /**
-     * Constructor with configuration Properties
-     * @param aProperties The properties objects
-     * @throws PropertiesException
-     */
-    public IndustrialBenchmarkDynamics(Properties aProperties) throws PropertiesException {
-        mProperties = aProperties;
-        mRewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
-        STEP_SIZE_GAIN = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_GAIN.name(), true);
-        STEP_SIZE_VELOCITY = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_VELOCITY.name(), true);
+		if (externalDrivers == null) {
+			this.externalDrivers = new ArrayList<ExternalDriver>(1);
+			this.externalDrivers.add(new SetPointGenerator(mProperties));
+		} else {
+			this.externalDrivers = new ArrayList(externalDrivers);
+		}
 
-		externalDrivers.add(new SetPointGenerator(mProperties));
+		init();
+		step(zeroAction);
+	}
 
-        init();
-        step(zeroAction);
-    }
-
-    /**
-     * Constructor with configuration Properties and external driver list
-     * @param aProperties The properties objects
-     * @param externalDrivers The list containing external drivers
-     * @throws PropertiesException
-     */
-    public IndustrialBenchmarkDynamics(Properties aProperties, List<ExternalDriver> externalDrivers) throws PropertiesException {
-    	this(aProperties);
-
-    	this.externalDrivers = externalDrivers;
-
-    	init();
-    	step(zeroAction);
-    }
+	/**
+	 * Constructor with configuration Properties
+	 * @param aProperties The properties objects
+	 * @throws PropertiesException
+	 */
+	public IndustrialBenchmarkDynamics(final Properties aProperties) throws PropertiesException {
+		this(aProperties, null);
+	}
 
 	/**
 	 * initialize the industrial benchmark
@@ -130,7 +129,7 @@ public class IndustrialBenchmarkDynamics implements Environment
         // configure convolution variables
 		CRGS = PropertiesUtil.getFloat(mProperties, "CRGS", true);
         mEmConvWeights = getFloatArray(mProperties.getProperty("ConvArray"));
-        markovStateAdditionalNames = new ArrayList <String>();
+        markovStateAdditionalNames = new ArrayList<String>();
         mOperationalCostsBuffer = new CircularFifoBuffer(mEmConvWeights.length);
         for (int i = 0; i < mEmConvWeights.length; i++) {
             mOperationalCostsBuffer.add(0.0d); // initialize all operationalcosts with zero
