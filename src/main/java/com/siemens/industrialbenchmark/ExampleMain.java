@@ -16,21 +16,18 @@ limitations under the License.
 package com.siemens.industrialbenchmark;
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Properties;
-import java.util.Random;
-
-import com.siemens.industrialbenchmark.datavector.action.ActionDelta;
 import com.siemens.industrialbenchmark.datavector.state.MarkovianStateDescription;
-import com.siemens.industrialbenchmark.dynamics.IndustrialBenchmarkDynamics;
 import com.siemens.industrialbenchmark.properties.PropertiesException;
 import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 import com.siemens.industrialbenchmark.util.PlotCurve;
-import com.siemens.rl.interfaces.DataVector;
-import com.siemens.rl.interfaces.Environment;
+import java.util.List;
+import java.util.Map;
 
 public class ExampleMain {
+
+	public static final String DEFALT_SIM_PROPS_FILE_PATH = "src/main/resources/sim.properties";
 
 	/**
 	 * Run example benchmark with random actions for data generation purposes.
@@ -39,93 +36,28 @@ public class ExampleMain {
 	 * @throws IOException
 	 * @throws PropertiesException
 	 */
-	public static void main(String[] args) throws IOException, PropertiesException {
+	public static void main(final String[] args) throws IOException, PropertiesException {
+
+		final int nSteps = 1500;
+		final String outputVar = MarkovianStateDescription.RewardTotal;
 
 		// configuration of the properties file
-		String filename = "src/main/resources/sim.properties"; // default filepath
-		if (args.length >= 1) {  // if filepath was given to main()
-			filename = args[0];
-			System.out.println("Using config file: '" + filename + "'");
+		String simPropsFilePath = DEFALT_SIM_PROPS_FILE_PATH;
+		if (args.length >= 1) { // if filepath was given to main()
+			simPropsFilePath = args[0];
+			System.out.println("Using config file: '" + simPropsFilePath + "'");
 		} else {
-			System.out.println("Using default config file: '" + filename + "'. A custom config file can be passed as an additional parameter.");
+			System.out.println("Using default config file: '" + simPropsFilePath + "'. A custom config file can be passed as an additional parameter.");
 		}
 
-		/**
-		 * Instantiate benchmark
-		 */
 		// setpoint configuration parameters
-		Properties props = PropertiesUtil.setpointProperties(new File(filename));
+		Properties props = PropertiesUtil.setpointProperties(new File(simPropsFilePath));
 
-		// instantiate industrial benchmark
-		Environment db = new IndustrialBenchmarkDynamics(props);
+		final RandomSimulation randomSimulation = new RandomSimulation(nSteps, props, null, new File("dyn-markov.csv"));
+		final Map<String, List<Double>> states = randomSimulation.call();
+		final List<Double> data = states.get(outputVar);
 
-		// seed PRNG from configured seed in configuration file
-		long seed = PropertiesUtil.getLong(props, "SEED", System.currentTimeMillis());
-		System.out.println("main seed: " + seed);
-		Random rand = new Random(seed);
-
-		DataVector markovState = db.getInternalMarkovState();
-		DataVector observableState = db.getState();
-
-		// apply constant action (gain and velocity transitions from 0 => 100)
-		final ActionDelta deltaAction = new ActionDelta(0.1f, 0.1f, 0.1f);
-
-		// write column headers
-		FileWriter fwm = new FileWriter("dyn-markov.csv");
-		fwm.write("time ");
-		for (String key : db.getInternalMarkovState().getKeys()) {
-			fwm.write(key + " ");
-		}
-		fwm.write("\n");
-
-		FileWriter fw = new FileWriter("dyn-observable.csv");
-		fw.write("time ");
-		for (String key : db.getState().getKeys()) {
-			fw.write(key + " ");
-		}
-		fw.write("\n");
-
-
-		// data array for memorizing the reward
-		final int steps = PropertiesUtil.getInt(props, "SIM_STEPS", 1500);
-		double data[] = new double[steps];
-
-		/*************************************************************
-		 * Perform random actions and write markov state to text file
-		 *************************************************************/
-		for (int i = 0; i < steps; i++) {
-
-			// set random action from the interval [-1, 1]
-			deltaAction.setDeltaGain(2.f * (rand.nextFloat() - 0.5f));
-			deltaAction.setDeltaVelocity(2.f * (rand.nextFloat() - 0.5f));
-			deltaAction.setDeltaShift(2.f * (rand.nextFloat() - 0.5f));
-
-			db.step(deltaAction);
-			markovState = db.getInternalMarkovState();
-			observableState = db.getState();
-
-			// write data
-			fw.write(Integer.toString(i+1) + " ");
-			for (String key : observableState.getKeys()) {
-				fw.write(observableState.getValue(key) + " ");
-			}
-			fw.write("\n");
-
-			fwm.write(Integer.toString(i+1) + " ");
-			for (String key : markovState.getKeys()) {
-				fwm.write(markovState.getValue(key) + " ");
-			}
-			fwm.write("\n");
-
-			data[i] = db.getState().getValue(MarkovianStateDescription.RewardTotal);
-		}
-
-		fw.close();
-		fwm.close();
-
-		// plot reward
-		PlotCurve.plot("RewardTotal", "t", "reward", data);
+		// plot the data
+		PlotCurve.plot(outputVar, "t", outputVar, data);
 	}
-
 }
-
