@@ -130,3 +130,4 @@ public class ActionAbsolute extends ActionDelta {
 		this.absShift = shift;
 	}
 }
+

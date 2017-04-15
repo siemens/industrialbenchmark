@@ -96,3 +96,4 @@ public class ActionDelta extends DataVectorImpl {
 		this.setValue(ActionDeltaDescription.DeltaShift, deltaShift);
 	}
 }
+

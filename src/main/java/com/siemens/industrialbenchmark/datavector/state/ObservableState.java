@@ -29,3 +29,4 @@ public class ObservableState extends DataVectorImpl {
 		super(new ObservableStateDescription());
 	}
 }
+

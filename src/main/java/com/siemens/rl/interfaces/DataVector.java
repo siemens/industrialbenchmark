@@ -62,3 +62,4 @@ public interface DataVector extends Serializable {
 	 */
 	public DataVector clone();
 }
+

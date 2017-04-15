@@ -67,3 +67,4 @@ public class PlotCurve {
 		frame.setVisible(true);
 	}
 }
+

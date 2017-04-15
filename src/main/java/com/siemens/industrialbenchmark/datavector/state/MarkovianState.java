@@ -35,3 +35,4 @@ public class MarkovianState extends DataVectorImpl {
 		super(new MarkovianStateDescription(operationalcostVars));
 	}
 }
+

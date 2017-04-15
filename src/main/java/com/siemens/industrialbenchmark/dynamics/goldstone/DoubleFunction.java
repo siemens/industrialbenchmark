@@ -18,3 +18,4 @@ package com.siemens.industrialbenchmark.dynamics.goldstone;
 public interface DoubleFunction {
 	double apply (double value);
 }
+

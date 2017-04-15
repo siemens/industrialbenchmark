@@ -38,3 +38,4 @@ public class TestProperties {
 		PropertiesUtil.getFloat(props, "CRD", true);
 	}
 }
+

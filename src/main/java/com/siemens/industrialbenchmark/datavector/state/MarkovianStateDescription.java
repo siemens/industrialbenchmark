@@ -109,3 +109,4 @@ public class MarkovianStateDescription extends DataVectorDescription {
     	return mStateVars;
     }
 }
+

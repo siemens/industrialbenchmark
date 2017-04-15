@@ -32,3 +32,4 @@ public class MissingPropertyException extends PropertiesException {
         super("property '" + aKey + "' missing from configuration.", aProperties, aKey);
     }
 }
+

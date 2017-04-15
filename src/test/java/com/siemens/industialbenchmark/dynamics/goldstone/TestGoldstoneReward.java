@@ -124,3 +124,4 @@ public class TestGoldstoneReward {
 		System.out.println ("Goldstone reward regression test: performed tests: " + tests);
 	}
 }
+

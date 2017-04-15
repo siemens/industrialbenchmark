@@ -96,3 +96,4 @@ public class GoldstoneEnvironment {
 		dynamics.setPhiIdx((int) phiIdx);
 	}
 }
+

@@ -172,3 +172,4 @@ public class TestDynamics {
 		assertEquals (expHistSize, d.getOperationalCostsHistoryLength());
 	}
 }
+

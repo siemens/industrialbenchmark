@@ -54,3 +54,4 @@ public class TestState {
 		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
 	}
 }
+

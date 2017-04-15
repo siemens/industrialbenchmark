@@ -61,3 +61,4 @@ public class IndustrialBenchmarkRewardFunction {
         mState.setValue(MarkovianStateDescription.RewardTotal, CRD * rD + CRE * rE);
 	}
 }
+

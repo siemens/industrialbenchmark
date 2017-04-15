@@ -201,3 +201,4 @@ public class PenaltyFunction {
 		return this.max_required_step;
 	}
 }
+
