@@ -18,6 +18,11 @@ Documentation: The documentation is available online at: https://arxiv.org/abs/1
 
 ## Compilation + Run
 
+NOTE: It is important to run the maven clean phase (`mvn clean`, like below)
+when working with this project for the first time.
+This will install the `RLGlue:JavaRLGlueCodec:1.0` dependency into the local repo.
+Without it, compilation will fail.
+
 	mvn clean package
 	java -jar industrialbenchmark-<VERSION>.jar <OPTIONAL_CONFIG_FILE>
 
