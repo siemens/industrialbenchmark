@@ -24,7 +24,7 @@ import com.google.common.collect.ImmutableList.Builder;
 import com.siemens.rl.interfaces.DataVector;
 
 /**
- * This class holds a HashMap of state-dimension/action-dimension -value pairs.
+ * This holds a map of state-dimension/action-dimension -value pairs.
  *
  * @author Michel Tokic
  */
@@ -44,7 +44,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	private DataVectorImpl(final DataVectorDescription description, final List<String> keys) {
 		this.description = description;
 		this.keys = ImmutableList.copyOf(keys);
-		this.indexMap = new HashMap<String, Integer>();
+		this.indexMap = new HashMap<>();
 		this.values = new double[this.keys.size()];
 		for (int i=0; i < this.keys.size(); i++) {
 			this.indexMap.put(this.keys.get(i), i);
@@ -79,7 +79,8 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 */
 	@Override
 	public Double getValue(String key) {
-		Preconditions.checkArgument(this.getKeys().contains(key), "%s is not a valid variable", key);
+		Preconditions.checkArgument(this.getKeys().contains(key),
+				"%s is not a valid variable", key);
 
 		if (indexMap.containsKey(key)) {
 			return values[indexMap.get(key)];
@@ -96,12 +97,12 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	@Override
 	public void setValue(String key, double value) {
 		Preconditions.checkNotNull(this.getKeys(), "keySet is null!!");
-		Preconditions.checkArgument(this.getKeys().contains(key), "%s is not a valid variable. Available names are: %s", key, this.getKeys());
+		Preconditions.checkArgument(this.getKeys().contains(key),
+				"%s is not a valid variable. Available names are: %s", key, this.getKeys());
 		values[indexMap.get(key)] = value;
 	}
 
 	/**
-	 * returns a list containing the state/action dimension names
 	 * @return a list containing the state/action dimension names
 	 */
 	@Override
@@ -110,11 +111,10 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	}
 
 	/**
-	 * returns a list of current values
 	 * @return a list of current values
 	 */
 	public List<Double> getValues() {
-		final Builder<Double> valueBuilder = new ImmutableList.Builder<Double>();
+		final Builder<Double> valueBuilder = new ImmutableList.Builder<>();
 		for (String key : keys) {
 			valueBuilder.add(values[indexMap.get(key)]);
 		}
@@ -122,7 +122,6 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	}
 
 	/**
-	 * returns a double[] array containing the values
 	 * @return a double[] array containing the values
 	 */
 	@Override

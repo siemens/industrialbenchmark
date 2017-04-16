@@ -30,10 +30,9 @@ import com.siemens.rl.interfaces.DataVector;
 import com.siemens.rl.interfaces.ExternalDriver;
 
 /**
- * The seedable setpoint generator
+ * The seedable setpoint generator.
  *
  * @author Siegmund Duell, Michel Tokic
- *
  */
 public class SetPointGenerator implements ExternalDriver {
 
@@ -51,9 +50,8 @@ public class SetPointGenerator implements ExternalDriver {
 
 	private RandomDataGenerator mRandom = new RandomDataGenerator();
 
-
 	/**
-	 Constructor with given seed and properties file
+	 * Constructor with given seed and properties file
 	 * @param seed The seed for the random number generator
 	 * @param aProperties The properties file to parse
 	 * @throws PropertiesException
@@ -77,7 +75,6 @@ public class SetPointGenerator implements ExternalDriver {
 		defineNewSequence();
 	}
 
-
 	/**
 	 * returns the current steps
 	 * @return the current steps
@@ -96,6 +93,7 @@ public class SetPointGenerator implements ExternalDriver {
 
 	/**
 	 * sets the current state of the setpoint generation engine
+	 * @param setpoint
 	 * @param currentSteps
 	 * @param lastSequenceSteps
 	 * @param changeRatePerStep
@@ -123,7 +121,6 @@ public class SetPointGenerator implements ExternalDriver {
 		return this.mLastSequenceSteps;
 	}
 
-
 	/**
 	 * Default constructor with seed=System.currentTimeMillis()
 	 * @param aProperties The properties file to parse
@@ -132,7 +129,6 @@ public class SetPointGenerator implements ExternalDriver {
 	public SetPointGenerator(Properties aProperties) throws PropertiesException {
 		this(System.currentTimeMillis(), aProperties);
 	}
-
 
 	/**
 	 * Returns the next setpoint and on the internal memorized old setpoint
@@ -196,8 +192,9 @@ public class SetPointGenerator implements ExternalDriver {
 	}
 
 	/**
-	 * plots a setpoint trajectory for 10000 points
+	 * Plots a setpoint trajectory for 10000 points.
 	 *
+	 * @param args
 	 * @throws IOException
 	 * @throws PropertiesException
 	 */
@@ -206,8 +203,7 @@ public class SetPointGenerator implements ExternalDriver {
 		final int episodeLength = 10000;
 		double data[] = new double[episodeLength];
 
-		Properties props = null;
-		props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 
 		SetPointGenerator lg = new SetPointGenerator(props);
 
@@ -217,7 +213,6 @@ public class SetPointGenerator implements ExternalDriver {
 
 		PlotCurve.plot("SetPoint Trajectory", "Time", "SetPoint [%]", data);
 	}
-
 
 	@Override
 	public void setSeed(long seed) {
@@ -239,7 +234,6 @@ public class SetPointGenerator implements ExternalDriver {
 		this.mCurrentSteps = state.getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps).intValue();
 		this.mLastSequenceSteps = state.getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps).intValue();
 	}
-
 
 	@Override
 	public DataVector getState() {

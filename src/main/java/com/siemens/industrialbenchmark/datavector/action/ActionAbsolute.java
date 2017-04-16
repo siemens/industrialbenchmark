@@ -23,8 +23,10 @@ import com.siemens.industrialbenchmark.properties.PropertiesException;
 import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 
 /**
- * This class keeps and checks for the actions velocity, gain and shift. Internally it is based on
- * DELTA actions, which are computed on basis of the last values.
+ * This keeps track of, and checks for the actions
+ * <i>velocity</i>, <i>gain</i> and <i>shift</i>.
+ * Internally it is based on DELTA actions,
+ * which are computed on the basis of the last values.
  *
  * @author Michel Tokic
  */
@@ -55,7 +57,6 @@ public class ActionAbsolute extends ActionDelta {
 	 * @throws PropertiesException
 	 */
 	public ActionAbsolute(double velocity, double gain, double shift, Properties props) throws PropertiesException {
-
 		super(0, 0, 0);
 
 		this.velocityMin = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Velocity + "_MIN", 0f);

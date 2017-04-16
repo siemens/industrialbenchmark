@@ -95,15 +95,18 @@ public class PropertiesUtil
 
 	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered, long aDefault) throws PropertiesException
 	{
-		String value;
-		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-		else value = aProperties.getProperty(aTag, Long.toString(aDefault));
+		final String value;
+		if (aIsRequiered) {
+			value = getRequiredProperty(aProperties, aTag);
+		} else {
+			value = aProperties.getProperty(aTag, Long.toString(aDefault));
+		}
 
 		try
 		{
 			return Long.parseLong(value.trim());
 		}
-		catch (Exception e)
+		catch (NumberFormatException e)
 		{
 			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
 		}
@@ -115,7 +118,7 @@ public class PropertiesUtil
 		{
 			return Double.parseDouble(aProperties.getProperty(aTag).trim());
 		}
-		catch (Exception e)
+		catch (NumberFormatException e)
 		{
 			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
 		}
@@ -134,9 +137,12 @@ public class PropertiesUtil
 	public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered, boolean aDefault)
 			throws PropertiesException
 	{
-		String value;
-		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-		else value = aProperties.getProperty(aTag, Boolean.toString(aDefault));
+		final String value;
+		if (aIsRequiered) {
+			value = getRequiredProperty(aProperties, aTag);
+		} else {
+			value = aProperties.getProperty(aTag, Boolean.toString(aDefault));
+		}
 		try
 		{
 			return Boolean.parseBoolean(value.trim());
@@ -154,14 +160,17 @@ public class PropertiesUtil
 
 	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered, float aDefault) throws PropertiesException
 	{
-		String value;
-		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-		else value = aProperties.getProperty(aTag, Float.toString(aDefault));
+		final String value;
+		if (aIsRequiered) {
+			value = getRequiredProperty(aProperties, aTag);
+		} else {
+			value = aProperties.getProperty(aTag, Float.toString(aDefault));
+		}
 		try
 		{
 			return Float.parseFloat(value.trim());
 		}
-		catch (Exception e)
+		catch (NumberFormatException e)
 		{
 			throw new PropertiesException("Could not map " + aTag + " to a float value: ", e, aProperties, aTag);
 		}
@@ -184,14 +193,17 @@ public class PropertiesUtil
 
 	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered, int aDefault) throws PropertiesException
 	{
-		String value;
-		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-		else value = aProperties.getProperty(aTag, Integer.toString(aDefault));
+		final String value;
+		if (aIsRequiered) {
+			value = getRequiredProperty(aProperties, aTag);
+		} else {
+			value = aProperties.getProperty(aTag, Integer.toString(aDefault));
+		}
 		try
 		{
 			return Integer.parseInt(value.trim());
 		}
-		catch (Exception e)
+		catch (NumberFormatException e)
 		{
 			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
 		}
@@ -206,14 +218,9 @@ public class PropertiesUtil
 	{
 		Properties p = new Properties();
 
-		FileInputStream in = new FileInputStream(aFile);
 		try
-		{
+		(FileInputStream in = new FileInputStream(aFile)) {
 			p.load(in);
-		}
-		finally
-		{
-			in.close();
 		}
 		return p;
 	}
@@ -227,24 +234,22 @@ public class PropertiesUtil
 	 */
 	public static String getRequiredProperty(Properties aProp, String aKey) throws PropertiesException
 	{
-		String ret = aProp.getProperty(aKey);
-		if (ret == null) throw new MissingPropertyException(aProp, aKey);
+		final String ret = aProp.getProperty(aKey);
+		if (ret == null) {
+			throw new MissingPropertyException(aProp, aKey);
+		}
 		return ret;
 	}
 
 	public static Properties setpointProperties(File aFile) throws IOException
 	{
-		if (!aFile.exists()) throw new FileNotFoundException("Properties file '" + aFile.getAbsolutePath() + "' does not exist");
-		FileInputStream in = null;
+		if (!aFile.exists()) {
+			throw new FileNotFoundException("Properties file '" + aFile.getAbsolutePath() + "' does not exist");
+		}
 		Properties p = new Properties();
 		try
-		{
-			in = new FileInputStream(aFile);
+		(FileInputStream in = new FileInputStream(aFile)) {
 			p.load(in);
-		}
-		finally
-		{
-			in.close();
 		}
 		return p;
 	}

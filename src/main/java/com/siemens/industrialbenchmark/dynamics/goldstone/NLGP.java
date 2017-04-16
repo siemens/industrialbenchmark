@@ -28,22 +28,22 @@ package com.siemens.industrialbenchmark.dynamics.goldstone;
  */
 public class NLGP {
 
-	private static final double u0 = Math.cbrt(1 + Math.sqrt(2)) / Math.sqrt(3);
-	private static final double r0 = u0 + 1. / (3.*u0);
-	private static final double lmbd = 2. * r0*r0 - Math.pow(r0,4) + 8. * Math.sqrt(2./27.) * r0;
+	private static final double U0 = Math.cbrt(1 + Math.sqrt(2)) / Math.sqrt(3);
+	private static final double R0 = U0 + 1. / (3.*U0);
+	private static final double LMBD = 2. * R0*R0 - Math.pow(R0,4) + 8. * Math.sqrt(2./27.) * R0;
 
-	private static final double norm_alpha = 2. / lmbd;
-	private static final double norm_beta = 1. / lmbd;
-	private static final double norm_kappa = -8. * Math.sqrt(2./27.) / lmbd;
-	private static final double phi_b = Math.PI/4.;
-	private static final double qh_b = -Math.sqrt(1./27.);
+	private static final double NORM_ALPHA = 2. / LMBD;
+	private static final double NORM_BETA = 1. / LMBD;
+	private static final double NORM_KAPPA = -8. * Math.sqrt(2./27.) / LMBD;
+	private static final double PHI_B = Math.PI/4.;
+	private static final double QH_B = -Math.sqrt(1./27.);
 
 	/**
 	 * Returns angle where transition occurs from domain with three extrema to one domain with one extrema
 	 * @return angle where transition occurs from domain with three extrema to one domain with one extrema
 	 */
 	public double domain_border_angle() {
-		return phi_b;
+		return PHI_B;
 	}
 
 	/**
@@ -57,7 +57,7 @@ public class NLGP {
 		// 	rsq = np.square(x) + np.square(y)
 		//	return -self.__norm_alpha * rsq + self.__norm_beta * np.square(rsq) + self.__norm_kappa * y
 		final double rsq = x*x + y*y;
-		return -norm_alpha * rsq + norm_beta * rsq*rsq + norm_kappa * y;
+		return -NORM_ALPHA * rsq + NORM_BETA * rsq*rsq + NORM_KAPPA * y;
 	}
 
 	/**
@@ -71,7 +71,7 @@ public class NLGP {
 		//rsq = np.square(r)
 		//return -self.__norm_alpha * rsq + self.__norm_beta * np.square(rsq) + self.__norm_kappa * sin(phi) * r
 		final double rsq = r*r;
-		return -norm_alpha * rsq + norm_beta * rsq*rsq + norm_kappa * Math.sin(phi) * r;
+		return -NORM_ALPHA * rsq + NORM_BETA * rsq*rsq + NORM_KAPPA * Math.sin(phi) * r;
 	}
 
 	/**
@@ -94,7 +94,7 @@ public class NLGP {
 			scalar = -1;
 		}
 
-		final double qh = norm_kappa * Math.sin(phi) / (8. * norm_beta);
+		final double qh = NORM_KAPPA * Math.sin(phi) / (8. * NORM_BETA);
 
 		/*
 		 * For numerical stability, we distinguish the domain with 3 extrema from the
@@ -116,7 +116,7 @@ public class NLGP {
 		 */
 
 		final double r0;
-		if (qh <= qh_b) {
+		if (qh <= QH_B) {
 			final double u = Math.cbrt(-qh + Math.sqrt(qh*qh - 1. / 27.));
 			r0 = u + 1. / (3.*u);
 		} else {
@@ -148,6 +148,5 @@ public class NLGP {
 		double r0 = global_minimum_radius(phi);
 		return polar_nlgp(r0, phi);
 	}
-
 }
 

@@ -59,36 +59,36 @@ public class MarkovianStateDescription extends DataVectorDescription {
 	public static final String RewardTotal = "RewardTotal";
 
 
-	private static List<String> mStateVars = new ArrayList<String>();
+	private static final List<String> STATE_VARS = new ArrayList<String>();
 
-	static{
-		// hidden state variables:
-		mStateVars.add(CurrentOperationalCost);
-		mStateVars.add(FatigueLatent2);
-		mStateVars.add(FatigueLatent1);
-		mStateVars.add(EffectiveShift);
-		mStateVars.add(MisCalibrationDomain);
-		mStateVars.add(MisCalibrationSystemResponse);
-		mStateVars.add(MisCalibrationPhiIdx);
-		mStateVars.add(EffectiveActionGainBeta);
-		mStateVars.add(EffectiveActionVelocityAlpha);
-		mStateVars.add(RewardConsumption);
-		mStateVars.add(RewardFatigue);
-		mStateVars.add(MisCalibration);
-		mStateVars.add(RewardConsumptionWeighted);
-		mStateVars.add(RewardFatigueWeighted);
-		mStateVars.add(RandomSeed);
-		mStateVars.add(Consumption);
+	static {
+		// hidden state variables
+		STATE_VARS.add(CurrentOperationalCost);
+		STATE_VARS.add(FatigueLatent2);
+		STATE_VARS.add(FatigueLatent1);
+		STATE_VARS.add(EffectiveShift);
+		STATE_VARS.add(MisCalibrationDomain);
+		STATE_VARS.add(MisCalibrationSystemResponse);
+		STATE_VARS.add(MisCalibrationPhiIdx);
+		STATE_VARS.add(EffectiveActionGainBeta);
+		STATE_VARS.add(EffectiveActionVelocityAlpha);
+		STATE_VARS.add(RewardConsumption);
+		STATE_VARS.add(RewardFatigue);
+		STATE_VARS.add(MisCalibration);
+		STATE_VARS.add(RewardConsumptionWeighted);
+		STATE_VARS.add(RewardFatigueWeighted);
+		STATE_VARS.add(RandomSeed);
+		STATE_VARS.add(Consumption);
 
 		// observables:
-		mStateVars.add(SetPoint);
-		mStateVars.add(Action_Velocity);
-		mStateVars.add(Action_Gain);
-		mStateVars.add(Action_Shift);
-		mStateVars.add(Fatigue);
-		mStateVars.add(FatigueBase);
-		mStateVars.add(OperationalCostsConv);
-		mStateVars.add(RewardTotal);
+		STATE_VARS.add(SetPoint);
+		STATE_VARS.add(Action_Velocity);
+		STATE_VARS.add(Action_Gain);
+		STATE_VARS.add(Action_Shift);
+		STATE_VARS.add(Fatigue);
+		STATE_VARS.add(FatigueBase);
+		STATE_VARS.add(OperationalCostsConv);
+		STATE_VARS.add(RewardTotal);
 	}
 
 	/**
@@ -106,7 +106,7 @@ public class MarkovianStateDescription extends DataVectorDescription {
 	 *
 	 */
 	public static List<String> getNonConvolutedInternalVariables() {
-		return mStateVars;
+		return STATE_VARS;
 	}
 }
 

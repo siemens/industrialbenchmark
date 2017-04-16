@@ -335,7 +335,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 			propNumberSliderTo.setText(fromToEntry.getValue().toString());
 //			propNumberSliderS.getModel().setRangeProperties(vale, 1, from, to, false);
 			final String valueRaw = simPropsTable.getProperties().getProperty(newlySelectedKey);
-			boolean sliderSuport = false;
+			boolean sliderSuport;
 			try {
 				propNumberSliderS.setValue(Double.valueOf(valueRaw).intValue());
 				sliderSuport = true;
@@ -461,9 +461,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 					}
 				};
 				simulationThreadPool.submit(simulationWrapper);
-			} catch (final IOException ex) {
-				throw new RuntimeException(ex);
-			} catch (final PropertiesException ex) {
+			} catch (final IOException | PropertiesException ex) {
 				throw new RuntimeException(ex);
 			}
 		}

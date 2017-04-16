@@ -20,7 +20,7 @@ import com.siemens.industrialbenchmark.dynamics.goldstone.GoldStoneEnvironmentDy
 
 public class GoldstoneEnvironment {
 
-	final GoldStoneEnvironmentDynamics dynamics;
+	private final GoldStoneEnvironmentDynamics dynamics;
 	private double controlPosition;
 
 	public GoldstoneEnvironment(int numberSteps, double maxRequiredStep, double safeZone) {
@@ -49,7 +49,9 @@ public class GoldstoneEnvironment {
 	}
 
 	/**
-	 * Applies action and returns reward
+	 * Applies action and returns reward.
+	 * @param controlValueChange
+	 * @return
 	 */
 	public double stateTransition(double controlValueChange) {
 		// TODO: (comment from Alex) not yet implemented: test if action is allowed

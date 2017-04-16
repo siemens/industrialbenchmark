@@ -17,7 +17,6 @@ package com.siemens.industrialbenchmark.datavector.state;
 
 import com.siemens.industrialbenchmark.datavector.DataVectorImpl;
 
-
 public class ObservableState extends DataVectorImpl {
 
 	/**

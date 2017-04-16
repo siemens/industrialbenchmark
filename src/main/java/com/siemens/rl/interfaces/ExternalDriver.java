@@ -16,8 +16,8 @@ limitations under the License.
 package com.siemens.rl.interfaces;
 
 /**
- * Abstract interface for attaching external drivers to the
- * Environment, that affect/filter certain state dimensions
+ * Interface for attaching external drivers to the Environment.
+ * This affects the/filters certain state dimensions.
  * (e.g. such as setpoint).
  *
  * @author Michel Tokic
@@ -26,26 +26,26 @@ public interface ExternalDriver {
 
 	/**
 	 * Sets the random seed.
-	 * @param seed The random seed to set.
+	 * @param seed
 	 */
-	public void setSeed(long seed);
+	void setSeed(long seed);
 
 	/**
-	 * Applies "in-place" the external drivers to the given data vector.
+	 * Applies the external drivers to the given data vector "in-place".
 	 * @param state The data vector to apply the external drivers to.
 	 */
-	public void filter(DataVector state);
+	void filter(DataVector state);
 
 	/**
 	 * Sets the external driver configuration from within the given data vector.
 	 * @param state The data vector containing the configuration variables.
 	 */
-	public void setConfiguration(DataVector state);
+	void setConfiguration(DataVector state);
 
 	/**
 	 * Returns the current configuration.
-	 * @return The current configuration.
+	 * @return
 	 */
-	public DataVector getState();
+	DataVector getState();
 }
 

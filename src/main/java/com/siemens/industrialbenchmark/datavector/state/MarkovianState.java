@@ -21,7 +21,6 @@ import com.siemens.industrialbenchmark.datavector.DataVectorImpl;
 
 public class MarkovianState extends DataVectorImpl {
 
-
 	/**
 	 *
 	 */

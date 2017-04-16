@@ -249,7 +249,6 @@ public class IndustrialBenchmarkDynamics implements Environment
 
 			// updated current operationalcost
 			updateCurrentOperationalCost();
-
 		} catch (PropertiesException e) {
 			e.printStackTrace();
 		}
@@ -261,7 +260,6 @@ public class IndustrialBenchmarkDynamics implements Environment
 		updateGS();
 
 		updateOperationalCosts();
-
 
 		// update reward
 		mRewardCore.calcReward(markovState);
@@ -443,13 +441,13 @@ public class IndustrialBenchmarkDynamics implements Environment
 
 	private void updateOperationalCostCovolution() {
 		double aggregatedOperationalCosts = 0;
-		int i = 0;
+		int oci = 0;
 		Iterator<?> iterator = mOperationalCostsBuffer.iterator();
-		while(iterator.hasNext()) {
-			double operationalcost = (Double)iterator.next();
-			aggregatedOperationalCosts += mEmConvWeights[i] * operationalcost;
-			markovState.setValue("OPERATIONALCOST_"+i, operationalcost);
-			i += 1;
+		while (iterator.hasNext()) {
+			double operationalCost = (Double)iterator.next();
+			aggregatedOperationalCosts += mEmConvWeights[oci] * operationalCost;
+			markovState.setValue("OPERATIONALCOST_" + oci, operationalCost);
+			oci += 1;
 		}
 		markovState.setValue(MarkovianStateDescription.OperationalCostsConv, aggregatedOperationalCosts);
 	}

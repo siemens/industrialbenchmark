@@ -18,7 +18,7 @@ package com.siemens.industrialbenchmark.properties;
 import java.util.Properties;
 
 /**
- * Exception used for properties that are not available within a given property object
+ * Indicates properties that are not available within a given property object.
  *
  * @author duell
  */
@@ -28,17 +28,15 @@ public class PropertiesException extends Exception {
 	 *
 	 */
 	private static final long serialVersionUID = 4372660914816539735L;
-	private Properties mProperties;
-	private String mKey;
+	private final Properties properties;
+	private final String key;
 
 	/**
-	 * @param aProperties the property object searched for a property
-	 * @param aKey key of the missing property
+	 * @param properties the property object searched for a property
+	 * @param key key of the missing property
 	 */
-	public PropertiesException(Properties aProperties, String aKey) {
-		super("Error while retrieving property '" + aKey + "' from configuration.");
-		mProperties = aProperties;
-		mKey = aKey;
+	public PropertiesException(Properties properties, String key) {
+		this("Error while retrieving property '" + key + "' from configuration.", properties, key);
 	}
 
 	/**
@@ -48,8 +46,8 @@ public class PropertiesException extends Exception {
 	 */
 	public PropertiesException(String aMessage, Properties aProperties, String aKey) {
 		super(aMessage);
-		mProperties = aProperties;
-		mKey = aKey;
+		properties = aProperties;
+		key = aKey;
 	}
 
 	/**
@@ -60,24 +58,22 @@ public class PropertiesException extends Exception {
 	 */
 	public PropertiesException(String aMessage, Throwable aThrowable, Properties aProperties, String aKey) {
 		super(aMessage, aThrowable);
-		mProperties = aProperties;
-		mKey = aKey;
+		properties = aProperties;
+		key = aKey;
 	}
 
 	/**
 	 * @return property object missing a property and therefore causing the exception
 	 */
 	public Properties getProperties() {
-		return mProperties;
+		return properties;
 	}
 
 	/**
-	 * property key causing the exception
-	 *
-	 * @return
+	 * @return property key causing the exception
 	 */
 	public String getKey() {
-		return mKey;
+		return key;
 	}
 }
 

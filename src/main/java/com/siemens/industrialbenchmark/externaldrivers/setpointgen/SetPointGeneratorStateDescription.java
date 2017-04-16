@@ -19,24 +19,28 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
 import com.siemens.industrialbenchmark.datavector.state.MarkovianStateDescription;
 
 /**
- * state description for the setpoint generator
+ * State description for the setpoint generator.
  */
 public class SetPointGeneratorStateDescription extends DataVectorDescription {
 
-	// Definition of the observable variables from the markov state
-	public static final String SetPoint = MarkovianStateDescription.SetPoint; // the variable we drive
+	// Definition of the observable variables from the markov state ...
+	// the variable we drive
+	public static final String SetPoint = MarkovianStateDescription.SetPoint;
 
 	// internal state variables
-	public static final String SetPointLastSequenceSteps="SetPointLastSequenceSteps";
-	public static final String SetPointCurrentSteps="SetPointCurrentSteps";
-	public static final String SetPointChangeRatePerStep="SetPointChangeRatePerStep";
+	public static final String SetPointLastSequenceSteps = "SetPointLastSequenceSteps";
+	public static final String SetPointCurrentSteps = "SetPointCurrentSteps";
+	public static final String SetPointChangeRatePerStep = "SetPointChangeRatePerStep";
 
 
-	private final static String[] stateVars = new String[] {
-			SetPoint, SetPointLastSequenceSteps, SetPointCurrentSteps, SetPointChangeRatePerStep
+	private final static String[] STATE_VARS = new String[] {
+		SetPoint,
+		SetPointLastSequenceSteps,
+		SetPointCurrentSteps,
+		SetPointChangeRatePerStep
 	};
 
 	public SetPointGeneratorStateDescription() {
-		super (stateVars);
+		super(STATE_VARS);
 	}
 }

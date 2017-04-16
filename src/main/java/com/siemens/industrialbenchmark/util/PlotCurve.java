@@ -27,25 +27,22 @@ import java.util.List;
 import javax.swing.JFrame;
 
 /**
- * This class is a simple curve plotter.
+ * This is a simple curve plotter.
  * @author Michel Tokic
- *
  */
 public class PlotCurve {
 
 	public static Chart2D plotChart(final String xlabel, final String ylabel, final List<Double> data) {
 
-		//////////////////////////////////
-		// Create a chart:
-		//////////////////////////////////
+		// Create a chart
 		final Chart2D chart = new Chart2D();
 
-		// Create an ITrace:
+		// Create an ITrace
 		final ITrace2D trace = new Trace2DSimple();
 
 		// Add the trace to the chart. This has to be done before adding points
 		chart.addTrace(trace);
-		// Add all points, as it is static:
+		// Add all points, as it is static
 		for (int di = 0; di < data.size(); di++) {
 			trace.addPoint(di, data.get(di));
 		}
@@ -59,14 +56,14 @@ public class PlotCurve {
 
 		final Chart2D chart = plotChart(xlabel, ylabel, data);
 
-		// Make it visible:
+		// Display the chart ...
 		// Create a frame.
 		final JFrame frame = new JFrame(title);
-		// add the chart to the frame:
+		// add the chart to the frame
 		frame.getContentPane().add(chart);
 		frame.setSize(Toolkit.getDefaultToolkit().getScreenSize().width, 400);
 
-		// Enable the termination button [cross on the upper right edge]:
+		// Enable the termination button (cross on the upper right edge)
 		frame.addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(final WindowEvent evt) {

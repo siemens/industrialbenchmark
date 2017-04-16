@@ -17,15 +17,13 @@ package com.siemens.industrialbenchmark.dynamics;
 
 import java.util.Properties;
 
-import org.apache.commons.math3.random.RandomDataGenerator;
-
 import com.siemens.industrialbenchmark.datavector.state.MarkovianStateDescription;
 import com.siemens.industrialbenchmark.properties.PropertiesException;
 import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 import com.siemens.rl.interfaces.DataVector;
 
 /**
- * Reward function for the industrial benchmark
+ * Reward function for the industrial benchmark.
  *
  * @author Siegmund Duell, Michel Tokic
  */

@@ -18,7 +18,8 @@ package com.siemens.industrialbenchmark.properties;
 import java.util.Properties;
 
 /**
- * Exception thrown when a property was expected but not found within a {@link Properties} object
+ * EIndicates that a property was expected but not found within a
+ * {@link Properties} object.
  */
 public class MissingPropertyException extends PropertiesException {
 

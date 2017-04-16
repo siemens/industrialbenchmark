@@ -71,61 +71,53 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 		// apply constant action (gain and velocity transitions from 0 => 100)
 		final ActionDelta deltaAction = new ActionDelta(0.1f, 0.1f, 0.1f);
 
-		final FileWriter outputFW;
-		if (output == null) {
-			outputFW = null;
-		} else {
-			outputFW = new FileWriter(output);
-		}
-
 		final DataVector internalMarkovState = db.getInternalMarkovState();
 		final LinkedHashMap<String, List<Double>> internalStates = new LinkedHashMap<>(internalMarkovState.getKeys().size());
 		for (final String key : internalMarkovState.getKeys()) {
 			internalStates.put(key, new ArrayList<>(nSteps));
 		}
-		// write column headers
-		if (outputFW != null) {
-			for (String key : db.getInternalMarkovState().getKeys()) {
-				outputFW.write(key);
-				outputFW.write(',');
-				outputFW.write(' ');
-			}
-			outputFW.write('\n');
-		}
 
-		/*
-		 * Perform random actions and write markov state to text file
-		 */
-		// data array that stores the reward
-		for (int si = 0; si < nSteps; si++) {
-			// set random action from the interval [-1, 1]
-			deltaAction.setDeltaGain(2.f * (rand.nextFloat() - 0.5f));
-			deltaAction.setDeltaVelocity(2.f * (rand.nextFloat() - 0.5f));
-
-			db.step(deltaAction);
-			final DataVector markovState = db.getInternalMarkovState();
-			final double[] markovStateValues = markovState.getValuesArray();
-			final Iterator<List<Double>> stateValueLists = internalStates.values().iterator();
-			for (int msvi = 0; msvi < markovStateValues.length; msvi++) {
-				stateValueLists.next().add(markovStateValues[msvi]);
-			}
-
-			// write data
+		try (final FileWriter outputFW = (output == null) ? null : new FileWriter(output)) {
+			// write column headers
 			if (outputFW != null) {
-				for (String key : markovState.getKeys()) {
-					outputFW.write(String.valueOf(markovState.getValue(key)));
+				for (String key : db.getInternalMarkovState().getKeys()) {
+					outputFW.write(key);
+					outputFW.write(',');
 					outputFW.write(' ');
 				}
 				outputFW.write('\n');
 			}
 
-			if (progressListener != null) {
-				progressListener.setValue(si);
-			}
-		}
+			/*
+			 * Perform random actions and write markov state to text file
+			 */
+			// data array that stores the reward
+			for (int si = 0; si < nSteps; si++) {
+				// set random action from the interval [-1, 1]
+				deltaAction.setDeltaGain(2.f * (rand.nextFloat() - 0.5f));
+				deltaAction.setDeltaVelocity(2.f * (rand.nextFloat() - 0.5f));
 
-		if (outputFW != null) {
-			outputFW.close();
+				db.step(deltaAction);
+				final DataVector markovState = db.getInternalMarkovState();
+				final double[] markovStateValues = markovState.getValuesArray();
+				final Iterator<List<Double>> stateValueLists = internalStates.values().iterator();
+				for (int msvi = 0; msvi < markovStateValues.length; msvi++) {
+					stateValueLists.next().add(markovStateValues[msvi]);
+				}
+
+				// write data
+				if (outputFW != null) {
+					for (String key : markovState.getKeys()) {
+						outputFW.write(String.valueOf(markovState.getValue(key)));
+						outputFW.write(' ');
+					}
+					outputFW.write('\n');
+				}
+
+				if (progressListener != null) {
+					progressListener.setValue(si);
+				}
+			}
 		}
 
 		return internalStates;

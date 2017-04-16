@@ -22,7 +22,7 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
  */
 public class ObservableStateDescription extends DataVectorDescription {
 
-	// Definition of the observable variables from the markov state
+	// Definition of the observable variables from the markov state ...
 	public static final String SetPoint = MarkovianStateDescription.SetPoint;
 	public static final String Action_Velocity = MarkovianStateDescription.Action_Velocity;
 	public static final String Action_Gain = MarkovianStateDescription.Action_Gain;
@@ -31,11 +31,17 @@ public class ObservableStateDescription extends DataVectorDescription {
 	public static final String Consumption = MarkovianStateDescription.Consumption;
 	public static final String RewardTotal = MarkovianStateDescription.RewardTotal;
 
-	private final static String[] mStateVars = new String[] {
-			SetPoint, Action_Velocity, Action_Gain, Action_Shift, Fatigue, RewardTotal, Consumption
+	private final static String[] STATE_VARS = new String[] {
+		SetPoint,
+		Action_Velocity,
+		Action_Gain,
+		Action_Shift,
+		Fatigue,
+		RewardTotal,
+		Consumption
 	};
 
 	public ObservableStateDescription() {
-		super(mStateVars);
+		super(STATE_VARS);
 	}
 }

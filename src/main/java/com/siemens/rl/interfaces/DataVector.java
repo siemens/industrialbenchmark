@@ -19,11 +19,10 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- * This interface lists all necessary methods to implement a data vector,
+ * This implements a data vector,
  * which might be a state- or action-vector.
  *
  * @author Michel Tokic
- *
  */
 public interface DataVector extends Serializable {
 
@@ -32,34 +31,34 @@ public interface DataVector extends Serializable {
 	 * @param key The state dimension.
 	 * @return The value
 	 */
-	public Double getValue(String key);
+	Double getValue(String key);
 
 	/**
 	 * Sets the current value of a given data-vector dimension.
 	 * @param key The state or action dimension.
 	 * @param value The associated value.
 	 */
-	public void setValue(String key, double value);
+	void setValue(String key, double value);
 
 	/**
 	 * Returns a list containing the data-vector dimension names.
 	 * The keys are ordered in the way as they are associated when
 	 * calling getValuesArray().
 	 *
-	 * @return A list containing the data-vector dimension names.
+	 * @return
 	 */
-	public List<String> getKeys();
+	List<String> getKeys();
 
 	/**
-	 * Returns a double[] array containing the values.
-	 * @return A double[] array containing the values.
+	 * Returns the values.
+	 * @return
 	 */
-	public double[] getValuesArray();
+	double[] getValuesArray();
 
 	/**
-	 * Returns a copy of the data vector.
-	 * @return A copy of the data vector.
+	 * Returns a copy of this data vector.
+	 * @return
 	 */
-	public DataVector clone();
+	DataVector clone();
 }
 

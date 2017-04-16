@@ -25,13 +25,12 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 
 public class EffectiveAction {
 
-	ActionAbsolute action;
-
-	final double alpha;
-	final double effectiveA;
-	final double effectiveB;
-	final double beta;
-	final double setpoint;
+	private final ActionAbsolute action;
+	private final double alpha;
+	private final double effectiveA;
+	private final double effectiveB;
+	private final double beta;
+	private final double setpoint;
 
 	public EffectiveAction(ActionAbsolute action, double setpoint) {
 		this.action = action;
@@ -97,11 +96,8 @@ public class EffectiveAction {
 		final int max=100;
 		final float step = (max-min) / steps;
 
-		try {
-			File f = new File("output.txt");
-			PrintWriter writer = null;
-			writer = new PrintWriter(f);
-
+		File file = new File("output.txt");
+		try (PrintWriter writer = new PrintWriter(file)) {
 			// evaluate EffectiveAction class
 			final int setpoint = 100;
 			Properties props;
@@ -114,12 +110,7 @@ public class EffectiveAction {
 					writer.println(x + "," + y + "," + action.getVelocityAlpha() + "," + action.getGainBeta());
 				}
 			}
-
-			writer.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (PropertiesException e) {
+		} catch (IOException | PropertiesException e) {
 			e.printStackTrace();
 		}
 	}

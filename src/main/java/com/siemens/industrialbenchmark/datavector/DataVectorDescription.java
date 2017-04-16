@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Objects;
 
 
 /**
@@ -81,9 +82,25 @@ abstract public class DataVectorDescription
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		DataVectorDescription os = (DataVectorDescription)o;
-		return names.equals(os.getVarNames());
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		final DataVectorDescription other = (DataVectorDescription) obj;
+		return Objects.equals(this.names, other.names);
+	}
+
+	@Override
+	public int hashCode() {
+		int hash = 7;
+		hash = 19 * hash + Objects.hashCode(this.names);
+		return hash;
 	}
 
 	@Override
