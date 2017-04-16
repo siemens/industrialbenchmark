@@ -24,11 +24,9 @@ This will install the `RLGlue:JavaRLGlueCodec:1.0` dependency into the local rep
 Without it, compilation will fail.
 
 	mvn clean package
-	java -jar industrialbenchmark-<VERSION>.jar <OPTIONAL_CONFIG_FILE>
-
-E.g.:
-
-	java -jar target/industrialbenchmark-<VERSION>-SNAPSHOT-jar-with-dependencies.jar src/main/resources/sim.properties
+	java -jar target/industrialbenchmark-*-jar-with-dependencies.jar
+	# or
+	java -jar target/industrialbenchmark-*-jar-with-dependencies.jar src/main/resources/sim.properties
 
 * => a random trajectory is generated
 * => all observable state variables are written to file dyn-observable.csv.
