@@ -23,16 +23,20 @@ public class GoldstoneEnvironment {
 	private final GoldStoneEnvironmentDynamics dynamics;
 	private double controlPosition;
 
-	public GoldstoneEnvironment(int numberSteps, double maxRequiredStep, double safeZone) {
-		dynamics = new GoldStoneEnvironmentDynamics(numberSteps, maxRequiredStep, safeZone);
-		this.reset();
+	public GoldstoneEnvironment(final int numberSteps, final double maxRequiredStep, final double safeZone) {
+		this.dynamics = new GoldStoneEnvironmentDynamics(numberSteps, maxRequiredStep, safeZone);
+		reset();
 	}
 
 	public void reset() {
-		this.reset(0);
+		reset(0);
 	}
 
-	public void reset(double controlStartValue) {
+	public void reset(final double controlStartValue) {
+		setControlStartValue(controlStartValue);
+	}
+
+	public void setControlStartValue(final double controlStartValue) {
 		this.controlPosition = controlStartValue;
 	}
 
@@ -53,7 +57,7 @@ public class GoldstoneEnvironment {
 	 * @param controlValueChange
 	 * @return
 	 */
-	public double stateTransition(double controlValueChange) {
+	public double stateTransition(final double controlValueChange) {
 		// TODO: (comment from Alex) not yet implemented: test if action is allowed
 		this.controlPosition += controlValueChange;
 		this.dynamics.stateTransition(controlPosition);
@@ -68,33 +72,33 @@ public class GoldstoneEnvironment {
 		return controlPosition;
 	}
 
-	public void setControlPosition(double controlPosition) {
+	public void setControlPosition(final double controlPosition) {
 		this.controlPosition = controlPosition;
 		this.dynamics.stateTransition(controlPosition);
 		reward();
 	}
 
-	public float getDomain(){
+	public float getDomain() {
 		return dynamics.getDomain().getValue();
 	}
 
-	public void setDomain(double double1){
+	public void setDomain(final double double1) {
 		dynamics.setDomain(Domain.fromDouble(double1));
 	}
 
-	public float getSystemResponse(){
+	public float getSystemResponse() {
 		return dynamics.getSystemResponse().getValue();
 	}
 
-	public void setSystemResponse(double systemResponse){
+	public void setSystemResponse(final double systemResponse) {
 		dynamics.setSystemResponse(SystemResponse.fromDouble(systemResponse));
 	}
 
-	public float getPhiIdx(){
+	public float getPhiIdx() {
 		return dynamics.getPhiIdx();
 	}
 
-	public void setPhiIdx(double phiIdx){
+	public void setPhiIdx(final double phiIdx) {
 		dynamics.setPhiIdx((int) phiIdx);
 	}
 }

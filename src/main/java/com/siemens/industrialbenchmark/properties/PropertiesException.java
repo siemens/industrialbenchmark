@@ -24,9 +24,6 @@ import java.util.Properties;
  */
 public class PropertiesException extends Exception {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 4372660914816539735L;
 	private final Properties properties;
 	private final String key;
@@ -35,7 +32,7 @@ public class PropertiesException extends Exception {
 	 * @param properties the property object searched for a property
 	 * @param key key of the missing property
 	 */
-	public PropertiesException(Properties properties, String key) {
+	public PropertiesException(final Properties properties, final String key) {
 		this("Error while retrieving property '" + key + "' from configuration.", properties, key);
 	}
 
@@ -44,7 +41,7 @@ public class PropertiesException extends Exception {
 	 * @param aProperties the property object searched for a property
 	 * @param aKey key of the missing property
 	 */
-	public PropertiesException(String aMessage, Properties aProperties, String aKey) {
+	public PropertiesException(final String aMessage, final Properties aProperties, final String aKey) {
 		super(aMessage);
 		properties = aProperties;
 		key = aKey;
@@ -56,7 +53,7 @@ public class PropertiesException extends Exception {
 	 * @param aProperties the property object searched for a property
 	 * @param aKey key of the missing property
 	 */
-	public PropertiesException(String aMessage, Throwable aThrowable, Properties aProperties, String aKey) {
+	public PropertiesException(final String aMessage, final Throwable aThrowable, final Properties aProperties, final String aKey) {
 		super(aMessage, aThrowable);
 		properties = aProperties;
 		key = aKey;

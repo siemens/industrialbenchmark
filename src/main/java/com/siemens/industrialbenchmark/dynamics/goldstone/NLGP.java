@@ -16,15 +16,14 @@ limitations under the License.
 package com.siemens.industrialbenchmark.dynamics.goldstone;
 
 /**
- * Normalized, linearly biased Goldstone Potential
-
+ * Normalized, linearly biased Goldstone Potential.
+ *
  * Normalization:
- * global minimum has functional value of -1
- * transition of domain with three extrema to one domain with one extrema
- * is at angle phi_b = pi / 4 [45 deg]
+ * Global minimum has functional value of -1.
+ * Transition of domain with three extrema to one domain with one extrema
+ * is at angle <math>phi_b = pi / 4 = 45 deg</math>.
  *
  * @author Alexander Hentschel, Michel Tokic
- *
  */
 public class NLGP {
 
@@ -39,8 +38,9 @@ public class NLGP {
 	private static final double QH_B = -Math.sqrt(1./27.);
 
 	/**
-	 * Returns angle where transition occurs from domain with three extrema to one domain with one extrema
-	 * @return angle where transition occurs from domain with three extrema to one domain with one extrema
+	 * Returns angle where transition occurs from domain with three extrema
+	 * to one domain with one extrema.
+	 * @return
 	 */
 	public double domain_border_angle() {
 		return PHI_B;
@@ -75,10 +75,10 @@ public class NLGP {
 	}
 
 	/**
-	 * returns the radius r0 along phi-axis where NLG has minimal function value, i.e.
-	 * r0 = argmin_{r} polar_nlgp(r,phi)
-	 * @param phi angle in Radians
-	 * @return returns the radius r0 along phi-axis where NLG has minimal function value
+	 * Returns the radius r0 along phi-axis where NLG has minimal function value,
+	 * i.e. <math>r0 = argmin_{r} polar_nlgp(r, phi)</math>
+	 * @param phi angle in radians
+	 * @return
 	 */
 	public double global_minimum_radius(double phi) {
 		// use 2-pi-symmetry to move phi in domain [0,360°]
@@ -88,10 +88,12 @@ public class NLGP {
 		// if phi >= 180°, use symmetry of LGP:
 		// * compute r_min in domain: phi - 180° in [0,180°]
 		// * multiply resulting radius with -1
-		double scalar = 1;
+		final double scalar;
 		if (phi >= Math.PI) {
 			phi -= Math.PI;
 			scalar = -1;
+		} else {
+			scalar = 1;
 		}
 
 		final double qh = NORM_KAPPA * Math.sin(phi) / (8. * NORM_BETA);
@@ -130,8 +132,8 @@ public class NLGP {
 	 * @param phi
 	 * @return
 	 */
-	public double[] global_minimum_radius(double[] phi) {
-		double[] ret = new double[phi.length];
+	public double[] global_minimum_radius(final double[] phi) {
+		final double[] ret = new double[phi.length];
 		for (int i = 0; i < phi.length; i++) {
 			ret[i] = global_minimum_radius(phi[i]);
 		}
@@ -144,8 +146,8 @@ public class NLGP {
 	 * @param phi angle in Radians
 	 * @return the minimal functional value along phi-axis
 	 */
-	public double global_minimum(double phi) {
-		double r0 = global_minimum_radius(phi);
+	public double global_minimum(final double phi) {
+		final double r0 = global_minimum_radius(phi);
 		return polar_nlgp(r0, phi);
 	}
 }

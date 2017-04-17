@@ -30,7 +30,7 @@ import javax.swing.JFrame;
  * This is a simple curve plotter.
  * @author Michel Tokic
  */
-public class PlotCurve {
+public final class PlotCurve {
 
 	private PlotCurve() {}
 

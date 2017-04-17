@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Michel Tokic
  */
-public interface DataVector extends Serializable {
+public interface DataVector extends Serializable, Cloneable {
 
 	/**
 	 * Returns the value for a given data-vector dimension.
@@ -58,7 +58,8 @@ public interface DataVector extends Serializable {
 	/**
 	 * Returns a copy of this data vector.
 	 * @return
+	 * @throws CloneNotSupportedException
 	 */
-	DataVector clone();
+	DataVector clone() throws CloneNotSupportedException;
 }
 

@@ -57,11 +57,11 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 	@Override
 	public Map<String, List<Double>> call() throws IOException, PropertiesException {
 
-		/**
+		/*
 		 * Instantiate benchmark
 		 */
 		// instantiate industrial benchmark
-		Environment db = new IndustrialBenchmarkDynamics(props);
+		final Environment db = new IndustrialBenchmarkDynamics(props);
 
 		// seed PRNG from configured seed in configuration file
 		final long randomSeed = PropertiesUtil.getLong(props, "SEED", System.currentTimeMillis());
@@ -107,7 +107,7 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 
 				// write data
 				if (outputFW != null) {
-					for (String key : markovState.getKeys()) {
+					for (final String key : markovState.getKeys()) {
 						outputFW.write(String.valueOf(markovState.getValue(key)));
 						outputFW.write(' ');
 					}

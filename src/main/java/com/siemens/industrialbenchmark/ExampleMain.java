@@ -25,7 +25,7 @@ import com.siemens.industrialbenchmark.util.PlotCurve;
 import java.util.List;
 import java.util.Map;
 
-public class ExampleMain {
+public final class ExampleMain {
 
 	public static final String DEFALT_SIM_PROPS_FILE_PATH = "src/main/resources/sim.properties";
 
@@ -44,16 +44,17 @@ public class ExampleMain {
 		final String outputVar = MarkovianStateDescription.RewardTotal;
 
 		// configuration of the properties file
-		String simPropsFilePath = DEFALT_SIM_PROPS_FILE_PATH;
+		final String simPropsFilePath;
 		if (args.length >= 1) { // if filepath was given to main()
 			simPropsFilePath = args[0];
 			System.out.println("Using config file: '" + simPropsFilePath + "'");
 		} else {
+			simPropsFilePath = DEFALT_SIM_PROPS_FILE_PATH;
 			System.out.println("Using default config file: '" + simPropsFilePath + "'. A custom config file can be passed as an additional parameter.");
 		}
 
 		// setpoint configuration parameters
-		Properties props = PropertiesUtil.setpointProperties(new File(simPropsFilePath));
+		final Properties props = PropertiesUtil.setpointProperties(new File(simPropsFilePath));
 
 		final RandomSimulation randomSimulation = new RandomSimulation(nSteps, props, null, new File("dyn-markov.csv"));
 		final Map<String, List<Double>> states = randomSimulation.call();

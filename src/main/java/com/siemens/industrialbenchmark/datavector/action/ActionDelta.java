@@ -26,12 +26,9 @@ import com.siemens.industrialbenchmark.properties.PropertiesException;
  */
 public class ActionDelta extends DataVectorImpl {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1159603096632053185L;
 
-	protected double maxDelta = 100.0; // HACK This was 10.0 before, but the default range is 100.0, so it produced runtime exceptions by default. why use this arbitrary value here anyway?
+	protected final double maxDelta = 100.0; // HACK This was 10.0 before, but the default range is 100.0, so it produced runtime exceptions by default. why use this arbitrary value here anyway?
 
 	/**
 	 * Constructor with deltas and properties file.
@@ -40,7 +37,7 @@ public class ActionDelta extends DataVectorImpl {
 	 * @param deltaShift The delta shift to apply
 	 * @throws PropertiesException
 	 */
-	public ActionDelta(double deltaVelocity, double deltaGain, double deltaShift)
+	public ActionDelta(final double deltaVelocity, final double deltaGain, final double deltaShift)
 			throws PropertiesException
 	{
 		super(new ActionDeltaDescription());
@@ -50,9 +47,9 @@ public class ActionDelta extends DataVectorImpl {
 		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta,
 				"Math.abs(deltaB=%s) must be <= %s", deltaGain, maxDelta);
 
-		this.setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
-		this.setValue(ActionDeltaDescription.DeltaGain, deltaGain);
-		this.setValue(ActionDeltaDescription.DeltaShift, deltaShift);
+		setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
+		setValue(ActionDeltaDescription.DeltaGain, deltaGain);
+		setValue(ActionDeltaDescription.DeltaShift, deltaShift);
 	}
 
 	/**
@@ -79,7 +76,7 @@ public class ActionDelta extends DataVectorImpl {
 	/**
 	 * @param deltaVelocity the delta velocity to set
 	 */
-	public void setDeltaVelocity(double deltaVelocity) {
+	public void setDeltaVelocity(final double deltaVelocity) {
 		Preconditions.checkArgument(Math.abs(deltaVelocity) <= maxDelta,
 				"Math.abs(deltaVelocity=%s) must be <= %s", deltaVelocity, maxDelta);
 		this.setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
@@ -88,7 +85,7 @@ public class ActionDelta extends DataVectorImpl {
 	/**
 	 * @param deltaGain the delta gain to set
 	 */
-	public void setDeltaGain(double deltaGain) {
+	public void setDeltaGain(final double deltaGain) {
 		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta,
 				"Math.abs(deltaGain=%s) must be <= %s", deltaGain, maxDelta);
 		this.setValue(ActionDeltaDescription.DeltaGain, deltaGain);
@@ -97,7 +94,7 @@ public class ActionDelta extends DataVectorImpl {
 	/**
 	 * @param deltaShift The delta shift to set.
 	 */
-	public void setDeltaShift(double deltaShift) {
+	public void setDeltaShift(final double deltaShift) {
 		this.setValue(ActionDeltaDescription.DeltaShift, deltaShift);
 	}
 }

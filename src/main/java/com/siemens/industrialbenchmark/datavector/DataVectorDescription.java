@@ -30,18 +30,18 @@ import java.util.Objects;
  */
 public abstract class DataVectorDescription {
 
-	private List<String> names;
+	private final List<String> names;
 
 	/**
 	 * Constructor with a given List of state/action dimension names
 	 * @param names
 	 */
-	public DataVectorDescription(List<String> names) {
+	public DataVectorDescription(final List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.size() > 0, "name list has size 0");
 		Preconditions.checkArgument(new HashSet<>(names).size() == names.size(), "name list contains duplicates");
 
-		Builder<String> lb = ImmutableList.builder();
+		final Builder<String> lb = ImmutableList.builder();
 		for (String key : names) {
 			lb.add(key);
 		}
@@ -57,7 +57,7 @@ public abstract class DataVectorDescription {
 		Preconditions.checkArgument(names.length > 0, "name list has size 0");
 		Preconditions.checkArgument(new HashSet<>(Arrays.asList(names)).size() == names.length, "name list contains duplicates");
 
-		Builder<String> lb = ImmutableList.builder();
+		final Builder<String> lb = ImmutableList.builder();
 		for (String key : names) {
 			lb.add(key);
 		}
@@ -81,7 +81,7 @@ public abstract class DataVectorDescription {
 	}
 
 	@Override
-	public boolean equals(Object obj) {
+	public boolean equals(final Object obj) {
 		if (this == obj) {
 			return true;
 		}

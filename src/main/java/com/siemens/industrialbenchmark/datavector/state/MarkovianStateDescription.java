@@ -58,7 +58,6 @@ public class MarkovianStateDescription extends DataVectorDescription {
 	public static final String Consumption = "Consumption";
 	public static final String RewardTotal = "RewardTotal";
 
-
 	private static final List<String> STATE_VARS = new ArrayList<String>();
 
 	static {
@@ -92,18 +91,17 @@ public class MarkovianStateDescription extends DataVectorDescription {
 	}
 
 	/**
-	 * constructor with operationalcost_XXX
+	 * Constructor with operationalcost_XXX
 	 * @param names
 	 */
-	public MarkovianStateDescription(List<String> names) {
-		super (names);
+	public MarkovianStateDescription(final List<String> names) {
+		super(names);
 		//System.out.println("MarkovianState names: " + names.toString());
 	}
 
 	/**
-	 * returns the list of non-convoluted internal variables
-	 * @return the list of non-convoluted internal variables
-	 *
+	 * Returns the list of non-convoluted internal variables.
+	 * @return
 	 */
 	public static List<String> getNonConvolutedInternalVariables() {
 		return STATE_VARS;

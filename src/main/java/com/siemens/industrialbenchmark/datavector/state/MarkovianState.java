@@ -21,17 +21,14 @@ import com.siemens.industrialbenchmark.datavector.DataVectorImpl;
 
 public class MarkovianState extends DataVectorImpl {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = -4104133495199919343L;
 
 	/**
-	 * Constructor with the names of convoluted operationalcost variables
-	 * @param operationalcostVars
+	 * Constructor with the names of convoluted operational cost variables
+	 * @param operationalCostVars
 	 */
-	public MarkovianState(List<String> operationalcostVars) {
-		super(new MarkovianStateDescription(operationalcostVars));
+	public MarkovianState(final List<String> operationalCostVars) {
+		super(new MarkovianStateDescription(operationalCostVars));
 	}
 }
 

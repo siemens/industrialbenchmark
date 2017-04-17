@@ -36,17 +36,17 @@ public class PropertiesTable extends JTable {
 		setModel(new PropertiesTableModel(properties));
 
 		// Tweak the appearance of the table by manipulating its column model
-		TableColumnModel colmodel = getColumnModel();
+		final TableColumnModel colmodel = getColumnModel();
 
 		// Set column widths
 		colmodel.getColumn(0).setPreferredWidth(200);
 		colmodel.getColumn(1).setPreferredWidth(200);
 
 		// Right justify the text in the first column
-		TableColumn namecol = colmodel.getColumn(0);
-		DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+		final TableColumn nameCol = colmodel.getColumn(0);
+		final DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.RIGHT);
-		namecol.setCellRenderer(renderer);
+		nameCol.setCellRenderer(renderer);
 	}
 
 	public Properties getProperties() {

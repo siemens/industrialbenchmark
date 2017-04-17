@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.siemens.rl.interfaces.DataVector;
+import java.util.Map;
 
 /**
  * This holds a map of state-dimension/action-dimension -value pairs.
@@ -30,12 +31,9 @@ import com.siemens.rl.interfaces.DataVector;
  */
 public class DataVectorImpl implements Cloneable, DataVector {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 4956886314253943518L;
 
-	private final HashMap<String, Integer> indexMap;
+	private final Map<String, Integer> indexMap;
 	private double[] values;
 
 	private final DataVectorDescription description;
@@ -78,7 +76,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 * @return The value
 	 */
 	@Override
-	public Double getValue(String key) {
+	public Double getValue(final String key) {
 		Preconditions.checkArgument(this.getKeys().contains(key),
 				"%s is not a valid variable", key);
 
@@ -95,10 +93,10 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 * @param value The value
 	 */
 	@Override
-	public void setValue(String key, double value) {
-		Preconditions.checkNotNull(this.getKeys(), "keySet is null!!");
-		Preconditions.checkArgument(this.getKeys().contains(key),
-				"%s is not a valid variable. Available names are: %s", key, this.getKeys());
+	public void setValue(final String key, final double value) {
+		Preconditions.checkNotNull(getKeys(), "keySet is null!!");
+		Preconditions.checkArgument(getKeys().contains(key),
+				"%s is not a valid variable. Available names are: %s", key, getKeys());
 		values[indexMap.get(key)] = value;
 	}
 
@@ -150,8 +148,8 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	}
 
 	@Override
-	public DataVector clone() {
-		DataVector s = new DataVectorImpl(this.getKeys());
+	public DataVector clone() throws CloneNotSupportedException {
+		final DataVector s = new DataVectorImpl(this.getKeys());
 		for (String key : this.getKeys()) {
 			s.setValue(key, this.getValue(key));
 		}
