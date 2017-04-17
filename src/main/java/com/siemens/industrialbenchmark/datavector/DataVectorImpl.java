@@ -133,17 +133,19 @@ public class DataVectorImpl implements Cloneable, DataVector {
 
 	@Override
 	public String toString() {
-		final StringBuilder output = new StringBuilder("{");
+		// approximate size, to prevent frequent memory reallocation
+		final StringBuilder output = new StringBuilder(keys.size() * 100);
+		output.append('{');
 		for (int ki = 0; ki < keys.size(); ki++) {
 			final String key = keys.get(ki);
-			output.append(key).append("=").append(values[indexMap.get(key)]);
-			// last element with "]" instead of ", "
-			if (ki == keys.size() - 1) {
-				output.append("}");
-			} else {
-				output.append(", ");
-			}
+			output
+					.append(key)
+					.append('=')
+					.append(values[indexMap.get(key)])
+					.append(", ");
 		}
+		// replace the last ", " with "}"
+		output.replace(output.length() - 2, output.length(), "}");
 		return output.toString();
 	}
 
