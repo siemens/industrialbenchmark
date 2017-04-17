@@ -38,6 +38,10 @@ approximation of any real system, but to pose the same hardness and complexity.
 
 	<packaging>jar</packaging>
 
+	<prerequisites>
+		<maven>2.2.1</maven>
+	</prerequisites>
+
 	<developers>
 		<developer>
 			<name>Michel Tokic</name>
