@@ -25,16 +25,12 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 
 public class EffectiveAction {
 
-	private final ActionAbsolute action;
 	private final double alpha;
 	private final double effectiveA;
 	private final double effectiveB;
 	private final double beta;
-	private final double setpoint;
 
 	public EffectiveAction(final ActionAbsolute action, final double setpoint) {
-		this.action = action;
-		this.setpoint = setpoint;
 
 		this.effectiveA = calcEffectiveA(action.getVelocity(), setpoint);
 		this.effectiveB = calcEffectiveB(action.getGain(), setpoint);
