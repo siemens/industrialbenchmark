@@ -68,187 +68,185 @@ import java.util.Properties;
 public class PropertiesUtil
 {
 
-    public static float getFloat(Properties aProperties, String aTag) throws PropertiesException
-    {
-        return getFloat(aProperties, aTag, false);
-    }
+	public static float getFloat(Properties aProperties, String aTag) throws PropertiesException
+	{
+		return getFloat(aProperties, aTag, false);
+	}
 
-    public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
-    {
-        return getFloat(aProperties, aTag, aIsRequiered, 0);
-    }
+	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	{
+		return getFloat(aProperties, aTag, aIsRequiered, 0);
+	}
 
-    public static long getLong(Properties aProperties, String aTag, long aDefault) throws PropertiesException
-    {
-        return getLong(aProperties, aTag, false, aDefault);
-    }
+	public static long getLong(Properties aProperties, String aTag, long aDefault) throws PropertiesException
+	{
+		return getLong(aProperties, aTag, false, aDefault);
+	}
 
-    public static long getLong(Properties aProperties, String aTag) throws PropertiesException
-    {
-        return getLong(aProperties, aTag, false, 0L);
-    }
+	public static long getLong(Properties aProperties, String aTag) throws PropertiesException
+	{
+		return getLong(aProperties, aTag, false, 0L);
+	}
 
-    public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
-    {
-        return getLong(aProperties, aTag, aIsRequiered, 0L);
-    }
+	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	{
+		return getLong(aProperties, aTag, aIsRequiered, 0L);
+	}
 
-    public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered, long aDefault) throws PropertiesException
-    {
-        String value;
-        if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-        else value = aProperties.getProperty(aTag, Long.toString(aDefault));
+	public static long getLong(Properties aProperties, String aTag, boolean aIsRequiered, long aDefault) throws PropertiesException
+	{
+		String value;
+		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
+		else value = aProperties.getProperty(aTag, Long.toString(aDefault));
 
-        try
-        {
-            return Long.parseLong(value.trim());
-        }
-        catch (Exception e)
-        {
-            throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
-        }
-    }
+		try
+		{
+			return Long.parseLong(value.trim());
+		}
+		catch (Exception e)
+		{
+			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
+		}
+	}
 
-    public static double getDouble(Properties aProperties, String aTag) throws PropertiesException
-    {
-        try
-        {
-            return Double.parseDouble(aProperties.getProperty(aTag).trim());
-        }
-        catch (Exception e)
-        {
-            throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
-        }
-    }
+	public static double getDouble(Properties aProperties, String aTag) throws PropertiesException
+	{
+		try
+		{
+			return Double.parseDouble(aProperties.getProperty(aTag).trim());
+		}
+		catch (Exception e)
+		{
+			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
+		}
+	}
 
-    public static boolean getBoolean(Properties aProperties, String aTag) throws PropertiesException
-    {
-        return getBoolean(aProperties, aTag, false);
-    }
+	public static boolean getBoolean(Properties aProperties, String aTag) throws PropertiesException
+	{
+		return getBoolean(aProperties, aTag, false);
+	}
 
-    public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
-    {
-        return getBoolean(aProperties, aTag, aIsRequiered, false);
-    }
+	public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	{
+		return getBoolean(aProperties, aTag, aIsRequiered, false);
+	}
 
-    public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered, boolean aDefault)
-            throws PropertiesException
-    {
-        String value;
-        if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-        else value = aProperties.getProperty(aTag, Boolean.toString(aDefault));
-        try
-        {
-            return Boolean.parseBoolean(value.trim());
-        }
-        catch (Exception e)
-        {
-            throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
-        }
-    }
+	public static boolean getBoolean(Properties aProperties, String aTag, boolean aIsRequiered, boolean aDefault)
+			throws PropertiesException
+	{
+		String value;
+		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
+		else value = aProperties.getProperty(aTag, Boolean.toString(aDefault));
+		try
+		{
+			return Boolean.parseBoolean(value.trim());
+		}
+		catch (Exception e)
+		{
+			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
+		}
+	}
 
-    public static float getFloat(Properties aProperties, String aTag, float aDefault) throws PropertiesException
-    {
-        return getFloat(aProperties, aTag, false, aDefault);
-    }
+	public static float getFloat(Properties aProperties, String aTag, float aDefault) throws PropertiesException
+	{
+		return getFloat(aProperties, aTag, false, aDefault);
+	}
 
-    public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered, float aDefault) throws PropertiesException
-    {
-        String value;
-        if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-        else value = aProperties.getProperty(aTag, Float.toString(aDefault));
-        try
-        {
-            return Float.parseFloat(value.trim());
-        }
-        catch (Exception e)
-        {
-            throw new PropertiesException("Could not map " + aTag + " to a float value: ", e, aProperties, aTag);
-        }
-    }
+	public static float getFloat(Properties aProperties, String aTag, boolean aIsRequiered, float aDefault) throws PropertiesException
+	{
+		String value;
+		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
+		else value = aProperties.getProperty(aTag, Float.toString(aDefault));
+		try
+		{
+			return Float.parseFloat(value.trim());
+		}
+		catch (Exception e)
+		{
+			throw new PropertiesException("Could not map " + aTag + " to a float value: ", e, aProperties, aTag);
+		}
+	}
 
-    public static int getInt(Properties aProperties, String aTag, int aDefault) throws PropertiesException
-    {
-        return getInt(aProperties, aTag, false, aDefault);
-    }
+	public static int getInt(Properties aProperties, String aTag, int aDefault) throws PropertiesException
+	{
+		return getInt(aProperties, aTag, false, aDefault);
+	}
 
-    public static int getInt(Properties aProperties, String aTag) throws PropertiesException
-    {
-        return getInt(aProperties, aTag, false, 0);
-    }
+	public static int getInt(Properties aProperties, String aTag) throws PropertiesException
+	{
+		return getInt(aProperties, aTag, false, 0);
+	}
 
-    public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
-    {
-        return getInt(aProperties, aTag, aIsRequiered, 0);
-    }
+	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered) throws PropertiesException
+	{
+		return getInt(aProperties, aTag, aIsRequiered, 0);
+	}
 
-    public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered, int aDefault) throws PropertiesException
-    {
-        String value;
-        if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
-        else value = aProperties.getProperty(aTag, Integer.toString(aDefault));
-        try
-        {
-            return Integer.parseInt(value.trim());
-        }
-        catch (Exception e)
-        {
-            throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
-        }
-    }
+	public static int getInt(Properties aProperties, String aTag, boolean aIsRequiered, int aDefault) throws PropertiesException
+	{
+		String value;
+		if (aIsRequiered) value = getRequiredProperty(aProperties, aTag);
+		else value = aProperties.getProperty(aTag, Integer.toString(aDefault));
+		try
+		{
+			return Integer.parseInt(value.trim());
+		}
+		catch (Exception e)
+		{
+			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
+		}
+	}
 
-    public static Properties getProperties(String aFilename) throws IOException
-    {
-        return getProperties(new File(aFilename));
-    }
+	public static Properties getProperties(String aFilename) throws IOException
+	{
+		return getProperties(new File(aFilename));
+	}
 
-    public static Properties getProperties(File aFile) throws IOException
-    {
-        Properties p = new Properties();
+	public static Properties getProperties(File aFile) throws IOException
+	{
+		Properties p = new Properties();
 
-        FileInputStream in = new FileInputStream(aFile);
-        try
-        {
-            p.load(in);
-        }
-        finally
-        {
-            in.close();
-        }
-        return p;
-    }
+		FileInputStream in = new FileInputStream(aFile);
+		try
+		{
+			p.load(in);
+		}
+		finally
+		{
+			in.close();
+		}
+		return p;
+	}
 
-    /**
-     * @param aProp
-     *            a property object
-     * @param aKey
-     *            the key of the desired property
-     * @return the property value
-     * @throws PropertiesException
-     *             if the property is not contained in the given {@link Properties} object
-     */
-    public static String getRequiredProperty(Properties aProp, String aKey) throws PropertiesException
-    {
-        String ret = aProp.getProperty(aKey);
-        if (ret == null) throw new MissingPropertyException(aProp, aKey);
-        return ret;
-    }
+	/**
+	 * @param aProp a property object
+	 * @param aKey the key of the desired property
+	 * @return the property value
+	 * @throws PropertiesException if the property is not contained in the given
+	 *   {@link Properties} object
+	 */
+	public static String getRequiredProperty(Properties aProp, String aKey) throws PropertiesException
+	{
+		String ret = aProp.getProperty(aKey);
+		if (ret == null) throw new MissingPropertyException(aProp, aKey);
+		return ret;
+	}
 
-    public static Properties setpointProperties(File aFile) throws IOException
-    {
-        if (!aFile.exists()) throw new FileNotFoundException("Properties file '" + aFile.getAbsolutePath() + "' does not exist");
-        FileInputStream in = null;
-        Properties p = new Properties();
-        try
-        {
-            in = new FileInputStream(aFile);
-            p.load(in);
-        }
-        finally
-        {
-            in.close();
-        }
-        return p;
-    }
+	public static Properties setpointProperties(File aFile) throws IOException
+	{
+		if (!aFile.exists()) throw new FileNotFoundException("Properties file '" + aFile.getAbsolutePath() + "' does not exist");
+		FileInputStream in = null;
+		Properties p = new Properties();
+		try
+		{
+			in = new FileInputStream(aFile);
+			p.load(in);
+		}
+		finally
+		{
+			in.close();
+		}
+		return p;
+	}
 }
 

@@ -32,7 +32,7 @@ public class PenaltyFunction {
 
 	/**
 	 * generates the reward function for fixed phi
-       works ONLY WITH SCALAR inputs
+	 * works ONLY WITH SCALAR inputs
 	 * @param phi angle in radians
 	 * @param max_required_step the max. required step by the optimal policy; must be positive
 	 */
@@ -69,9 +69,9 @@ public class PenaltyFunction {
 	// #                           Radius Transformation                                   #
 	// # --------------------------------------------------------------------------------- #
 	// # ################################################################################# #
-	private DoubleFunction transfer_function_factory(final double r0, double chi, double xi) {
-		final double exponent = chi / xi;
-		final double scaling = xi / Math.pow(chi, exponent);
+	private DoubleFunction transfer_function_factory(double r0, double chi, double xi) {
+		double exponent = chi / xi;
+		double scaling = xi / Math.pow(chi, exponent);
 
 		return new DoubleFunction() {
 			@Override
@@ -126,45 +126,40 @@ public class PenaltyFunction {
 		};
 	}
 
-	// # ################################################################################# #
-	// #                         Radius transforming NLGP                                  #
-	// # --------------------------------------------------------------------------------- #
-	// # ################################################################################# #
 	/**
-	 * """
-        Computes radius for the optimum (global minimum). Note that
-        for angles phi = 0, pi, 2pi, ... the Normalized Linear-biased
-        Goldstone Potential has two global minima.
-        Per convention, the desired sign of the return value is:
-           opt radius > 0 for phi in [0,pi)
-           opt radius < 0 for phi in [pi,2pi)
-        Explanation:
-         * for very small angles, where the sin(phi) is smaller than max_required_step
-           the opt of the reward landscape should be per definition at
-             max_required_step if phi in [0,pi)
-            -max_required_step if phi in [pi,2pi)
-           (max_required_step is assumed to be positive)
-         * for all cases phi != 0,pi,2pi
-           the sign is identical to the sign of the sin function
-         * but for phi = 0,pi,2pi the sig-function is zero and
-           provides no indication about the sign of the opt
-        """
+	 * Radius transforming NLGP.
+		Computes radius for the optimum (global minimum). Note that
+		for angles phi = 0, pi, 2pi, ... the Normalized Linear-biased
+		Goldstone Potential has two global minima.
+		Per convention, the desired sign of the return value is:
+		   opt radius > 0 for phi in [0,pi)
+		   opt radius < 0 for phi in [pi,2pi)
+		Explanation:
+		 * for very small angles, where the sin(phi) is smaller than max_required_step
+		   the opt of the reward landscape should be per definition at
+			 max_required_step if phi in [0,pi)
+			-max_required_step if phi in [pi,2pi)
+		   (max_required_step is assumed to be positive)
+		 * for all cases phi != 0,pi,2pi
+		   the sign is identical to the sign of the sin function
+		 * but for phi = 0,pi,2pi the sig-function is zero and
+		   provides no indication about the sign of the opt
 	 *
 	 * @param phi
 	 * @param max_required_step
 	 * @return
 	 */
 	private double compute_optimal_radius(double phi, double max_required_step) {
-    	phi = phi % (2*Math.PI);
-    	double opt = Math.max(Math.abs(Math.sin(phi)), max_required_step);
-    	if (phi>=Math.PI) {
-    		opt *= -1;
-    	}
-    	return opt;
+		phi = phi % (2*Math.PI);
+		double opt = Math.max(Math.abs(Math.sin(phi)), max_required_step);
+		if (phi>=Math.PI) {
+			opt *= -1;
+		}
+		return opt;
 	}
 
 	/**
-       Generates the reward function for fixed phi. Works ONLY WITH SCALAR inputs.
+	 * Generates the reward function for fixed phi. Works ONLY WITH SCALAR inputs.
 	 * @param p angle in Radians
 	 * @param max_required_step the max. required step by the optimal policy; must be positive
 	 * @return
@@ -173,7 +168,7 @@ public class PenaltyFunction {
 
 		final NLGP l = new NLGP();
 		final double pTmp = phi % (2*Math.PI);
-		final double p = pTmp < 0 ? pTmp+(2*Math.PI) :  pTmp;
+		final double p = pTmp < 0 ? pTmp+(2*Math.PI) : pTmp;
 
 		double opt_rad = compute_optimal_radius(p, max_required_step);
 		double r0 = l.global_minimum_radius(p);

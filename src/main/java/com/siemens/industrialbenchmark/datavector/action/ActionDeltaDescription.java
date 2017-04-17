@@ -28,18 +28,18 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
 public class ActionDeltaDescription extends DataVectorDescription {
 
 	public static final String DeltaVelocity = "DeltaVelocity"; // Velocity
-    public static final String DeltaGain = "DeltaGain"; // Gain
-    public static final String DeltaShift = "DeltaShift"; // GS
+	public static final String DeltaGain = "DeltaGain"; // Gain
+	public static final String DeltaShift = "DeltaShift"; // GS
 
-    private static List<String> actionVars = new ArrayList<String>();
+	private static List<String> actionVars = new ArrayList<String>();
 
-    static{
-    	actionVars.add(DeltaVelocity);
-    	actionVars.add(DeltaGain);
-    	actionVars.add(DeltaShift);
-    }
+	static{
+		actionVars.add(DeltaVelocity);
+		actionVars.add(DeltaGain);
+		actionVars.add(DeltaShift);
+	}
 
-    public ActionDeltaDescription() {
+	public ActionDeltaDescription() {
 		super(actionVars);
 	}
 }

@@ -55,7 +55,7 @@ public class NLGP {
 	 */
 	public double euclidean_nlgp(final double x, final double y) {
 		// 	rsq = np.square(x) + np.square(y)
-        //	return -self.__norm_alpha * rsq   + self.__norm_beta * np.square(rsq) + self.__norm_kappa * y
+		//	return -self.__norm_alpha * rsq + self.__norm_beta * np.square(rsq) + self.__norm_kappa * y
 		final double rsq = x*x + y*y;
 		return -norm_alpha * rsq + norm_beta * rsq*rsq + norm_kappa * y;
 	}
@@ -68,15 +68,15 @@ public class NLGP {
 	 * @return
 	 */
 	public double polar_nlgp(final double r, final double phi) {
-        //rsq = np.square(r)
-        //return -self.__norm_alpha * rsq   + self.__norm_beta * np.square(rsq) + self.__norm_kappa * sin(phi) * r
+		//rsq = np.square(r)
+		//return -self.__norm_alpha * rsq + self.__norm_beta * np.square(rsq) + self.__norm_kappa * sin(phi) * r
 		final double rsq = r*r;
 		return -norm_alpha * rsq + norm_beta * rsq*rsq + norm_kappa * Math.sin(phi) * r;
 	}
 
 	/**
 	 * returns the radius r0 along phi-axis where NLG has minimal function value, i.e.
-       r0 = argmin_{r} polar_nlgp(r,phi)
+	 * r0 = argmin_{r} polar_nlgp(r,phi)
 	 * @param phi angle in Radians
 	 * @return returns the radius r0 along phi-axis where NLG has minimal function value
 	 */
@@ -84,45 +84,45 @@ public class NLGP {
 		// use 2-pi-symmetry to move phi in domain [0,360°]
 		phi = phi % (2.*Math.PI);
 
-        //
-        // if phi >= 180°, use symmetry of LGP:
-        //  * compute r_min in domain: phi - 180° in [0,180°]
-        //  * multiply resulting radius with -1
+		//
+		// if phi >= 180°, use symmetry of LGP:
+		// * compute r_min in domain: phi - 180° in [0,180°]
+		// * multiply resulting radius with -1
 		double scalar = 1;
-        if (phi >= Math.PI) {
-            phi -= Math.PI;
-            scalar = -1;
-        }
+		if (phi >= Math.PI) {
+			phi -= Math.PI;
+			scalar = -1;
+		}
 
-        final double qh = norm_kappa * Math.sin(phi) / (8. * norm_beta);
+		final double qh = norm_kappa * Math.sin(phi) / (8. * norm_beta);
 
-        /*
-          # For numerical stability, we distinguish the domain with 3 extrema from the
-          # domain with one extremum based on qh. Specifically, the domain-limit
-          # value qh_b is
-          #   qh_b = norm_kappa * sin(phi_b) / (8*norm_beta) = - sqrt(1/27)
-          # In comparison, distinguishing domains based on phi_b leads to numerical
-          # instabilities when phi -> phi_b. For example in Case A, i.e. phi > phi_b,
-          # tiny numerical errors could result in
-          #    qh^2 < sqrt(1/27) when phi -> phi_b
-          # even though this would be analytically never possible. Nevertheless,
-          # with limited precision this instability occurs resulting in
-          #    sqrt(qh*qh - 1 / 27) = NaN
-          #
-          # determine, if qh is in domain with one extreme or three
-          #  * if qh <= qh_b = - sqrt(1/27)
-          #          => domain with only one global extremum
-          #    else  => domain with three global extrema
-         */
+		/*
+		 * For numerical stability, we distinguish the domain with 3 extrema from the
+		 * domain with one extremum based on qh. Specifically, the domain-limit
+		 * value qh_b is
+		 * qh_b = norm_kappa * sin(phi_b) / (8*norm_beta) = - sqrt(1/27)
+		 * In comparison, distinguishing domains based on phi_b leads to numerical
+		 * instabilities when phi -> phi_b. For example in Case A, i.e. phi > phi_b,
+		 * tiny numerical errors could result in
+		 * qh^2 < sqrt(1/27) when phi -> phi_b
+		 * even though this would be analytically never possible. Nevertheless,
+		 * with limited precision this instability occurs resulting in
+		 * sqrt(qh*qh - 1 / 27) = NaN
+		 *
+		 * determine, if qh is in domain with one extreme or three
+		 * * if qh <= qh_b = - sqrt(1/27)
+		 * => domain with only one global extremum
+		 * else => domain with three global extrema
+		 */
 
-        final double r0;
-        if (qh <= qh_b) {
-            final double u =  Math.cbrt(-qh + Math.sqrt(qh*qh - 1. / 27.));
-            r0 = u + 1. / (3.*u);
-        } else {
-        	r0 = Math.sqrt(4./3.) * Math.cos(1./3. * Math.acos(-qh*Math.sqrt(27.)) );
-        }
-        return scalar*r0;
+		final double r0;
+		if (qh <= qh_b) {
+			final double u = Math.cbrt(-qh + Math.sqrt(qh*qh - 1. / 27.));
+			r0 = u + 1. / (3.*u);
+		} else {
+			r0 = Math.sqrt(4./3.) * Math.cos(1./3. * Math.acos(-qh*Math.sqrt(27.)) );
+		}
+		return scalar*r0;
 	}
 
 	/**

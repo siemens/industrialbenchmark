@@ -35,16 +35,16 @@ public class ActionAbsolute extends ActionDelta {
 	 */
 	private static final long serialVersionUID = 802570663649527391L;
 
-	private double  absVelocity = 0;
-	private double  absGain = 0;
-	private double  absShift = 0;
+	private double absVelocity = 0;
+	private double absGain = 0;
+	private double absShift = 0;
 
-	private final double  velocityMin;
-	private final double  velocityMax;
-	private final double  gainMin;
-	private final double  gainMax;
-	private final double  shiftMin;
-	private final double  shiftMax;
+	private final double velocityMin;
+	private final double velocityMax;
+	private final double gainMin;
+	private final double gainMax;
+	private final double shiftMin;
+	private final double shiftMax;
 
 	/**
 	 * Constructor actions and properties file
@@ -77,14 +77,14 @@ public class ActionAbsolute extends ActionDelta {
 	/**
 	 * @return the velocity
 	 */
-	public double  getVelocity() {
+	public double getVelocity() {
 		return absVelocity;
 	}
 
 	/**
 	 * @return the gain
 	 */
-	public double  getGain() {
+	public double getGain() {
 		return absGain;
 	}
 
@@ -99,7 +99,7 @@ public class ActionAbsolute extends ActionDelta {
 	 * @param velocity the A to set
 	 */
 	public void setVelocity(double velocity) {
-		double  delta = Math.abs(velocity - absVelocity);
+		double delta = Math.abs(velocity - absVelocity);
 		Preconditions.checkArgument(velocity >= velocityMin && velocity <= velocityMax, "velocity=%s must be in range [%s, %s].", velocity, velocityMin, velocityMax);
 		Preconditions.checkArgument(delta <= maxDelta, "delta_velocity=%s out of range. 'Velocity' must be in range [%s, %s].", absVelocity-delta, absVelocity+delta);
 		this.setValue(ActionDeltaDescription.DeltaVelocity, velocity - this.absVelocity);
@@ -110,7 +110,7 @@ public class ActionAbsolute extends ActionDelta {
 	 * @param gain the gain to set
 	 */
 	public void setGain(double gain) {
-		double  delta = Math.abs(gain- absGain);
+		double delta = Math.abs(gain- absGain);
 		Preconditions.checkArgument(gain>= gainMin && gain <= gainMax, "gain=%s must be in range [%s, %s].", gain, gainMin, gainMax);
 		Preconditions.checkArgument(delta <= maxDelta, "delta_gain=%s out of range. 'gain' must be in range [%s, %s].", absGain-delta, absGain+delta);
 		this.setValue(ActionDeltaDescription.DeltaGain, gain - this.absGain);

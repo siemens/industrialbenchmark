@@ -41,10 +41,10 @@ abstract public class DataVectorDescription
 		Preconditions.checkArgument(new HashSet<>(names).size() == names.size(), "name list contains duplicates");
 
 		Builder<String> lb = ImmutableList.builder();
-    	for (String key : names) {
-    		lb.add(key);
-    	}
-    	this.names = lb.build();
+		for (String key : names) {
+			lb.add(key);
+		}
+		this.names = lb.build();
 	}
 
 	/**
@@ -57,10 +57,10 @@ abstract public class DataVectorDescription
 		Preconditions.checkArgument(new HashSet<>(Arrays.asList(names)).size() == names.length, "name list contains duplicates");
 
 		Builder<String> lb = ImmutableList.builder();
-    	for (String key : names) {
-    		lb.add(key);
-    	}
-    	this.names = lb.build();
+		for (String key : names) {
+			lb.add(key);
+		}
+		this.names = lb.build();
 	}
 
 	/**
@@ -76,18 +76,18 @@ abstract public class DataVectorDescription
 	 * returns a List containing the variable names
 	 * @return A List containing the variable names
 	 */
-    public List <String> getVarNames() {
-    	return names;
-    }
+	public List <String> getVarNames() {
+		return names;
+	}
 
-    @Override
-    public boolean equals(Object o) {
-    	DataVectorDescription os = (DataVectorDescription)o;
-    	return names.equals(os.getVarNames());
-    }
+	@Override
+	public boolean equals(Object o) {
+		DataVectorDescription os = (DataVectorDescription)o;
+		return names.equals(os.getVarNames());
+	}
 
-    @Override
-    public String toString() {
-    	return names.toString();
-    }
+	@Override
+	public String toString() {
+		return names.toString();
+	}
 }

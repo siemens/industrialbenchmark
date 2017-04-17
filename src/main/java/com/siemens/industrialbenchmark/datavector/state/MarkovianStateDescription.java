@@ -27,86 +27,86 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
  */
 public class MarkovianStateDescription extends DataVectorDescription {
 
-    public static final String CurrentOperationalCost = "CurrentOperationalCost";
-    public static final String FatigueLatent2 = "FatigueLatent2";
-    public static final String FatigueLatent1 = "FatigueLatent1";
+	public static final String CurrentOperationalCost = "CurrentOperationalCost";
+	public static final String FatigueLatent2 = "FatigueLatent2";
+	public static final String FatigueLatent1 = "FatigueLatent1";
 
-    // gold stone
-    public static final String EffectiveShift = "EffectiveShift";
-    public static final String MisCalibrationDomain = "MisCalibrationDomain";
-    public static final String MisCalibrationSystemResponse = "MisCalibrationSystemResponse";
-    public static final String MisCalibrationPhiIdx = "MisCalibrationPhiIdx";
+	// gold stone
+	public static final String EffectiveShift = "EffectiveShift";
+	public static final String MisCalibrationDomain = "MisCalibrationDomain";
+	public static final String MisCalibrationSystemResponse = "MisCalibrationSystemResponse";
+	public static final String MisCalibrationPhiIdx = "MisCalibrationPhiIdx";
 
-    public static final String EffectiveActionGainBeta = "EffectiveActionGainBeta";
-    public static final String EffectiveActionVelocityAlpha = "EffectiveActionVelocityAlpha";
+	public static final String EffectiveActionGainBeta = "EffectiveActionGainBeta";
+	public static final String EffectiveActionVelocityAlpha = "EffectiveActionVelocityAlpha";
 
-    public static final String RewardFatigue="RewardFatigue";
-    public static final String RewardFatigueWeighted="RewardFatigueWeighted";
-    public static final String RewardConsumption="RewardConsumption";
-    public static final String RewardConsumptionWeighted="RewardConsumptionWeighted";
-    public static final String MisCalibration ="MisCalibration";
+	public static final String RewardFatigue="RewardFatigue";
+	public static final String RewardFatigueWeighted="RewardFatigueWeighted";
+	public static final String RewardConsumption="RewardConsumption";
+	public static final String RewardConsumptionWeighted="RewardConsumptionWeighted";
+	public static final String MisCalibration ="MisCalibration";
 	public static final String RandomSeed = "RandomSeed";
 
-    /* observables */
+	/* observables */
 	public static final String SetPoint = "SetPoint";
-    public static final String Action_Velocity = "Velocity";
-    public static final String Action_Gain = "Gain";
-    public static final String Action_Shift = "Shift";
-    public static final String Fatigue = "Fatigue";
-    public static final String FatigueBase = "FatigueBase"; // without bifurcation aspects
-    public static final String OperationalCostsConv = "OperationalCostsConv";
-    public static final String Consumption = "Consumption";
-    public static final String RewardTotal = "RewardTotal";
+	public static final String Action_Velocity = "Velocity";
+	public static final String Action_Gain = "Gain";
+	public static final String Action_Shift = "Shift";
+	public static final String Fatigue = "Fatigue";
+	public static final String FatigueBase = "FatigueBase"; // without bifurcation aspects
+	public static final String OperationalCostsConv = "OperationalCostsConv";
+	public static final String Consumption = "Consumption";
+	public static final String RewardTotal = "RewardTotal";
 
 
-    private static List<String> mStateVars = new ArrayList<String>();
+	private static List<String> mStateVars = new ArrayList<String>();
 
-    static{
-    	// hidden state variables:
-    	mStateVars.add(CurrentOperationalCost);
-    	mStateVars.add(FatigueLatent2);
-    	mStateVars.add(FatigueLatent1);
-    	mStateVars.add(EffectiveShift);
-    	mStateVars.add(MisCalibrationDomain);
-    	mStateVars.add(MisCalibrationSystemResponse);
-    	mStateVars.add(MisCalibrationPhiIdx);
-    	mStateVars.add(EffectiveActionGainBeta);
-    	mStateVars.add(EffectiveActionVelocityAlpha);
-    	mStateVars.add(RewardConsumption);
-    	mStateVars.add(RewardFatigue);
-    	mStateVars.add(MisCalibration);
-    	mStateVars.add(RewardConsumptionWeighted);
-    	mStateVars.add(RewardFatigueWeighted);
-    	mStateVars.add(RandomSeed);
-    	mStateVars.add(Consumption);
+	static{
+		// hidden state variables:
+		mStateVars.add(CurrentOperationalCost);
+		mStateVars.add(FatigueLatent2);
+		mStateVars.add(FatigueLatent1);
+		mStateVars.add(EffectiveShift);
+		mStateVars.add(MisCalibrationDomain);
+		mStateVars.add(MisCalibrationSystemResponse);
+		mStateVars.add(MisCalibrationPhiIdx);
+		mStateVars.add(EffectiveActionGainBeta);
+		mStateVars.add(EffectiveActionVelocityAlpha);
+		mStateVars.add(RewardConsumption);
+		mStateVars.add(RewardFatigue);
+		mStateVars.add(MisCalibration);
+		mStateVars.add(RewardConsumptionWeighted);
+		mStateVars.add(RewardFatigueWeighted);
+		mStateVars.add(RandomSeed);
+		mStateVars.add(Consumption);
 
-    	// observables:
-    	mStateVars.add(SetPoint);
-    	mStateVars.add(Action_Velocity);
-    	mStateVars.add(Action_Gain);
-    	mStateVars.add(Action_Shift);
-    	mStateVars.add(Fatigue);
-    	mStateVars.add(FatigueBase);
-    	mStateVars.add(OperationalCostsConv);
-    	mStateVars.add(RewardTotal);
-    }
+		// observables:
+		mStateVars.add(SetPoint);
+		mStateVars.add(Action_Velocity);
+		mStateVars.add(Action_Gain);
+		mStateVars.add(Action_Shift);
+		mStateVars.add(Fatigue);
+		mStateVars.add(FatigueBase);
+		mStateVars.add(OperationalCostsConv);
+		mStateVars.add(RewardTotal);
+	}
 
-    /**
-     * constructor with operationalcost_XXX
-     * @param names
-     */
-    public MarkovianStateDescription(List<String> names) {
-    	super(names);
-    	//System.out.println("MarkovianState names: " + names.toString());
-    }
+	/**
+	 * constructor with operationalcost_XXX
+	 * @param names
+	 */
+	public MarkovianStateDescription(List<String> names) {
+		super (names);
+		//System.out.println("MarkovianState names: " + names.toString());
+	}
 
-    /**
-     * returns the list of non-convoluted internal variables
-     * @return the list of non-convoluted internal variables
-     *
-     */
-    public static List<String> getNonConvolutedInternalVariables() {
-    	return mStateVars;
-    }
+	/**
+	 * returns the list of non-convoluted internal variables
+	 * @return the list of non-convoluted internal variables
+	 *
+	 */
+	public static List<String> getNonConvolutedInternalVariables() {
+		return mStateVars;
+	}
 }
 

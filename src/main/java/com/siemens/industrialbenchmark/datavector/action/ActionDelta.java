@@ -55,14 +55,14 @@ public class ActionDelta extends DataVectorImpl {
 	/**
 	 * @return the deltaA
 	 */
-	public double  getDeltaVelocity() {
+	public double getDeltaVelocity() {
 		return getValue(ActionDeltaDescription.DeltaVelocity);
 	}
 
 	/**
 	 * @return the deltaB
 	 */
-	public double  getDeltaGain() {
+	public double getDeltaGain() {
 		return getValue(ActionDeltaDescription.DeltaGain);
 	}
 

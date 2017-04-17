@@ -27,13 +27,13 @@ public class EffectiveAction {
 
 	ActionAbsolute action;
 
-	final double  alpha;
-	final double  effectiveA;
-	final double  effectiveB;
-	final double  beta;
-	final double  setpoint;
+	final double alpha;
+	final double effectiveA;
+	final double effectiveB;
+	final double beta;
+	final double setpoint;
 
-	public EffectiveAction(ActionAbsolute action, double  setpoint) {
+	public EffectiveAction(ActionAbsolute action, double setpoint) {
 		this.action = action;
 		this.setpoint = setpoint;
 
@@ -43,50 +43,50 @@ public class EffectiveAction {
 		beta = calcBetaScaled(action.getGain(), setpoint);
 	}
 
-	public double  getEffectiveA() {
+	public double getEffectiveA() {
 		return this.effectiveA;
 	}
-	public double  getEffectiveB() {
+	public double getEffectiveB() {
 		return this.effectiveB;
 	}
 
-	private double  calcAlphaScaled(double  a, double  b, double  setpoint) {
-		final double  minAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(100, setpoint), calcEffectiveB(0,   setpoint));
-		final double  maxAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(0,   setpoint), calcEffectiveB(100, setpoint));
-		final double  alphaUnscaled    = calcAlphaUnscaled(calcEffectiveA(a,   setpoint), calcEffectiveB(b,   setpoint));
+	private double calcAlphaScaled(double a, double b, double setpoint) {
+		final double minAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(100, setpoint), calcEffectiveB(0, setpoint));
+		final double maxAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(0, setpoint), calcEffectiveB(100, setpoint));
+		final double alphaUnscaled = calcAlphaUnscaled(calcEffectiveA(a, setpoint), calcEffectiveB(b, setpoint));
 
 		return (alphaUnscaled - minAlphaUnscaled) / (maxAlphaUnscaled - minAlphaUnscaled);
 	}
 
-	private double  calcBetaScaled(double  b, double  setpoint) {
-		final double  minBetaUnscaled = calcBetaUnscaled(calcEffectiveB(100, setpoint));
-		final double  maxBetaUnscaled = calcBetaUnscaled(calcEffectiveB(0,   setpoint));
-		final double  betaUnscaled    = calcBetaUnscaled(calcEffectiveB(b,   setpoint));
+	private double calcBetaScaled(double b, double setpoint) {
+		final double minBetaUnscaled = calcBetaUnscaled(calcEffectiveB(100, setpoint));
+		final double maxBetaUnscaled = calcBetaUnscaled(calcEffectiveB(0, setpoint));
+		final double betaUnscaled = calcBetaUnscaled(calcEffectiveB(b, setpoint));
 
 		return (betaUnscaled - minBetaUnscaled) / (maxBetaUnscaled - minBetaUnscaled);
 	}
 
-	private double  calcEffectiveA(double  a, double  setpoint) {
+	private double calcEffectiveA(double a, double setpoint) {
 		return a + 101.f - setpoint;
 	}
 
-	private double  calcEffectiveB(double  b, double  setpoint) {
+	private double calcEffectiveB(double b, double setpoint) {
 		return b + 1.f + setpoint;
 	}
 
-	private double  calcAlphaUnscaled(double  effectiveA, double  effectiveB) {
+	private double calcAlphaUnscaled(double effectiveA, double effectiveB) {
 		return (effectiveB + 1.0f) / effectiveA;
 	}
 
-	private double  calcBetaUnscaled(double  effectiveB) {
+	private double calcBetaUnscaled(double effectiveB) {
 		return 1.0f / effectiveB;
 	}
 
-	public double  getVelocityAlpha() {
+	public double getVelocityAlpha() {
 		return this.alpha;
 	}
 
-	public double  getGainBeta() {
+	public double getGainBeta() {
 		return this.beta;
 	}
 

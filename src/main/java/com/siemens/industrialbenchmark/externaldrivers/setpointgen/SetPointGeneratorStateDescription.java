@@ -28,15 +28,15 @@ public class SetPointGeneratorStateDescription extends DataVectorDescription {
 
 	// internal state variables
 	public static final String SetPointLastSequenceSteps="SetPointLastSequenceSteps";
-    public static final String SetPointCurrentSteps="SetPointCurrentSteps";
-    public static final String SetPointChangeRatePerStep="SetPointChangeRatePerStep";
+	public static final String SetPointCurrentSteps="SetPointCurrentSteps";
+	public static final String SetPointChangeRatePerStep="SetPointChangeRatePerStep";
 
 
 	private final static String[] stateVars = new String[] {
-        	SetPoint, SetPointLastSequenceSteps, SetPointCurrentSteps, SetPointChangeRatePerStep
-    };
+			SetPoint, SetPointLastSequenceSteps, SetPointCurrentSteps, SetPointChangeRatePerStep
+	};
 
-    public SetPointGeneratorStateDescription() {
-    	super(stateVars);
-    }
+	public SetPointGeneratorStateDescription() {
+		super (stateVars);
+	}
 }

@@ -155,7 +155,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	public DataVector clone() {
 		DataVector s = new DataVectorImpl(this.getKeys());
 		for (String key : this.getKeys()) {
-			s.setValue(key,  this.getValue(key));
+			s.setValue(key, this.getValue(key));
 		}
 
 		return s;
