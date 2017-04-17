@@ -188,10 +188,12 @@ public class GoldStoneEnvironmentDynamics {
 	 * corresponding to <math>Phi_index</math> in
 	 * <math>[ -strongest_penality_abs_idx*angular_speed, ..., -angular_speed, 0, angular_speed, ..., strongest_penality_abs_idx*angular_speed ]</math>
 
-	 * @param phiIdx
+	 * @param otherPhiIdx
 	 * @return
 	 */
-	private int applySymmetry(int phiIdx) {
+	private int applySymmetry(final int otherPhiIdx) {
+
+		int currentPhiIdx = otherPhiIdx;
 
 		/*
 		 * Do nothing if 'penalty landscape' rotation angle is in
@@ -199,8 +201,8 @@ public class GoldStoneEnvironmentDynamics {
 		 * corresponding to angle indices
 		 * <math>[-self.__strongest_penality_abs_idx, ...-1,0,1, ..., self.__strongest_penality_abs_idx-]</math>
 		 */
-		if (Math.abs(phiIdx) <= strongestPenaltyAbsIdx) {
-			return phiIdx;
+		if (Math.abs(currentPhiIdx) <= strongestPenaltyAbsIdx) {
+			return currentPhiIdx;
 		}
 
 		/*
@@ -218,21 +220,21 @@ public class GoldStoneEnvironmentDynamics {
 		 * will transform p back into the desired angle indices domain
 		 * [-self.__strongest_penality_abs_idx, ...-1,0,1, ..., self.__strongest_penality_abs_idx-]
 		 * */
-		phiIdx = phiIdx % (4 * strongestPenaltyAbsIdx);
-		if (phiIdx < 0) {
-			phiIdx += (4 * strongestPenaltyAbsIdx);
+		currentPhiIdx = currentPhiIdx % (4 * strongestPenaltyAbsIdx);
+		if (currentPhiIdx < 0) {
+			currentPhiIdx += (4 * strongestPenaltyAbsIdx);
 		}
-		phiIdx = 2 * strongestPenaltyAbsIdx - phiIdx;
+		currentPhiIdx = 2 * strongestPenaltyAbsIdx - currentPhiIdx;
 
-		return phiIdx;
+		return currentPhiIdx;
 	}
 
 	public PenaltyFunction getPenaltyFunction() {
 		return getPenaltyFunction(phiIdx);
 	}
 
-	public PenaltyFunction getPenaltyFunction(final int phiIdx) {
-		int idx = strongestPenaltyAbsIdx + this.applySymmetry(phiIdx);
+	public PenaltyFunction getPenaltyFunction(final int otherPhiIdx) {
+		int idx = strongestPenaltyAbsIdx + this.applySymmetry(otherPhiIdx);
 		if (idx < 0) {
 			idx += penaltyFunctionsArray.length;
 		}
