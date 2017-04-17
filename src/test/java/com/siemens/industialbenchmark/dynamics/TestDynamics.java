@@ -85,7 +85,7 @@ public class TestDynamics {
 
 		// 2) memorize current observable state and current markov state
 		final ObservableState os = d.getState();
-		final DataVector ms = d.getInternalMarkovState();
+		final DataVector ms = d.getMarkovState();
 		System.out.println("init o-state: " + os.toString());
 		System.out.println("init m-state: " + ms.toString());
 
@@ -101,12 +101,12 @@ public class TestDynamics {
 			action.setDeltaShift(2.f*(actionRand.nextFloat()-0.5f));
 			d.step(action);
 			oStates[i] = d.getState();
-			mStates[i] = d.getInternalMarkovState();
+			mStates[i] = d.getMarkovState();
 		}
 
 		// 4) reset dynamics & parameters and internal markov state
 		d.reset();
-		d.setInternalMarkovState(ms);
+		d.setMarkovState(ms);
 
 		// 5) reperform test and check if values are consistent
 		actionRand.setSeed(ACTION_SEED); // reproduce action sequence
@@ -119,7 +119,7 @@ public class TestDynamics {
 
 			d.step(action);
 			oState = d.getState();
-			mState = d.getInternalMarkovState();
+			mState = d.getMarkovState();
 
 			// check observable state
 			assertEquals(oStates[i].getValue(ObservableStateDescription.SetPoint), oState.getValue(ObservableStateDescription.SetPoint), 0.0001);
@@ -163,7 +163,7 @@ public class TestDynamics {
 		IndustrialBenchmarkDynamics d = new IndustrialBenchmarkDynamics(props, externalDrivers);
 
 		int expHistSize = 0;
-		for (String key : d.getInternalMarkovState().getKeys()) {
+		for (String key : d.getMarkovState().getKeys()) {
 			if (key.startsWith("OPERATIONALCOST_")) {
 				expHistSize++;
 			}

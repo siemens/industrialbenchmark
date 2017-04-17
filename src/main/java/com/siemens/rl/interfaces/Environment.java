@@ -38,7 +38,7 @@ public interface Environment {
 	 * Returns the internal Markovian state.
 	 * @return
 	 */
-	DataVector getInternalMarkovState();
+	DataVector getMarkovState();
 
 	/**
 	 * Performs an action within the environment and returns the reward

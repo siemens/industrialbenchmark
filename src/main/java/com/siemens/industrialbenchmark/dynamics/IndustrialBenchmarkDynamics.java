@@ -477,7 +477,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 * @return current internal markovian state of the industrial benchmark
 	 */
 	@Override
-	public DataVector getInternalMarkovState() {
+	public DataVector getMarkovState() {
 		try {
 			return markovState.clone();
 		} catch (final CloneNotSupportedException ex) {
@@ -493,7 +493,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 *
 	 * @param markovState The markovian state from which the values are copied
 	 */
-	public void setInternalMarkovState(final DataVector markovState) {
+	public void setMarkovState(final DataVector markovState) {
 
 		// 1) import all key/value pairs
 		for (final String key : markovState.getKeys()) {

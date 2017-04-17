@@ -71,7 +71,7 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 		// apply constant action (gain and velocity transitions from 0 => 100)
 		final ActionDelta deltaAction = new ActionDelta(0.1f, 0.1f, 0.1f);
 
-		final DataVector internalMarkovState = db.getInternalMarkovState();
+		final DataVector internalMarkovState = db.getMarkovState();
 		final LinkedHashMap<String, List<Double>> internalStates = new LinkedHashMap<>(internalMarkovState.getKeys().size());
 		for (final String key : internalMarkovState.getKeys()) {
 			internalStates.put(key, new ArrayList<>(nSteps));
@@ -80,7 +80,7 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 		try (final FileWriter outputFW = (output == null) ? null : new FileWriter(output)) {
 			// write column headers
 			if (outputFW != null) {
-				for (final String key : db.getInternalMarkovState().getKeys()) {
+				for (final String key : db.getMarkovState().getKeys()) {
 					outputFW.write(key);
 					outputFW.write(',');
 					outputFW.write(' ');
@@ -98,7 +98,7 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 				deltaAction.setDeltaVelocity(2.f * (rand.nextFloat() - 0.5f));
 
 				db.step(deltaAction);
-				final DataVector markovState = db.getInternalMarkovState();
+				final DataVector markovState = db.getMarkovState();
 				final double[] markovStateValues = markovState.getValuesArray();
 				final Iterator<List<Double>> stateValueLists = internalStates.values().iterator();
 				for (int msvi = 0; msvi < markovStateValues.length; msvi++) {
