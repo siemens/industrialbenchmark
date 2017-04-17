@@ -181,6 +181,13 @@ approximation of any real system, but to pose the same hardness and complexity.
 							<!-- Specifies the main class of the application -->
 							<mainClass>${project.mainClass}</mainClass>
 						</manifest>
+						<manifestEntries>
+							<!--
+								Prevent the local user-name from entering the JAR manifest.
+								This is required for reproducible builds.
+							-->
+							<Built-By />
+						</manifestEntries>
 					</archive>
 				</configuration>
 			</plugin>
