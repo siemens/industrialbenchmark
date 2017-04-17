@@ -36,6 +36,8 @@ approximation of any real system, but to pose the same hardness and complexity.
 		</license>
 	</licenses>
 
+	<packaging>jar</packaging>
+
 	<developers>
 		<developer>
 			<name>Michel Tokic</name>
