@@ -22,7 +22,6 @@ import java.util.Properties;
 
 import org.apache.commons.collections.buffer.CircularFifoBuffer;
 import org.apache.commons.math3.random.RandomDataGenerator;
-import org.apache.log4j.Logger;
 
 import com.google.common.base.Preconditions;
 import com.siemens.industrialbenchmark.datavector.action.ActionAbsolute;
