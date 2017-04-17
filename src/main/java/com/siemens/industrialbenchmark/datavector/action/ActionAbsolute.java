@@ -34,9 +34,9 @@ public class ActionAbsolute extends ActionDelta {
 
 	private static final long serialVersionUID = 802570663649527391L;
 
-	private double absVelocity = 0;
-	private double absGain = 0;
-	private double absShift = 0;
+	private double absVelocity;
+	private double absGain;
+	private double absShift;
 
 	private final double velocityMin;
 	private final double velocityMax;
