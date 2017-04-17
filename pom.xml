@@ -162,6 +162,8 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<source>1.${java.min.version}</source>
 					<target>1.${java.min.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
+					<showDeprecation>true</showDeprecation>
+					<compilerArgument>-Xlint:unchecked</compilerArgument>
 				</configuration>
 			</plugin>
 			<!-- Build deliverables: JAR -->
