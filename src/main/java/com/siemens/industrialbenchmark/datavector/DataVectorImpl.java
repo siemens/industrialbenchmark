@@ -22,6 +22,7 @@ import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.siemens.rl.interfaces.DataVector;
+import com.siemens.rl.interfaces.DataVectorDescription;
 import java.util.Map;
 
 /**
@@ -68,6 +69,11 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	public DataVectorImpl(final List<String> keys) {
 		this(null, keys);
 		Preconditions.checkNotNull(keys, "Keys must not be null.");
+	}
+
+	@Override
+	public DataVectorDescription getDescription() {
+		return description;
 	}
 
 	/**

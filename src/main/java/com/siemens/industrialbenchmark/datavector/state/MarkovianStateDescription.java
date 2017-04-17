@@ -18,14 +18,14 @@ package com.siemens.industrialbenchmark.datavector.state;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
+import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 
 /**
  * Markovian state description for the industrial benchmark
  *
  * @author Alexander Hentschel, Michel Tokic
  */
-public class MarkovianStateDescription extends DataVectorDescription {
+public class MarkovianStateDescription extends DataVectorDescriptionImpl {
 
 	public static final String CurrentOperationalCost = "CurrentOperationalCost";
 	public static final String FatigueLatent2 = "FatigueLatent2";

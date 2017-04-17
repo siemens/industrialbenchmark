@@ -18,14 +18,14 @@ package com.siemens.industrialbenchmark.datavector.action;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
+import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 
 /**
  * Action description for the ActionDelta.
  *
  * @author Michel Tokic
  */
-public class ActionDeltaDescription extends DataVectorDescription {
+public class ActionDeltaDescription extends DataVectorDescriptionImpl {
 
 	public static final String DeltaVelocity = "DeltaVelocity"; // Velocity
 	public static final String DeltaGain = "DeltaGain"; // Gain

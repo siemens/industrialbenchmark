@@ -20,6 +20,7 @@ import java.util.List;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
+import com.siemens.rl.interfaces.DataVectorDescription;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Objects;
@@ -28,7 +29,7 @@ import java.util.Objects;
 /**
  * state/action description for the industrial benchmark
  */
-public abstract class DataVectorDescription {
+public abstract class DataVectorDescriptionImpl implements DataVectorDescription {
 
 	private final List<String> names;
 
@@ -36,7 +37,7 @@ public abstract class DataVectorDescription {
 	 * Constructor with a given List of state/action dimension names
 	 * @param names
 	 */
-	public DataVectorDescription(final List<String> names) {
+	public DataVectorDescriptionImpl(final List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.size() > 0, "name list has size 0");
 		Preconditions.checkArgument(new HashSet<>(names).size() == names.size(), "name list contains duplicates");
@@ -52,7 +53,7 @@ public abstract class DataVectorDescription {
 	 * Constructor with a given set of state/action description names
 	 * @param names
 	 */
-	public DataVectorDescription(final String[] names) {
+	public DataVectorDescriptionImpl(final String[] names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
 		Preconditions.checkArgument(names.length > 0, "name list has size 0");
 		Preconditions.checkArgument(new HashSet<>(Arrays.asList(names)).size() == names.length, "name list contains duplicates");
@@ -68,6 +69,7 @@ public abstract class DataVectorDescription {
 	 * Returns the number of variables.
 	 * @return
 	 */
+	@Override
 	public int getNumberVariables() {
 		return names.size();
 	}
@@ -76,6 +78,7 @@ public abstract class DataVectorDescription {
 	 * Returns a list containing the variable names.
 	 * @return
 	 */
+	@Override
 	public List<String> getVarNames() {
 		return names;
 	}
@@ -91,7 +94,7 @@ public abstract class DataVectorDescription {
 		if (getClass() != obj.getClass()) {
 			return false;
 		}
-		final DataVectorDescription other = (DataVectorDescription) obj;
+		final DataVectorDescriptionImpl other = (DataVectorDescriptionImpl) obj;
 		return Objects.equals(this.names, other.names);
 	}
 

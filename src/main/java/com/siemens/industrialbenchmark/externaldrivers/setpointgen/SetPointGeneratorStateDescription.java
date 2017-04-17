@@ -15,13 +15,13 @@ limitations under the License.
 */
 package com.siemens.industrialbenchmark.externaldrivers.setpointgen;
 
-import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
+import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 import com.siemens.industrialbenchmark.datavector.state.MarkovianStateDescription;
 
 /**
  * State description for the setpoint generator.
  */
-public class SetPointGeneratorStateDescription extends DataVectorDescription {
+public class SetPointGeneratorStateDescription extends DataVectorDescriptionImpl {
 
 	// Definition of the observable variables from the markov state ...
 	// the variable we drive

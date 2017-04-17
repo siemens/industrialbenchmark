@@ -15,12 +15,12 @@ limitations under the License.
 */
 package com.siemens.industrialbenchmark.datavector.state;
 
-import com.siemens.industrialbenchmark.datavector.DataVectorDescription;
+import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 
 /**
  * State description for the industrial benchmark.
  */
-public class ObservableStateDescription extends DataVectorDescription {
+public class ObservableStateDescription extends DataVectorDescriptionImpl {
 
 	// Definition of the observable variables from the markov state ...
 	public static final String SetPoint = MarkovianStateDescription.SetPoint;

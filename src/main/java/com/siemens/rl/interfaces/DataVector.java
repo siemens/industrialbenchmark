@@ -26,6 +26,8 @@ import java.util.List;
  */
 public interface DataVector extends Serializable, Cloneable {
 
+	DataVectorDescription getDescription();
+
 	/**
 	 * Returns the value for a given data-vector dimension.
 	 * @param key The state dimension.
