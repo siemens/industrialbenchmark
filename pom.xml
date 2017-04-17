@@ -242,10 +242,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 						</configuration>
 					</execution>
 				</executions>
-			</plugin>
-			<!-- Build deliverables: Self-contained JAR with all dependencies -->
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
+				<!-- Build deliverables: Self-contained JAR with all dependencies -->
 				<configuration>
 					<archive>
 						<manifest>
