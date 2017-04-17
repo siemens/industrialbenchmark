@@ -1,13 +1,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
+
 	<groupId>com.siemens.oss.industrialbenchmark</groupId>
 	<artifactId>industrialbenchmark</artifactId>
 	<version>1.1.2-SNAPSHOT</version>
 
 	<properties>
-		<javaSource>1.8</javaSource>
-		<javaTarget>1.8</javaTarget>
-		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.encoding>UTF-8</project.build.encoding>
+		<project.build.sourceEncoding>${project.build.encoding}</project.build.sourceEncoding>
+		<project.build.resourceEncoding>${project.build.encoding}</project.build.resourceEncoding>
+		<java.min.version>8</java.min.version>
+
+		<project.mainPackage>com.siemens.industrialbenchmark</project.mainPackage>
+		<project.mainClass>${project.mainPackage}.TrialGuiMain</project.mainClass>
 	</properties>
 
 	<name>Industrial Benchmark</name>
@@ -144,8 +149,8 @@ approximation of any real system, but to pose the same hardness and complexity.
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>${javaSource}</source>
-					<target>${javaTarget}</target>
+					<source>1.${java.min.version}</source>
+					<target>1.${java.min.version}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
@@ -162,7 +167,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 								used to specify that all needed libraries are found under lib/ directory. -->
 							<classpathPrefix>lib/</classpathPrefix>
 							<!-- Specifies the main class of the application -->
-							<mainClass>com.siemens.industrialbenchmark.TrialGuiMain</mainClass>
+							<mainClass>${project.mainClass}</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
@@ -225,7 +230,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.siemens.industrialbenchmark.TrialGuiMain</mainClass>
+							<mainClass>${project.mainClass}</mainClass>
 						</manifest>
 					</archive>
 					<descriptorRefs>
@@ -255,7 +260,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 							</execution>
 						</executions>
 						<configuration>
-							<excludePackageNames>com.siemens.industrialbenchmark.*</excludePackageNames>
+							<excludePackageNames>${project.mainPackage}.*</excludePackageNames>
 						</configuration>
 					</plugin>
 					<plugin>
