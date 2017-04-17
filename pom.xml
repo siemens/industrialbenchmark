@@ -15,6 +15,10 @@
 		<project.mainClass>${project.mainPackage}.TrialGuiMain</project.mainClass>
 	</properties>
 
+	<organization>
+		<name>Siemens</name>
+		<url>http://ct.siemens.com</url>
+	</organization>
 	<name>Industrial Benchmark</name>
 	<url>http://github.com/siemens/industrialbenchmark</url>
 	<description>A novel reinforcement learning benchmark, called Industrial Benchmark, is introduced.
