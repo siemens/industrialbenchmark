@@ -76,6 +76,15 @@ public class SetPointGenerator implements ExternalDriver {
 	}
 
 	/**
+	 * Default constructor with seed=System.currentTimeMillis()
+	 * @param aProperties The properties file to parse
+	 * @throws PropertiesException
+	 */
+	public SetPointGenerator(final Properties aProperties) throws PropertiesException {
+		this(System.currentTimeMillis(), aProperties);
+	}
+
+	/**
 	 * returns the current steps
 	 * @return the current steps
 	 */
@@ -119,15 +128,6 @@ public class SetPointGenerator implements ExternalDriver {
 	 */
 	public int getLastSequenceSteps() {
 		return this.mLastSequenceSteps;
-	}
-
-	/**
-	 * Default constructor with seed=System.currentTimeMillis()
-	 * @param aProperties The properties file to parse
-	 * @throws PropertiesException
-	 */
-	public SetPointGenerator(final Properties aProperties) throws PropertiesException {
-		this(System.currentTimeMillis(), aProperties);
 	}
 
 	/**
