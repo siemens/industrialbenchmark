@@ -17,7 +17,6 @@ package com.siemens.industrialbenchmark.datavector.action;
 
 import com.google.common.base.Preconditions;
 import com.siemens.industrialbenchmark.datavector.DataVectorImpl;
-import com.siemens.industrialbenchmark.properties.PropertiesException;
 
 /**
  * This class keeps and checks the deltaA, deltaB and deltaC.
@@ -31,15 +30,12 @@ public class ActionDelta extends DataVectorImpl {
 	private static final double MAX_DELTA = 100.0; // HACK This was 10.0 before, but the default range is 100.0, so it produced runtime exceptions by default. why use this arbitrary value here anyway?
 
 	/**
-	 * Constructor with deltas and properties file.
+	 * Constructs an action based on the three delta values.
 	 * @param deltaVelocity The delta velocity to apply
 	 * @param deltaGain The delta gain to apply
 	 * @param deltaShift The delta shift to apply
-	 * @throws PropertiesException
 	 */
-	public ActionDelta(final double deltaVelocity, final double deltaGain, final double deltaShift)
-			throws PropertiesException
-	{
+	public ActionDelta(final double deltaVelocity, final double deltaGain, final double deltaShift) {
 		super(new ActionDeltaDescription());
 
 		checkDeltaVelocity(deltaVelocity);
