@@ -51,16 +51,18 @@ public class TestDynamics {
 	final long ACTION_SEED = 12345;
 
 	/**
-	 * This class tests that dynamics are repeatable, which is required by Particle-Swarm-Optimization.
+	 * This class tests that dynamics are repeatable,
+	 * which is required by Particle-Swarm-Optimization.
 	 *
-	 *  1) 100000 steps are taken => initializes dynamics with a random trajectory
+	 *  1) 100000 steps are taken
+	 *     (this initializes dynamics with a random trajectory)
 	 *  2) observable and markov state are memorized
 	 *  3) a random trajectory is performed and memorized
 	 *  4) reset of states from (2) and call Environment.reset()
 	 *  5) test if replay produces the same dynamics
 	 *
-	 * @throws IOException
-	 * @throws PropertiesException
+	 * @throws IOException when there is an error reading the configuration file
+	 * @throws PropertiesException if the configuration file is badly formatted
 	 */
 	@Test
 	public void testRepeatibleDynamics() throws IOException, PropertiesException {

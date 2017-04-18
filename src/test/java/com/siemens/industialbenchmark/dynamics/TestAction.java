@@ -33,10 +33,9 @@ public class TestAction {
 
 	/**
 	 * This function tests whether the absolute action would produce the deltas as expected.
-	 * @throws IOException
-	 * @throws PropertiesException
+	 * @throws IOException when there is an error reading the configuration file
+	 * @throws PropertiesException if the configuration file is badly formatted
 	 */
-
 	@Test
 	public void testActionAbsolute() throws IOException, PropertiesException {
 

@@ -39,7 +39,8 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
  *
  * For this the following procedure is performed:
  *
- *  1) a random walk of 100000 random steps is taken (=> initialized several parameters)
+ *  1) a random walk of 100000 random steps is taken
+ *     (this initializes several parameters)
  *  2) the internal parameters at t=100000 are memorized
  *  3) a setpoint trajectory is captured for M steps
  *  4) the parameters are reset to the parameters from (2)
