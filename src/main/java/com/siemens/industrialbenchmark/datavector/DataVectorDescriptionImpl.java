@@ -54,15 +54,7 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 	 * @param names state/action description names
 	 */
 	public DataVectorDescriptionImpl(final String[] names) {
-		Preconditions.checkNotNull(names, "name list must not be null.");
-		Preconditions.checkArgument(names.length > 0, "name list has size 0");
-		Preconditions.checkArgument(new HashSet<>(Arrays.asList(names)).size() == names.length, "name list contains duplicates");
-
-		final Builder<String> lb = ImmutableList.builder();
-		for (String key : names) {
-			lb.add(key);
-		}
-		this.names = lb.build();
+		this(Arrays.asList(names));
 	}
 
 	@Override
