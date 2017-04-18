@@ -72,7 +72,7 @@ public class PropertiesTable extends JTable {
 		private final List<String> propertiesKeys;
 		private final List<Object> propertiesValues;
 
-		public PropertiesTableModel(final Properties properties) {
+		PropertiesTableModel(final Properties properties) {
 
 			this.properties = properties;
 			this.propertiesKeys = new ArrayList<>(properties.size());

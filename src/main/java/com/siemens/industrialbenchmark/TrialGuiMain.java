@@ -303,7 +303,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		private final Map<String, Map<Object, Object>> propKeyFromTo;
 
-		public InputVarKeyChangeListener() {
+		InputVarKeyChangeListener() {
 
 			this.propKeyFromTo = new HashMap<>();
 		}
@@ -351,7 +351,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		private final Action action;
 
-		public InputVarSliderChangeListener(final Action action) {
+		InputVarSliderChangeListener(final Action action) {
 
 			this.action = action;
 		}
@@ -416,7 +416,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		private final ExecutorService simulationThreadPool;
 
-		public SimulationRunAction() {
+		SimulationRunAction() {
 
 			this.simulationThreadPool = Executors.newSingleThreadExecutor();
 			putValue(NAME, "Run Simulation");
@@ -469,7 +469,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		private final JFileChooser fileChooser;
 
-		public ChooseSaveFileAction() {
+		ChooseSaveFileAction() {
 
 			this.fileChooser = new JFileChooser();
 			this.fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -496,7 +496,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		private final JComponent[] relatedComponents;
 
-		public AutoSaveAction(final JComponent... relatedComponents) {
+		AutoSaveAction(final JComponent... relatedComponents) {
 
 			this.relatedComponents = relatedComponents;
 			putValue(NAME, "Auto Save");
