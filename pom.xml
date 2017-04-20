@@ -309,6 +309,15 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<encoding>${project.build.resourceEncoding}</encoding>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
