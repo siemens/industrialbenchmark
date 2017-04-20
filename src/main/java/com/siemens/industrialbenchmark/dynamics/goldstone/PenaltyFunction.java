@@ -36,19 +36,19 @@ public class PenaltyFunction {
 	 * @param phi angle in radians
 	 * @param maxRequiredStep the max. required step by the optimal policy; must be positive
 	 */
-	public PenaltyFunction(double phi, double maxRequiredStep) {
+	public PenaltyFunction(final double phi, final double maxRequiredStep) {
 
 		Preconditions.checkArgument(maxRequiredStep > 0,
 				"max_required_step must be > 0, but was %s", maxRequiredStep);
 		this.phi = phi;
 		this.maxRequiredStep = maxRequiredStep;
 
-		rewardFunction = rewardFunctionFactory(phi, maxRequiredStep);
-		optimumRadius = computeOptimalRadius(phi, maxRequiredStep);
-		optimumValue = rewardFunction.apply(optimumRadius);
+		this.rewardFunction = rewardFunctionFactory(phi, maxRequiredStep);
+		this.optimumRadius = computeOptimalRadius(phi, maxRequiredStep);
+		this.optimumValue = rewardFunction.apply(optimumRadius);
 	}
 
-	public double reward(double r) {
+	public double reward(final double r) {
 		return rewardFunction.apply(r);
 	}
 
@@ -57,8 +57,8 @@ public class PenaltyFunction {
 	 * @param r
 	 * @return
 	 */
-	public double[] reward(double[] r) {
-		double[] ret = new double[r.length];
+	public double[] reward(final double[] r) {
+		final double[] ret = new double[r.length];
 		for (int i = 0; i < r.length; i++) {
 			ret[i] = reward(r[i]);
 		}
@@ -69,13 +69,13 @@ public class PenaltyFunction {
 	// #                           Radius Transformation                                   #
 	// # --------------------------------------------------------------------------------- #
 	// # ################################################################################# #
-	private static DoubleFunction transferFunctionFactory(double r0, double chi, double xi) {
-		double exponent = chi / xi;
-		double scaling = xi / Math.pow(chi, exponent);
+	private static DoubleFunction transferFunctionFactory(final double r0, final double chi, final double xi) {
+		final double exponent = chi / xi;
+		final double scaling = xi / Math.pow(chi, exponent);
 
 		return new DoubleFunction() {
 			@Override
-			public double apply(double value) {
+			public double apply(final double value) {
 				return r0 + scaling * Math.pow(value, exponent);
 			}
 		};
@@ -149,7 +149,7 @@ public class PenaltyFunction {
 	 * @param maxRequiredStep
 	 * @return
 	 */
-	private static double computeOptimalRadius(double phi, double maxRequiredStep) {
+	private static double computeOptimalRadius(double phi, final double maxRequiredStep) {
 		phi = phi % (2 * Math.PI);
 		double opt = Math.max(Math.abs(Math.sin(phi)), maxRequiredStep);
 		if (phi >= Math.PI) {
@@ -164,20 +164,20 @@ public class PenaltyFunction {
 	 * @param maxRequiredStep the max. required step by the optimal policy; must be positive
 	 * @return
 	 */
-	private static DoubleFunction rewardFunctionFactory(double phi, double maxRequiredStep) {
+	private static DoubleFunction rewardFunctionFactory(final double phi, final double maxRequiredStep) {
 
 		final NLGP l = new NLGP();
 		final double pTmp = phi % (2 * Math.PI);
 		final double p = pTmp < 0 ? pTmp + (2 * Math.PI) : pTmp;
 
-		double optRad = computeOptimalRadius(p, maxRequiredStep);
-		double r0 = l.global_minimum_radius(p);
+		final double optRad = computeOptimalRadius(p, maxRequiredStep);
+		final double r0 = l.global_minimum_radius(p);
 
 		final DoubleFunction tr = radTransformationFactory(optRad, r0, Math.signum(optRad) * 2, Math.signum(r0) * 2);
 
 		return new DoubleFunction() {
 			@Override
-			public double apply(double r) {
+			public double apply(final double r) {
 				return l.polar_nlgp(tr.apply(r), p);
 			}
 		};
@@ -192,11 +192,11 @@ public class PenaltyFunction {
 	}
 
 	public double getPhi() {
-		return this.phi;
+		return phi;
 	}
 
 	public double getMaxRequiredStep() {
-		return this.maxRequiredStep;
+		return maxRequiredStep;
 	}
 }
 

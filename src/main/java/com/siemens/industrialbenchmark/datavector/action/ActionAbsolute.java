@@ -32,9 +32,6 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
  */
 public class ActionAbsolute extends ActionDelta {
 
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 802570663649527391L;
 
 	private double absVelocity = 0;
@@ -56,7 +53,7 @@ public class ActionAbsolute extends ActionDelta {
 	 * @param props The Properties file with boundaries for velocity, gain and shift
 	 * @throws PropertiesException
 	 */
-	public ActionAbsolute(double velocity, double gain, double shift, Properties props) throws PropertiesException {
+	public ActionAbsolute(final double velocity, final double gain, final double shift, final Properties props) throws PropertiesException {
 		super(0, 0, 0);
 
 		this.velocityMin = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Velocity + "_MIN", 0f);
@@ -99,10 +96,15 @@ public class ActionAbsolute extends ActionDelta {
 	/**
 	 * @param velocity the A to set
 	 */
-	public void setVelocity(double velocity) {
-		double delta = Math.abs(velocity - absVelocity);
-		Preconditions.checkArgument(velocity >= velocityMin && velocity <= velocityMax, "velocity=%s must be in range [%s, %s].", velocity, velocityMin, velocityMax);
-		Preconditions.checkArgument(delta <= maxDelta, "delta_velocity=%s out of range. 'Velocity' must be in range [%s, %s].", absVelocity-delta, absVelocity+delta);
+	public void setVelocity(final double velocity) {
+		final double delta = Math.abs(velocity - this.absVelocity);
+		Preconditions.checkArgument(
+				velocity >= velocityMin && velocity <= velocityMax,
+				"velocity=%s must be in range [%s, %s].",
+				velocity, velocityMin, velocityMax);
+		Preconditions.checkArgument(delta <= maxDelta,
+				"delta_velocity=%s out of range. 'Velocity' must be in range [%s, %s].",
+				this.absVelocity - delta, this.absVelocity + delta);
 		this.setValue(ActionDeltaDescription.DeltaVelocity, velocity - this.absVelocity);
 		this.absVelocity = velocity;
 	}
@@ -110,11 +112,14 @@ public class ActionAbsolute extends ActionDelta {
 	/**
 	 * @param gain the gain to set
 	 */
-	public void setGain(double gain) {
-		double delta = Math.abs(gain- absGain);
-		Preconditions.checkArgument(gain >= gainMin && gain <= gainMax, "gain=%s must be in range [%s, %s].", gain, gainMin, gainMax);
-		Preconditions.checkArgument(delta <= maxDelta, "delta_gain=%s out of range. 'gain' must be in range [%s, %s].", absGain-delta, absGain+delta);
-		this.setValue(ActionDeltaDescription.DeltaGain, gain - this.absGain);
+	public void setGain(final double gain) {
+		final double delta = Math.abs(gain - this.absGain);
+		Preconditions.checkArgument(gain >= gainMin && gain <= gainMax,
+				"gain=%s must be in range [%s, %s].", gain, gainMin, gainMax);
+		Preconditions.checkArgument(delta <= maxDelta,
+				"delta_gain=%s out of range. 'gain' must be in range [%s, %s].",
+				this.absGain - delta, this.absGain + delta);
+		setValue(ActionDeltaDescription.DeltaGain, gain - this.absGain);
 		//this.deltaGain = gain - this.absGain; // update delta
 		this.absGain = gain;
 	}
@@ -122,11 +127,14 @@ public class ActionAbsolute extends ActionDelta {
 	/**
 	 * @param shift the shift to set
 	 */
-	public void setShift(float shift) {
-		double delta = Math.abs(shift- absShift);
-		Preconditions.checkArgument(shift >= shiftMin && shift <= shiftMax, "=%s must be in range [%s, %s].", shift, shiftMin, shiftMax);
-		Preconditions.checkArgument(delta <= maxDelta, "delta_shift=%s out of range. 'C' must be in range [%s, %s].", absShift-delta, absShift+delta);
-		this.setValue(ActionDeltaDescription.DeltaShift, shift - this.absShift);
+	public void setShift(final float shift) {
+		final double delta = Math.abs(shift - this.absShift);
+		Preconditions.checkArgument(shift >= gainMin && shift <= gainMax,
+				"shift=%s must be in range [%s, %s].", shift, shiftMin, shiftMax);
+		Preconditions.checkArgument(delta <= maxDelta,
+				"delta_shift=%s out of range. 'C' must be in range [%s, %s].",
+				this.absShift - delta, this.absShift + delta);
+		setValue(ActionDeltaDescription.DeltaShift, shift - this.absShift);
 		//this.deltaGS = gs - this.absGS;
 		this.absShift = shift;
 	}

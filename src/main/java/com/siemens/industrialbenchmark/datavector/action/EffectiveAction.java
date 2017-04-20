@@ -32,24 +32,25 @@ public class EffectiveAction {
 	private final double beta;
 	private final double setpoint;
 
-	public EffectiveAction(ActionAbsolute action, double setpoint) {
+	public EffectiveAction(final ActionAbsolute action, final double setpoint) {
 		this.action = action;
 		this.setpoint = setpoint;
 
-		effectiveA = calcEffectiveA(action.getVelocity(), setpoint);
-		effectiveB = calcEffectiveB(action.getGain(), setpoint);
-		alpha = calcAlphaScaled(action.getVelocity(), action.getGain(), setpoint);
-		beta = calcBetaScaled(action.getGain(), setpoint);
+		this.effectiveA = calcEffectiveA(action.getVelocity(), setpoint);
+		this.effectiveB = calcEffectiveB(action.getGain(), setpoint);
+		this.alpha = calcAlphaScaled(action.getVelocity(), action.getGain(), setpoint);
+		this.beta = calcBetaScaled(action.getGain(), setpoint);
 	}
 
 	public double getEffectiveA() {
-		return this.effectiveA;
-	}
-	public double getEffectiveB() {
-		return this.effectiveB;
+		return effectiveA;
 	}
 
-	private static double calcAlphaScaled(double a, double b, double setpoint) {
+	public double getEffectiveB() {
+		return effectiveB;
+	}
+
+	private static double calcAlphaScaled(final double a, final double b, final double setpoint) {
 		final double minAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(100, setpoint), calcEffectiveB(0, setpoint));
 		final double maxAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(0, setpoint), calcEffectiveB(100, setpoint));
 		final double alphaUnscaled = calcAlphaUnscaled(calcEffectiveA(a, setpoint), calcEffectiveB(b, setpoint));
@@ -57,7 +58,7 @@ public class EffectiveAction {
 		return (alphaUnscaled - minAlphaUnscaled) / (maxAlphaUnscaled - minAlphaUnscaled);
 	}
 
-	private static double calcBetaScaled(double b, double setpoint) {
+	private static double calcBetaScaled(final double b, final double setpoint) {
 		final double minBetaUnscaled = calcBetaUnscaled(calcEffectiveB(100, setpoint));
 		final double maxBetaUnscaled = calcBetaUnscaled(calcEffectiveB(0, setpoint));
 		final double betaUnscaled = calcBetaUnscaled(calcEffectiveB(b, setpoint));
@@ -65,31 +66,31 @@ public class EffectiveAction {
 		return (betaUnscaled - minBetaUnscaled) / (maxBetaUnscaled - minBetaUnscaled);
 	}
 
-	private static double calcEffectiveA(double a, double setpoint) {
+	private static double calcEffectiveA(final double a, final double setpoint) {
 		return a + 101.f - setpoint;
 	}
 
-	private static double calcEffectiveB(double b, double setpoint) {
+	private static double calcEffectiveB(final double b, final double setpoint) {
 		return b + 1.f + setpoint;
 	}
 
-	private static double calcAlphaUnscaled(double effectiveA, double effectiveB) {
+	private static double calcAlphaUnscaled(final double effectiveA, final double effectiveB) {
 		return (effectiveB + 1.0f) / effectiveA;
 	}
 
-	private static double calcBetaUnscaled(double effectiveB) {
+	private static double calcBetaUnscaled(final double effectiveB) {
 		return 1.0f / effectiveB;
 	}
 
 	public double getVelocityAlpha() {
-		return this.alpha;
+		return alpha;
 	}
 
 	public double getGainBeta() {
-		return this.beta;
+		return beta;
 	}
 
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 
 		final float steps = 50;
 		final int min = 0;
@@ -97,20 +98,19 @@ public class EffectiveAction {
 		final float step = (max - min) / steps;
 
 		final File file = new File("output.txt");
-		try (PrintWriter writer = new PrintWriter(file)) {
+		try (final PrintWriter writer = new PrintWriter(file)) {
 			// evaluate EffectiveAction class
 			final int setpoint = 100;
-			Properties props;
-			props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+			final Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 			writer.println("x,y,alpha,beta");
 
 			for (float x = min; x <= max; x += step) {
 				for (float y = min; y <= max; y += step) {
-					EffectiveAction action = new EffectiveAction(new ActionAbsolute(x, y, 0.0f, props), setpoint);
+					final EffectiveAction action = new EffectiveAction(new ActionAbsolute(x, y, 0.0f, props), setpoint);
 					writer.println(x + "," + y + "," + action.getVelocityAlpha() + "," + action.getGainBeta());
 				}
 			}
-		} catch (IOException | PropertiesException e) {
+		} catch (final IOException | PropertiesException e) {
 			e.printStackTrace();
 		}
 	}

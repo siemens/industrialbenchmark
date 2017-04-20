@@ -80,7 +80,7 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 		try (final FileWriter outputFW = (output == null) ? null : new FileWriter(output)) {
 			// write column headers
 			if (outputFW != null) {
-				for (String key : db.getInternalMarkovState().getKeys()) {
+				for (final String key : db.getInternalMarkovState().getKeys()) {
 					outputFW.write(key);
 					outputFW.write(',');
 					outputFW.write(' ');

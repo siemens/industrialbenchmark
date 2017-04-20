@@ -135,22 +135,24 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		final String safeFileTemplate = this.preferences.get(PREF_SAVE_FILE_TEMPLATE, SAVE_FILE_TEMPLATE_DEFAULT);
 		final StringBuilder tt = new StringBuilder();
-		tt.append("<html>\n");
-		tt.append("<h3>File-Name template for the results in CSV format</h3>\n");
-		tt.append("The file-name has to end in \".csv\",<br>\n");
-		tt.append(" and may use any of the following variables,<br>\n");
-		tt.append(" which will be substituted to create the actual file name:<br>\n");
-		tt.append("<ul>\n");
-		tt.append("<li>${time:<i>format</i>} (special), gets replaced with the time at the end of the simulation,<br>\n");
-		tt.append(" according to the given <i>format</i><br>\n");
-		tt.append(" (see <a href=\"http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\">the Javadoc</a> for formatting details).<br>\n");
-		tt.append(" example: \"${time:yyyy-MM-dd_HH:mm:ss:SSS}\"\n");
-		tt.append("</li>\n");
+		tt
+				.append("<html>\n")
+				.append("<h3>File-Name template for the results in CSV format</h3>\n")
+				.append("The file-name has to end in \".csv\",<br>\n")
+				.append(" and may use any of the following variables,<br>\n")
+				.append(" which will be substituted to create the actual file name:<br>\n")
+				.append("<ul>\n")
+				.append("<li>${time:<i>format</i>} (special), gets replaced with the time at the end of the simulation,<br>\n")
+				.append(" according to the given <i>format</i><br>\n")
+				.append(" (see <a href=\"http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\">the Javadoc</a> for formatting details).<br>\n")
+				.append(" example: \"${time:yyyy-MM-dd_HH:mm:ss:SSS}\"\n")
+				.append("</li>\n");
 		for (final String key : simulationProps.stringPropertyNames()) {
 			tt.append("<li>${").append(key).append("}</li>\n");
 		}
-		tt.append("</ul>\n");
-		tt.append("</html>\n");
+		tt
+				.append("</ul>\n")
+				.append("</html>\n");
 		this.saveFileNameTF.setToolTipText(tt.toString());
 		this.saveFileNameTF.setText(safeFileTemplate);
 		this.saveFileNameTF.getDocument().addDocumentListener(new DocumentListener() {
@@ -234,7 +236,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 	public static void addChangeListener(final JTextComponent text, final ChangeListener changeListener) {
 		Objects.requireNonNull(text);
 		Objects.requireNonNull(changeListener);
-		DocumentListener docLst = new DocumentListener() {
+		final DocumentListener docLst = new DocumentListener() {
 			private int lastChange = 0, lastNotifiedChange = 0;
 
 			@Override
@@ -258,9 +260,9 @@ public class TrialGuiMain extends javax.swing.JFrame {
 				});
 			}
 		};
-		text.addPropertyChangeListener("document", (PropertyChangeEvent evt) -> {
-			Document doc1 = (Document) evt.getOldValue();
-			Document doc2 = (Document) evt.getNewValue();
+		text.addPropertyChangeListener("document", (final PropertyChangeEvent evt) -> {
+			final Document doc1 = (Document) evt.getOldValue();
+			final Document doc2 = (Document) evt.getNewValue();
 			if (doc1 != null) {
 				doc1.removeDocumentListener(docLst);
 			}
@@ -269,7 +271,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 			}
 			docLst.changedUpdate(null);
 		});
-		Document doc = text.getDocument();
+		final Document doc = text.getDocument();
 		if (doc != null) {
 			doc.addDocumentListener(docLst);
 		}
@@ -282,14 +284,11 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		System.out.println("Using config file: '" + simPropsFilePath + "'");
 
 		// set-point configuration parameters
-		Properties props = null;
 		try {
-			props = PropertiesUtil.setpointProperties(new File(simPropsFilePath));
+			return PropertiesUtil.setpointProperties(new File(simPropsFilePath));
 		} catch (final IOException ex) {
 			throw new RuntimeException(ex);
 		}
-
-		return props;
 	}
 
 	private Properties getSimulationProperties() {
@@ -639,26 +638,20 @@ public class TrialGuiMain extends javax.swing.JFrame {
 	/**
 	 * @param args the command line arguments
 	 */
-	public static void main(String[] args) {
+	public static void main(final String[] args) {
 		/* Set the Nimbus look and feel */
 		//<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
 		/* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
 		 * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html
 		 */
 		try {
-			for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+			for (final javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
 				if ("Nimbus".equals(info.getName())) {
 					javax.swing.UIManager.setLookAndFeel(info.getClassName());
 					break;
 				}
 			}
-		} catch (ClassNotFoundException ex) {
-			java.util.logging.Logger.getLogger(TrialGuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (InstantiationException ex) {
-			java.util.logging.Logger.getLogger(TrialGuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (IllegalAccessException ex) {
-			java.util.logging.Logger.getLogger(TrialGuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-		} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+		} catch (final ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
 			java.util.logging.Logger.getLogger(TrialGuiMain.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
 		}
 		//</editor-fold>

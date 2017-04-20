@@ -113,7 +113,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	 */
 	public List<Double> getValues() {
 		final Builder<Double> valueBuilder = new ImmutableList.Builder<>();
-		for (String key : keys) {
+		for (final String key : keys) {
 			valueBuilder.add(values[indexMap.get(key)]);
 		}
 		return valueBuilder.build();
@@ -150,7 +150,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	@Override
 	public DataVector clone() throws CloneNotSupportedException {
 		final DataVector s = new DataVectorImpl(this.getKeys());
-		for (String key : this.getKeys()) {
+		for (final String key : this.getKeys()) {
 			s.setValue(key, this.getValue(key));
 		}
 

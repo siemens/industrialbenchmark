@@ -23,10 +23,10 @@ import com.google.common.base.Preconditions;
 public class GoldStoneEnvironmentDynamics {
 
 	private final int strongestPenaltyAbsIdx;
-	private Domain domain = Domain.INITIAL;
-	private SystemResponse systemResponse = SystemResponse.ADVANTAGEOUS;
-	private PenaltyFunction currentPenaltyFunction = null;
-	private int phiIdx = 0;
+	private Domain domain;
+	private SystemResponse systemResponse;
+	private PenaltyFunction currentPenaltyFunction;
+	private int phiIdx;
 	private final double safeZone;
 	private final PenaltyFunction[] penaltyFunctionsArray;
 	private static final Logger LOGGER = LoggerFactory.getLogger(GoldStoneEnvironmentDynamics.class);
@@ -37,9 +37,9 @@ public class GoldStoneEnvironmentDynamics {
 		NEGATIVE(-1);
 
 		private final int id;
-		Domain(int id) { this.id = id; }
+		Domain(final int id) { this.id = id; }
 		public int getValue() { return id; }
-		public static Domain fromDouble(double id) {
+		public static Domain fromDouble(final double id) {
 			if (id == -1.0) { return NEGATIVE; }
 			if (id == 0.0) { return INITIAL; }
 			if (id == 1.0) { return POSITIVE; }
@@ -53,9 +53,9 @@ public class GoldStoneEnvironmentDynamics {
 		NEUTRAL(0);
 
 		private final int id;
-		SystemResponse(int id) { this.id = id; }
+		SystemResponse(final int id) { this.id = id; }
 		public int getValue() { return id; }
-		public static SystemResponse fromDouble(double id) {
+		public static SystemResponse fromDouble(final double id) {
 			if (id == -1.0) { return DISADVANTAGEOUS; }
 			if (id == 0.0) { return NEUTRAL; }
 			if (id == 1.0) { return ADVANTAGEOUS; }
@@ -63,23 +63,23 @@ public class GoldStoneEnvironmentDynamics {
 		}
 	}
 
-	public GoldStoneEnvironmentDynamics(int numberSteps, double maxRequiredStep, double safeZone) {
+	public GoldStoneEnvironmentDynamics(final int numberSteps, final double maxRequiredStep, final double safeZone) {
 		Preconditions.checkArgument(safeZone >= 0, "safeZone must be non-negative, but is %s.", safeZone);
 
 		this.safeZone = safeZone;
 		this.strongestPenaltyAbsIdx = computeStrongestPenaltyAbsIdx(numberSteps);
 		this.penaltyFunctionsArray = defineRewardFunctions(numberSteps, maxRequiredStep);
-		this.reset();
+		reset();
 	}
 
 	public void reset() {
-		this.domain = Domain.INITIAL;
+		domain = Domain.INITIAL;
 		phiIdx = 0;
 		systemResponse = SystemResponse.ADVANTAGEOUS;
 		currentPenaltyFunction = getPenaltyFunction();
 	}
 
-	public double rewardAt(double pos) {
+	public double rewardAt(final double pos) {
 		return -currentPenaltyFunction.reward(pos);
 	}
 
@@ -91,35 +91,35 @@ public class GoldStoneEnvironmentDynamics {
 		return -currentPenaltyFunction.getOptimumValue();
 	}
 
-	public void stateTransition(double newControlValue) {
+	public void stateTransition(final double newControlValue) {
 
-		final Domain oldDomain = this.domain;
+		final Domain oldDomain = domain;
 
 		// (0) compute new domain
-		this.domain = this.computeDomain(newControlValue);
+		domain = computeDomain(newControlValue);
 
 		// (1) if domain change: system response <- advantageous
-		if (this.domain != oldDomain) {
-			this.systemResponse = SystemResponse.ADVANTAGEOUS;
+		if (domain != oldDomain) { // FIXME use equals instead, and implement it for Domain (also hashCode())
+			systemResponse = SystemResponse.ADVANTAGEOUS;
 			LOGGER.trace("  turning sys behavior -> advantageous");
 		}
 
 		// (2) compute & apply turn direction
-		this.phiIdx += computeAngularStep(newControlValue);
+		phiIdx += computeAngularStep(newControlValue);
 
 		// (3) update system response if necessary
-		this.systemResponse = updateSystemResponse(this.phiIdx, newControlValue);
+		systemResponse = updateSystemResponse(phiIdx, newControlValue);
 
 		// (4) if Phi_index == 0: reset internal state
-		if (this.phiIdx == 0 && Math.abs(newControlValue) <= this.safeZone) {
-			this.reset();
+		if (phiIdx == 0 && Math.abs(newControlValue) <= safeZone) {
+			reset();
 		}
 
 		// (5) apply symmetry
-		this.phiIdx = this.applySymmetry(this.phiIdx);
+		phiIdx = applySymmetry(phiIdx);
 
 		LOGGER.trace("  phiIdx = " + phiIdx);
-		this.currentPenaltyFunction = this.getPenaltyFunction();
+		currentPenaltyFunction = getPenaltyFunction();
 	}
 
 	/**
@@ -132,27 +132,27 @@ public class GoldStoneEnvironmentDynamics {
 	 * @param newPosition The new position.
 	 * @return The numerical value of the new domain.
 	 */
-	private Domain computeDomain(double newPosition) {
-		if (Math.abs(newPosition) <= this.safeZone) {
-			return this.domain;
+	private Domain computeDomain(final double newPosition) {
+		if (Math.abs(newPosition) <= safeZone) {
+			return domain;
 		} else {
 			return Domain.fromDouble(Math.signum(newPosition));
 		}
 	}
 
 
-	private double computeAngularStep(double newPosition) {
+	private double computeAngularStep(final double newPosition) {
 		// cool down when position close to zero
-		if (Math.abs(newPosition) <= this.safeZone) {
-			return -Math.signum(this.phiIdx);
+		if (Math.abs(newPosition) <= safeZone) {
+			return -Math.signum(phiIdx);
 		}
 
-		if (this.phiIdx == (-this.domain.getValue() * strongestPenaltyAbsIdx)) {
+		if (phiIdx == (-domain.getValue() * strongestPenaltyAbsIdx)) {
 			LOGGER.trace("  no turning");
 			return 0;
 		}
 
-		return this.systemResponse.getValue() * Math.signum(newPosition);
+		return systemResponse.getValue() * Math.signum(newPosition);
 	}
 
 	/**
@@ -166,7 +166,7 @@ public class GoldStoneEnvironmentDynamics {
 	 * @param newControlValue
 	 * @return
 	 */
-	private SystemResponse updateSystemResponse(int newPhiIdx, double newControlValue) {
+	private SystemResponse updateSystemResponse(final int newPhiIdx, final double newControlValue) {
 		if (Math.abs(newPhiIdx) >= strongestPenaltyAbsIdx) {
 			LOGGER.trace("  turning sys behavior -> disadvantageous");
 			return SystemResponse.DISADVANTAGEOUS;
@@ -228,10 +228,10 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	public PenaltyFunction getPenaltyFunction() {
-		return getPenaltyFunction(this.phiIdx);
+		return getPenaltyFunction(phiIdx);
 	}
 
-	public PenaltyFunction getPenaltyFunction(int phiIdx) {
+	public PenaltyFunction getPenaltyFunction(final int phiIdx) {
 		int idx = strongestPenaltyAbsIdx + this.applySymmetry(phiIdx);
 		if (idx < 0) {
 			idx += penaltyFunctionsArray.length;
@@ -283,14 +283,14 @@ public class GoldStoneEnvironmentDynamics {
 	 * This has the advantage, that either end of the grid represents
 	 * the worst case points of the ???.
 	 */
-	private static PenaltyFunction[] defineRewardFunctions(int numberSteps, double maxRequiredStep) {
+	private static PenaltyFunction[] defineRewardFunctions(final int numberSteps, final double maxRequiredStep) {
 
 		final int k = computeStrongestPenaltyAbsIdx(numberSteps);
-		double[] angleGid = new double[k * 2 + 1];
+		final double[] angleGid = new double[k * 2 + 1];
 		for (int i = -k; i <= k; i++) {
 			angleGid[i + k] = i * 2 * Math.PI / numberSteps;
 		}
-		PenaltyFunction[] penaltyFunctionsArray = new PenaltyFunction[angleGid.length];
+		final PenaltyFunction[] penaltyFunctionsArray = new PenaltyFunction[angleGid.length];
 		for (int i = 0; i < angleGid.length; i++) {
 			penaltyFunctionsArray[i] = new PenaltyFunction(angleGid[i], maxRequiredStep);
 		}
@@ -298,19 +298,18 @@ public class GoldStoneEnvironmentDynamics {
 		return penaltyFunctionsArray;
 	}
 
-	private static int computeStrongestPenaltyAbsIdx(int numberSteps) {
+	private static int computeStrongestPenaltyAbsIdx(final int numberSteps) {
 		Preconditions.checkArgument(numberSteps >= 1 && (numberSteps %4) == 0,
 				"numberSteps must be positive and an integer multiple of 4, but is %s", numberSteps);
 
-		final int k = numberSteps / 4;
-		return k;
+		return numberSteps / 4;
 	}
 
 	public Domain getDomain() {
 		return domain;
 	}
 
-	public void setDomain(Domain domain) {
+	public void setDomain(final Domain domain) {
 		this.domain = domain;
 	}
 
@@ -318,7 +317,7 @@ public class GoldStoneEnvironmentDynamics {
 		return systemResponse;
 	}
 
-	public void setSystemResponse(SystemResponse systemResponse) {
+	public void setSystemResponse(final SystemResponse systemResponse) {
 		this.systemResponse = systemResponse;
 	}
 
@@ -326,7 +325,7 @@ public class GoldStoneEnvironmentDynamics {
 		return phiIdx;
 	}
 
-	public void setPhiIdx(int phiIdx) {
+	public void setPhiIdx(final int phiIdx) {
 		this.phiIdx = phiIdx;
 	}
 }
