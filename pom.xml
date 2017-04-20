@@ -318,6 +318,22 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<encoding>${project.build.resourceEncoding}</encoding>
 				</configuration>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.5.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>${project.mainClass}</mainClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
