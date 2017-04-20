@@ -139,9 +139,9 @@ public class TestDynamics {
 			assertEquals(mStates[i].getValue(MarkovianStateDescription.EFFECTIVE_SHIFT), mState.getValue(MarkovianStateDescription.EFFECTIVE_SHIFT), 0.0001);
 			assertEquals(mStates[i].getValue(MarkovianStateDescription.MIS_CALIBRATION), mState.getValue(MarkovianStateDescription.MIS_CALIBRATION), 0.0001);
 
-			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), mState.getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), 0.0001);
-			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), 0.0001);
-			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), 0.0001);
+			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP), mState.getValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP), 0.0001);
+			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS), mState.getValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS), 0.0001);
+			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS), mState.getValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS), 0.0001);
 
 			assertEquals(mStates[i].getValue(MarkovianStateDescription.REWARD_FATIGUE), mState.getValue(MarkovianStateDescription.REWARD_FATIGUE), 0.0001);
 			assertEquals(mStates[i].getValue(MarkovianStateDescription.REWARD_CONSUMPTION), mState.getValue(MarkovianStateDescription.REWARD_CONSUMPTION), 0.0001);

@@ -25,18 +25,18 @@ public class SetPointGeneratorStateDescription extends DataVectorDescriptionImpl
 
 	// Definition of the observable variables from the markov state ...
 	// the variable we drive
-	public static final String SetPoint = MarkovianStateDescription.SET_POINT;
+	public static final String SET_POINT = MarkovianStateDescription.SET_POINT;
 
 	// internal state variables
-	public static final String SetPointLastSequenceSteps = "SetPointLastSequenceSteps";
-	public static final String SetPointCurrentSteps = "SetPointCurrentSteps";
-	public static final String SetPointChangeRatePerStep = "SetPointChangeRatePerStep";
+	public static final String SET_POINT_LAST_SEQUENCE_STEPS = "SetPointLastSequenceSteps";
+	public static final String SET_POINT_CURRENT_STEPS = "SetPointCurrentSteps";
+	public static final String SET_POINT_CHANGE_RATE_PER_STEP = "SetPointChangeRatePerStep";
 
 	private static final String[] STATE_VARS = new String[] {
-		SetPoint,
-		SetPointLastSequenceSteps,
-		SetPointCurrentSteps,
-		SetPointChangeRatePerStep
+		SET_POINT,
+		SET_POINT_LAST_SEQUENCE_STEPS,
+		SET_POINT_CURRENT_STEPS,
+		SET_POINT_CHANGE_RATE_PER_STEP
 	};
 
 	public SetPointGeneratorStateDescription() {

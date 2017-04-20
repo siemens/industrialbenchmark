@@ -219,27 +219,27 @@ public class SetPointGenerator implements ExternalDriver {
 
 	@Override
 	public void filter(final DataVector state) {
-		state.setValue(SetPointGeneratorStateDescription.SetPoint, step());
-		state.setValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep, mChangeRatePerStep);
-		state.setValue(SetPointGeneratorStateDescription.SetPointCurrentSteps, mCurrentSteps);
-		state.setValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps, mLastSequenceSteps);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT, step());
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, mChangeRatePerStep);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, mCurrentSteps);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, mLastSequenceSteps);
 	}
 
 	@Override
 	public void setConfiguration(final DataVector state) {
-		this.mSetPoint = state.getValue(SetPointGeneratorStateDescription.SetPoint);
-		this.mChangeRatePerStep = state.getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep);
-		this.mCurrentSteps = state.getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps).intValue();
-		this.mLastSequenceSteps = state.getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps).intValue();
+		this.mSetPoint = state.getValue(SetPointGeneratorStateDescription.SET_POINT);
+		this.mChangeRatePerStep = state.getValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP);
+		this.mCurrentSteps = state.getValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS).intValue();
+		this.mLastSequenceSteps = state.getValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS).intValue();
 	}
 
 	@Override
 	public DataVector getState() {
 		final DataVectorImpl s = new DataVectorImpl(new SetPointGeneratorStateDescription());
-		s.setValue(SetPointGeneratorStateDescription.SetPoint, mSetPoint);
-		s.setValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep, mChangeRatePerStep);
-		s.setValue(SetPointGeneratorStateDescription.SetPointCurrentSteps, mCurrentSteps);
-		s.setValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps, mLastSequenceSteps);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT, mSetPoint);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, mChangeRatePerStep);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, mCurrentSteps);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, mLastSequenceSteps);
 
 		return s;
 	}
