@@ -42,30 +42,30 @@ public class ActionDelta extends DataVectorImpl {
 		checkDeltaGain(deltaGain);
 		// XXX Should we really not check delta-shift?
 
-		setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
-		setValue(ActionDeltaDescription.DeltaGain, deltaGain);
-		setValue(ActionDeltaDescription.DeltaShift, deltaShift);
+		setValue(ActionDeltaDescription.DELTA_VELOCITY, deltaVelocity);
+		setValue(ActionDeltaDescription.DELTA_GAIN, deltaGain);
+		setValue(ActionDeltaDescription.DELTA_SHIFT, deltaShift);
 	}
 
 	/**
 	 * @return the deltaA
 	 */
 	public double getDeltaVelocity() {
-		return getValue(ActionDeltaDescription.DeltaVelocity);
+		return getValue(ActionDeltaDescription.DELTA_VELOCITY);
 	}
 
 	/**
 	 * @return the deltaB
 	 */
 	public double getDeltaGain() {
-		return getValue(ActionDeltaDescription.DeltaGain);
+		return getValue(ActionDeltaDescription.DELTA_GAIN);
 	}
 
 	/**
 	 * @return the deltaC
 	 */
 	public double getDeltaShift() {
-		return getValue(ActionDeltaDescription.DeltaShift);
+		return getValue(ActionDeltaDescription.DELTA_SHIFT);
 	}
 
 	private void checkDeltaVelocity(final double deltaVelocity) {
@@ -78,7 +78,7 @@ public class ActionDelta extends DataVectorImpl {
 	 */
 	public void setDeltaVelocity(final double deltaVelocity) {
 		checkDeltaVelocity(deltaVelocity);
-		setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
+		setValue(ActionDeltaDescription.DELTA_VELOCITY, deltaVelocity);
 	}
 
 	private void checkDeltaGain(final double deltaGain) {
@@ -91,7 +91,7 @@ public class ActionDelta extends DataVectorImpl {
 	 */
 	public void setDeltaGain(final double deltaGain) {
 		checkDeltaGain(deltaGain);
-		setValue(ActionDeltaDescription.DeltaGain, deltaGain);
+		setValue(ActionDeltaDescription.DELTA_GAIN, deltaGain);
 	}
 
 	/**
@@ -99,7 +99,7 @@ public class ActionDelta extends DataVectorImpl {
 	 */
 	public void setDeltaShift(final double deltaShift) {
 		// XXX Should we really not check delta-shift?
-		setValue(ActionDeltaDescription.DeltaShift, deltaShift);
+		setValue(ActionDeltaDescription.DELTA_SHIFT, deltaShift);
 	}
 }
 
