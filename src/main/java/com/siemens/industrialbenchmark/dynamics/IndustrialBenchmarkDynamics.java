@@ -132,18 +132,18 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		mEmConvWeights = getFloatArray(mProperties.getProperty("ConvArray"));
 		final List<String> markovStateAdditionalNames = new ArrayList<>();
 		mOperationalCostsBuffer = new CircularFifoBuffer(mEmConvWeights.length);
-		for (int i = 0; i < mEmConvWeights.length; i++) {
-			mOperationalCostsBuffer.add(0.0d); // initialize all operationalcosts with zero
-			markovStateAdditionalNames.add("OPERATIONALCOST_" + i); // add operationalcost_lag to list of convoluted markov variables
+		for (int cwi = 0; cwi < mEmConvWeights.length; cwi++) {
+			mOperationalCostsBuffer.add(0.0); // initialize all operationalcosts with zero
+			markovStateAdditionalNames.add("OPERATIONALCOST_" + cwi); // add operationalcost_lag to list of convoluted markov variables
 		}
 		markovStateAdditionalNames.addAll(MarkovianStateDescription.getNonConvolutedInternalVariables());
 
 		// add variables from external driver
 		final List<String> extNames = new ArrayList<>();
-		for (final ExternalDriver d : externalDrivers) {
-			for (final String n : d.getState().getKeys()) {
-				if (!extNames.contains(n) && !markovStateAdditionalNames.contains(n)) {
-					extNames.add(n);
+		for (final ExternalDriver drv : externalDrivers) {
+			for (final String name : drv.getState().getKeys()) {
+				if (!extNames.contains(name) && !markovStateAdditionalNames.contains(name)) {
+					extNames.add(name);
 				}
 			}
 		}
@@ -156,15 +156,15 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		mMax = new MarkovianState(markovStateAdditionalNames); // upper variable boundaries
 
 		// extract variable boundings + initial values from Properties
-		for (final String v : markovState.getKeys()) {
-			final float init = PropertiesUtil.getFloat(mProperties, v + "_INIT", 0);
-			final float max = PropertiesUtil.getFloat(mProperties, v + "_MAX", Float.MAX_VALUE);
-			final float min = PropertiesUtil.getFloat(mProperties, v + "_MIN", -Float.MAX_VALUE);
-			Preconditions.checkArgument(max > min, "variable=%s: max=%s must be > than min=%s", v, max, min);
-			Preconditions.checkArgument(init >= min && init <= max,  "variable=%s: init=%s must be between min=%s and max=%s", v, init, min, max);
-			mMax.setValue(v, max);
-			mMin.setValue(v, min);
-			markovState.setValue(v, init);
+		for (final String var : markovState.getKeys()) {
+			final float init = PropertiesUtil.getFloat(mProperties, var + "_INIT", 0);
+			final float max = PropertiesUtil.getFloat(mProperties, var + "_MAX", Float.MAX_VALUE);
+			final float min = PropertiesUtil.getFloat(mProperties, var + "_MIN", -Float.MAX_VALUE);
+			Preconditions.checkArgument(max > min, "variable=%s: max=%s must be > than min=%s", var, max, min);
+			Preconditions.checkArgument(init >= min && init <= max,  "variable=%s: init=%s must be between min=%s and max=%s", var, init, min, max);
+			mMax.setValue(var, max);
+			mMin.setValue(var, min);
+			markovState.setValue(var, init);
 		}
 
 		// seed all random number generators for allowing to re-conduct the experiment
@@ -173,9 +173,9 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		rda.reSeed(randomSeed);
 
 		//extDriver.setSeed(rda.nextLong(0, Long.MAX_VALUE));
-		for (final ExternalDriver d : externalDrivers) {
-			d.setSeed(rda.nextLong(0, Long.MAX_VALUE));
-			d.filter(markovState);
+		for (final ExternalDriver drv : externalDrivers) {
+			drv.setSeed(rda.nextLong(0, Long.MAX_VALUE));
+			drv.filter(markovState);
 		}
 
 		// set all NaN values to 0.0
@@ -202,8 +202,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		final String components = aFloatArrayAsString.replaceAll("( |\t|\n)", "");
 		final String[] split = components.split(",");
 		final float[] result = new float[split.length];
-		for (int i = 0; i < result.length; i++) {
-			result[i] = Float.parseFloat(split[i]);
+		for (int ri = 0; ri < result.length; ri++) {
+			result[ri] = Float.parseFloat(split[ri]);
 		}
 		return result;
 	}
@@ -215,11 +215,11 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 */
 	@Override
 	public ObservableState getState() {
-		final ObservableState s = new ObservableState();
-		for (final String key : s.getKeys()) {
-			s.setValue(key, markovState.getValue(key));
+		final ObservableState state = new ObservableState();
+		for (final String key : state.getKeys()) {
+			state.setValue(key, markovState.getValue(key));
 		}
-		return s;
+		return state;
 	}
 
 
@@ -233,9 +233,9 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// apply randomSeed to PRNGs and external drivers + filter (e.g. setpoint)
 		rda.reSeed(randomSeed);
-		for (final ExternalDriver d : externalDrivers) {
-			d.setSeed(rda.nextLong(0, Long.MAX_VALUE));
-			d.filter(markovState);
+		for (final ExternalDriver drv : externalDrivers) {
+			drv.setSeed(rda.nextLong(0, Long.MAX_VALUE));
+			drv.filter(markovState);
 		}
 
 		// add actions to state:
@@ -247,8 +247,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 			// updated current operationalcost
 			updateCurrentOperationalCost();
-		} catch (final PropertiesException e) {
-			e.printStackTrace();
+		} catch (final PropertiesException ex) {
+			ex.printStackTrace();
 		}
 
 		// update convoluted operationalcosts
@@ -430,7 +430,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		mOperationalCostsBuffer.add(operationalcosts);
 
 		if (convToInit) {
-			for(int i = 1; i < mOperationalCostsBuffer.size(); i++) {
+			for(int oci = 1; oci < mOperationalCostsBuffer.size(); oci++) {
 				mOperationalCostsBuffer.add(operationalcosts);
 			}
 			convToInit = false;
@@ -510,10 +510,10 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// 3) reconstruct operationalcost convolution + reward computation
 		double aggregatedOperationalCosts = 0;
-		for (int i = 0; i < mEmConvWeights.length; i++) {
-			final String key = "OPERATIONALCOST_" + i;
+		for (int cwi = 0; cwi < mEmConvWeights.length; cwi++) {
+			final String key = "OPERATIONALCOST_" + cwi;
 			final double operationalcost = markovState.getValue(key);
-			aggregatedOperationalCosts += markovState.getValue(key) * mEmConvWeights[i];
+			aggregatedOperationalCosts += markovState.getValue(key) * mEmConvWeights[cwi];
 			mOperationalCostsBuffer.add(operationalcost);
 		}
 		markovState.setValue(MarkovianStateDescription.OperationalCostsConv, aggregatedOperationalCosts);
@@ -521,8 +521,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		mRewardCore.calcReward(markovState);
 
 		// 4) set state variables to external driver (e.g. SetPointGenerator parameters)
-		for (final ExternalDriver d : externalDrivers) {
-			d.setConfiguration(markovState);
+		for (final ExternalDriver drv : externalDrivers) {
+			drv.setConfiguration(markovState);
 		}
 	}
 
@@ -530,8 +530,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	public void reset() {
 		try {
 			init();
-		} catch (final PropertiesException e) {
-			e.printStackTrace();
+		} catch (final PropertiesException ex) {
+			ex.printStackTrace();
 		}
 	}
 
