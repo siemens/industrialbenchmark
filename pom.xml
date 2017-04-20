@@ -389,7 +389,6 @@ approximation of any real system, but to pose the same hardness and complexity.
 							</execution>
 						</executions>
 						<configuration>
-							<excludePackageNames>${project.mainPackage}.*</excludePackageNames>
 						</configuration>
 					</plugin>
 					<plugin>
