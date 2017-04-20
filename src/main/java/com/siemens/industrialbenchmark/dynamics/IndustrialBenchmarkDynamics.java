@@ -85,7 +85,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private float crgs;
 
 	private final List<ExternalDriver> externalDrivers;
-	private final ActionDelta zeroAction = new ActionDelta(0.0, 0.0, 0.0);
+	private static final ActionDelta ZERO_ACTION = new ActionDelta(0.0, 0.0, 0.0);
 
 	/**
 	 * Constructor with configuration Properties and external driver list.
@@ -110,7 +110,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		this.rda = new RandomDataGenerator();
 
 		init();
-		step(zeroAction);
+		step(ZERO_ACTION);
 	}
 
 	/**
