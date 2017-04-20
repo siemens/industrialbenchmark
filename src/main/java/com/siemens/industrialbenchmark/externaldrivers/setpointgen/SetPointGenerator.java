@@ -36,11 +36,11 @@ import com.siemens.rl.interfaces.ExternalDriver;
  */
 public class SetPointGenerator implements ExternalDriver {
 
-	private final float SETPOINT_STEP_SIZE;
-	private final float MAX_CHANGE_RATE_PER_STEP_SETPOINT;
-	private final int MAX_SEQUENCE_LENGTH;
-	private final float MINSETPOINT;
-	private final float MAXSETPOINT;
+	private final float setPointStepSize;
+	private final float maxChangeRatePerStepSetPoint;
+	private final int maxSequenceLength;
+	private final float minSetPoint;
+	private final float maxSetPoint;
 
 	private int mCurrentSteps;
 	private int mLastSequenceSteps;
@@ -64,11 +64,11 @@ public class SetPointGenerator implements ExternalDriver {
 			this.mSetPoint = PropertiesUtil.getFloat(aProperties, "STATIONARY_SETPOINT", true);
 			Preconditions.checkArgument(mSetPoint >= 0.0f && mSetPoint <= 100.0f, "setpoint must be in range [0, 100]");
 		}
-		this.MAX_CHANGE_RATE_PER_STEP_SETPOINT = PropertiesUtil.getFloat(aProperties, "MAX_CHANGE_RATE_PER_STEP_SETPOINT", true);
-		this.MAX_SEQUENCE_LENGTH = PropertiesUtil.getInt(aProperties, "MAX_SEQUENCE_LENGTH", true);
-		this.MINSETPOINT = PropertiesUtil.getFloat(aProperties, "SetPoint_MIN", true);
-		this.MAXSETPOINT = PropertiesUtil.getFloat(aProperties, "SetPoint_MAX", true);
-		this.SETPOINT_STEP_SIZE = PropertiesUtil.getFloat(aProperties, "SETPOINT_STEP_SIZE", true);
+		this.maxChangeRatePerStepSetPoint = PropertiesUtil.getFloat(aProperties, "MAX_CHANGE_RATE_PER_STEP_SETPOINT", true);
+		this.maxSequenceLength = PropertiesUtil.getInt(aProperties, "MAX_SEQUENCE_LENGTH", true);
+		this.minSetPoint = PropertiesUtil.getFloat(aProperties, "SetPoint_MIN", true);
+		this.maxSetPoint = PropertiesUtil.getFloat(aProperties, "SetPoint_MAX", true);
+		this.setPointStepSize = PropertiesUtil.getFloat(aProperties, "SETPOINT_STEP_SIZE", true);
 
 		this.mRandom = new RandomDataGenerator();
 		this.mRandom.reSeed(seed);
@@ -153,22 +153,22 @@ public class SetPointGenerator implements ExternalDriver {
 		}
 
 		mCurrentSteps++;
-		double setpointLevel = aSetPoint + mChangeRatePerStep * SETPOINT_STEP_SIZE;
+		double setpointLevel = aSetPoint + mChangeRatePerStep * setPointStepSize;
 
-		if (setpointLevel > MAXSETPOINT) {
-			setpointLevel = MAXSETPOINT;
+		if (setpointLevel > maxSetPoint) {
+			setpointLevel = maxSetPoint;
 			if (mRandom.nextBinomial(1, 0.5) == 1) {
 				mChangeRatePerStep *= (-1);
 			}
 		}
-		if (setpointLevel < MINSETPOINT) {
-			setpointLevel = MINSETPOINT;
+		if (setpointLevel < minSetPoint) {
+			setpointLevel = minSetPoint;
 			if (mRandom.nextBinomial(1, 0.5) == 1) {
 				mChangeRatePerStep *= (-1);
 			}
 		}
 
-		assert setpointLevel <= MAXSETPOINT;
+		assert setpointLevel <= maxSetPoint;
 		return setpointLevel;
 	}
 
@@ -177,9 +177,9 @@ public class SetPointGenerator implements ExternalDriver {
 	 */
 	private void defineNewSequence() {
 		//mLastSequenceSteps = mRandom.nextIntFromTo(0, MAX_SEQUENCE_LENGTH) + 1;
-		mLastSequenceSteps = mRandom.nextInt(1, MAX_SEQUENCE_LENGTH);
+		mLastSequenceSteps = mRandom.nextInt(1, maxSequenceLength);
 		mCurrentSteps = 0;
-		mChangeRatePerStep = mRandom.nextUniform(0, 1) * MAX_CHANGE_RATE_PER_STEP_SETPOINT;
+		mChangeRatePerStep = mRandom.nextUniform(0, 1) * maxChangeRatePerStepSetPoint;
 		final double r = mRandom.nextUniform(0, 1);
 		if (r < 0.45f) {
 			mChangeRatePerStep *= (-1);
