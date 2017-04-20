@@ -26,6 +26,7 @@ The Industrial Benchmark aims at being be realistic in the sense, that it includ
 of aspects that we found to be vital in industrial applications. It is not designed to be an
 approximation of any real system, but to pose the same hardness and complexity.
 	</description>
+	<inceptionYear>20??</inceptionYear> <!-- TODO Document this! -->
 
 	<licenses>
 		<license>
