@@ -54,7 +54,7 @@ public class SetPointGenerator implements ExternalDriver {
 	 * Constructor with given seed and properties file
 	 * @param seed The seed for the random number generator
 	 * @param aProperties The properties file to parse
-	 * @throws PropertiesException
+	 * @throws PropertiesException if property values are badly formatted
 	 */
 	public SetPointGenerator(final long seed, final Properties aProperties)
 			throws PropertiesException
@@ -76,16 +76,15 @@ public class SetPointGenerator implements ExternalDriver {
 	}
 
 	/**
-	 * Default constructor with seed=System.currentTimeMillis()
+	 * Constructs a new object using the current time in milliseconds as a seed.
 	 * @param aProperties The properties file to parse
-	 * @throws PropertiesException
+	 * @throws PropertiesException if property values are badly formatted
 	 */
 	public SetPointGenerator(final Properties aProperties) throws PropertiesException {
 		this(System.currentTimeMillis(), aProperties);
 	}
 
 	/**
-	 * returns the current steps
 	 * @return the current steps
 	 */
 	public int getCurrentSteps() {
@@ -93,7 +92,6 @@ public class SetPointGenerator implements ExternalDriver {
 	}
 
 	/**
-	 * returns the change rate per step
 	 * @return the change rate per step
 	 */
 	public double getChangeRatePerStep() {
@@ -101,11 +99,11 @@ public class SetPointGenerator implements ExternalDriver {
 	}
 
 	/**
-	 * sets the current state of the setpoint generation engine
-	 * @param setpoint
-	 * @param currentSteps
-	 * @param lastSequenceSteps
-	 * @param changeRatePerStep
+	 * Sets the current state of the setpoint generation engine.
+	 * @param setpoint see {@link #getSetPoint()}
+	 * @param currentSteps see {@link #getCurrentSteps()}
+	 * @param lastSequenceSteps see {@link #getLastSequenceSteps()}
+	 * @param changeRatePerStep see {@link #getChangeRatePerStep()}
 	 */
 	public void setState(final double setpoint, final int currentSteps, final int lastSequenceSteps, final double changeRatePerStep) {
 		this.mSetPoint = setpoint;
@@ -194,9 +192,9 @@ public class SetPointGenerator implements ExternalDriver {
 	/**
 	 * Plots a setpoint trajectory for 10000 points.
 	 *
-	 * @param args
-	 * @throws IOException
-	 * @throws PropertiesException
+	 * @param args command-line arguments
+	 * @throws IOException when there is an error reading the configuration file
+	 * @throws PropertiesException if the configuration file is badly formatted
 	 */
 	public static void main(final String[] args) throws IOException, PropertiesException {
 

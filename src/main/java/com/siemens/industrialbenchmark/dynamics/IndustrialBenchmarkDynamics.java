@@ -88,10 +88,10 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private final ActionDelta zeroAction = new ActionDelta(0, 0, 0);
 
 	/**
-	 * Constructor with configuration Properties
+	 * Constructor with configuration Properties and external driver list.
 	 * @param aProperties The properties objects
 	 * @param externalDrivers The list containing external drivers
-	 * @throws PropertiesException
+	 * @throws PropertiesException if property values are badly formatted
 	 */
 	public IndustrialBenchmarkDynamics(final Properties aProperties, final List<ExternalDriver> externalDrivers) throws PropertiesException {
 		this.mProperties = aProperties;
@@ -113,17 +113,17 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	}
 
 	/**
-	 * Constructor with configuration Properties
+	 * Constructor with configuration Properties.
 	 * @param aProperties The properties objects
-	 * @throws PropertiesException
+	 * @throws PropertiesException if property values are badly formatted
 	 */
 	public IndustrialBenchmarkDynamics(final Properties aProperties) throws PropertiesException {
 		this(aProperties, null);
 	}
 
 	/**
-	 * initialize the industrial benchmark
-	 * @throws PropertiesException
+	 * Initializes the industrial benchmark.
+	 * @throws PropertiesException if property values are badly formatted
 	 */
 	protected void init() throws PropertiesException {
 

@@ -18,19 +18,19 @@ package com.siemens.rl.interfaces;
 import java.util.List;
 
 /**
- * state/action description for the industrial benchmark
+ * State/action description for the industrial benchmark
  */
 public interface DataVectorDescription {
 
 	/**
 	 * Returns the number of variables.
-	 * @return
+	 * @return number of keys/dimensions
 	 */
 	int getNumberVariables();
 
 	/**
 	 * Returns a list containing the variable names.
-	 * @return
+	 * @return keys, in the same order as the dimensions in the data vector
 	 */
 	List<String> getVarNames();
 }

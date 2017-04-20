@@ -52,11 +52,6 @@ public class PenaltyFunction {
 		return rewardFunction.apply(r);
 	}
 
-	/**
-	 * vectorized version of reward(double)
-	 * @param r
-	 * @return
-	 */
 	public double[] reward(final double[] r) {
 		final double[] ret = new double[r.length];
 		for (int i = 0; i < r.length; i++) {

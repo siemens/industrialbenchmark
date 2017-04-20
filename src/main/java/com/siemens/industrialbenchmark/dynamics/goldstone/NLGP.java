@@ -21,7 +21,7 @@ package com.siemens.industrialbenchmark.dynamics.goldstone;
  * Normalization:
  * Global minimum has functional value of -1.
  * Transition of domain with three extrema to one domain with one extrema
- * is at angle <math>phi_b = pi / 4 = 45 deg</math>.
+ * is at angle <code>phi_b = pi / 4 = 45 deg</code>.
  *
  * @author Alexander Hentschel, Michel Tokic
  */
@@ -40,7 +40,7 @@ public class NLGP {
 	/**
 	 * Returns angle where transition occurs from domain with three extrema
 	 * to one domain with one extrema.
-	 * @return
+	 * @return transition angle in radians
 	 */
 	public double domain_border_angle() {
 		return PHI_B;
@@ -51,7 +51,7 @@ public class NLGP {
 	 * in euclidian coordinates.
 	 * @param x in R
 	 * @param y in R
-	 * @return
+	 * @return resulting euclidian-NLGP function value
 	 */
 	public double euclidean_nlgp(final double x, final double y) {
 		// 	rsq = np.square(x) + np.square(y)
@@ -65,7 +65,7 @@ public class NLGP {
 	 * in polar coordinates.
 	 * @param r in R
 	 * @param phi angle in Radians
-	 * @return
+	 * @return resulting polar-NLGP function value
 	 */
 	public double polar_nlgp(final double r, final double phi) {
 		//rsq = np.square(r)
@@ -75,10 +75,10 @@ public class NLGP {
 	}
 
 	/**
-	 * Returns the radius r0 along phi-axis where NLG has minimal function value,
-	 * i.e. <math>r0 = argmin_{r} polar_nlgp(r, phi)</math>
+	 * Returns the radius r0 along the phi-axis where NLG has minimal function value.
+	 * i.e. <code>r0 = argmin_{r} polar_nlgp(r, phi)</code>.
 	 * @param phi angle in radians
-	 * @return
+	 * @return r0 with minimal NLG
 	 */
 	public double global_minimum_radius(double phi) {
 		// use 2-pi-symmetry to move phi in domain [0,360°]
@@ -128,9 +128,9 @@ public class NLGP {
 	}
 
 	/**
-	 * vectorized version of global_minimum_radius(double)
-	 * @param phi
-	 * @return
+	 * Vectorized version of {@link #global_minimum_radius(double)}.
+	 * @param phi a set of angles in radians
+	 * @return resulting r0s with minimal NLGs
 	 */
 	public double[] global_minimum_radius(final double[] phi) {
 		final double[] ret = new double[phi.length];
@@ -141,8 +141,8 @@ public class NLGP {
 	}
 
 	/**
-	 * returns the minimal functional value along phi-axis, i.e.
-	 * min_{r} polar_nlgp(r,phi)
+	 * Returns the minimal functional value along phi-axis.
+	 * i.e. <code>min_{r} polar_nlgp(r, phi)</code>.
 	 * @param phi angle in Radians
 	 * @return the minimal functional value along phi-axis
 	 */

@@ -21,7 +21,7 @@ import java.util.List;
 import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 
 /**
- * Markovian state description for the industrial benchmark
+ * Markovian state description for the industrial benchmark.
  *
  * @author Alexander Hentschel, Michel Tokic
  */
@@ -91,8 +91,8 @@ public class MarkovianStateDescription extends DataVectorDescriptionImpl {
 	}
 
 	/**
-	 * Constructor with operationalcost_XXX
-	 * @param names
+	 * Constructs a new description.
+	 * @param names state/action description names
 	 */
 	public MarkovianStateDescription(final List<String> names) {
 		super(names);
@@ -100,8 +100,7 @@ public class MarkovianStateDescription extends DataVectorDescriptionImpl {
 	}
 
 	/**
-	 * Returns the list of non-convoluted internal variables.
-	 * @return
+	 * @return the list of non-convoluted internal variables
 	 */
 	public static List<String> getNonConvolutedInternalVariables() {
 		return STATE_VARS;

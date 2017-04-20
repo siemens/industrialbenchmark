@@ -22,8 +22,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Properties util to retrieve typed property values from a properties object general pattern of methods:
+ * Properties utility to retrieve typed property values from a properties object.
  *
+ * General pattern of methods:
  * <pre>
  * {@code
  * public type getType(Properties aProperties, String aKey)
@@ -33,13 +34,22 @@ import java.util.Properties;
  * }
  * </pre>
  *
- * where <br>
- * <li>type is the requested value of type Type <li>aProperties is the properties object that should contain the property <li>aKey is the
- * key to the requested property <li>aDefault value is a possible default value. If the property is not available from the properties
- * object, the default value is returned instead <li>aIsRequiered if true, the property is expected to be available, a
- * {@link PropertiesException} is thrown if unavailable <br>
+ * where:<br>
+ * <ul>
+ *	<li><code>type</code> is the requested value of type Type</li>
+ *	<li><code>aProperties</code> is the properties object that should contain the property</li>
+ *	<li><code>aKey</code> is the key to the requested property</li>
+ *	<li><code>aDefault</code> value is a possible default value.
+ *		If the property is not available from the properties object,
+ *		the default value is returned instead</li>
+ *	<li><code>aIsRequiered</code> if true, the property is expected to be available,
+ *		a {@link PropertiesException} is thrown if unavailable</li>
+ * </ul>
  * <br>
- * Default behavior: the method
+ *
+ * <b>Default behavior</b>
+ *
+ * the method:
  *
  * <pre>
  * {@code
@@ -51,15 +61,17 @@ import java.util.Properties;
  *
  * <pre>
  * {@code
- * public type getType(aProperties, aKey, false) // false: not required
+ * // false: not required
+ * public type getType(aProperties, aKey, false)
  * }
  * </pre>
  *
- * resulting in
+ * resulting in:
  *
  * <pre>
  * {@code
- * public type getType(aProperties, aKey, false, javaDefault)// javaDefault is 0 for number, null for objects
+ * // javaDefault is 0 for number, null for objects
+ * public type getType(aProperties, aKey, false, javaDefault)
  * }
  * </pre>
  *

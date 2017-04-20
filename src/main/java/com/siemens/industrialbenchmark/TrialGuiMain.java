@@ -223,11 +223,11 @@ public class TrialGuiMain extends javax.swing.JFrame {
 	 * Installs a listener to receive notification when the text of any
 	 * {@code JTextComponent} is changed. Internally, it installs a
 	 * {@link DocumentListener} on the text component's {@link Document}, and a
-	 * {@link PropertyChangeListener} on the text component to detect if the
-	 * {@code Document} itself is replaced.
+	 * {@link java.beans.PropertyChangeListener} on the text component to detect
+	 * if the {@code Document} itself is replaced.
 	 *
-	 * @param text any text component, such as a {@link JTextField} or
-	 * {@link JTextArea}
+	 * @param text any text component, such as a {@link javax.swing.JTextField}
+	 * or {@link javax.swing.JTextArea}
 	 * @param changeListener a listener to receive {@link ChangeEvent}s when
 	 * the text is changed; the source object for the events will be the text
 	 * component

@@ -24,8 +24,8 @@ public class MarkovianState extends DataVectorImpl {
 	private static final long serialVersionUID = -4104133495199919343L;
 
 	/**
-	 * Constructor with the names of convoluted operational cost variables
-	 * @param operationalCostVars
+	 * Constructs a new description.
+	 * @param operationalCostVars names of convoluted operational cost variables
 	 */
 	public MarkovianState(final List<String> operationalCostVars) {
 		super(new MarkovianStateDescription(operationalCostVars));

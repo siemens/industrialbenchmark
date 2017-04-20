@@ -34,9 +34,9 @@ public final class ExampleMain {
 	/**
 	 * Run example benchmark with random actions for data generation purposes.
 	 *
-	 * @param args
-	 * @throws IOException
-	 * @throws PropertiesException
+	 * @param args command-line arguments
+	 * @throws IOException when there is an error reading the configuration file
+	 * @throws PropertiesException if the configuration file is badly formatted
 	 */
 	public static void main(final String[] args) throws IOException, PropertiesException {
 

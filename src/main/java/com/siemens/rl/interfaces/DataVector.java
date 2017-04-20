@@ -47,20 +47,27 @@ public interface DataVector extends Serializable, Cloneable {
 	 * The keys are ordered in the way as they are associated when
 	 * calling getValuesArray().
 	 *
-	 * @return
+	 * @return dimension names
 	 */
 	List<String> getKeys();
 
 	/**
 	 * Returns the values.
-	 * @return
+	 * @return dimension values
 	 */
 	double[] getValuesArray();
 
 	/**
-	 * Returns a copy of this data vector.
-	 * @return
-	 * @throws CloneNotSupportedException
+	 * Creates and returns a copy of this object.
+	 *
+	 * @return     a clone of this instance.
+	 * @throws  CloneNotSupportedException  if the object's class does not
+	 *               support the {@code Cloneable} interface. Subclasses
+	 *               that override the {@code clone} method can also
+	 *               throw this exception to indicate that an instance cannot
+	 *               be cloned.
+	 * @see java.lang.Cloneable
+	 * @see java.lang.Object#clone()
 	 */
 	DataVector clone() throws CloneNotSupportedException;
 }

@@ -34,8 +34,8 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 	private final List<String> names;
 
 	/**
-	 * Constructor with a given List of state/action dimension names
-	 * @param names
+	 * Constructs a new description based on names in a <code>List</code>.
+	 * @param names state/action description names
 	 */
 	public DataVectorDescriptionImpl(final List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
@@ -50,8 +50,8 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 	}
 
 	/**
-	 * Constructor with a given set of state/action description names
-	 * @param names
+	 * Constructs a new description based on names in a <code>String</code> array.
+	 * @param names state/action description names
 	 */
 	public DataVectorDescriptionImpl(final String[] names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
@@ -65,19 +65,11 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 		this.names = lb.build();
 	}
 
-	/**
-	 * Returns the number of variables.
-	 * @return
-	 */
 	@Override
 	public int getNumberVariables() {
 		return names.size();
 	}
 
-	/**
-	 * Returns a list containing the variable names.
-	 * @return
-	 */
 	@Override
 	public List<String> getVarNames() {
 		return names;

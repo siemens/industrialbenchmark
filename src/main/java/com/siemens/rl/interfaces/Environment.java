@@ -23,25 +23,22 @@ package com.siemens.rl.interfaces;
 public interface Environment {
 
 	/**
-	 * Returns the reward.
-	 * @return
+	 * @return the current/last reward
 	 */
 	double getReward();
 
 	/**
-	 * Returns the observable state.
-	 * @return
+	 * @return the observable state
 	 */
 	DataVector getState();
 
 	/**
-	 * Returns the internal Markovian state.
-	 * @return
+	 * @return the internal Markovian state
 	 */
 	DataVector getMarkovState();
 
 	/**
-	 * Performs an action within the environment and returns the reward
+	 * Performs an action within the environment and returns the reward.
 	 * @param action The action to perform
 	 * @return The reward
 	 */

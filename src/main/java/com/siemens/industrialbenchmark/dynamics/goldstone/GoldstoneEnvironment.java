@@ -54,8 +54,8 @@ public class GoldstoneEnvironment {
 
 	/**
 	 * Applies action and returns reward.
-	 * @param controlValueChange
-	 * @return
+	 * @param controlValueChange the relative change/delta to apply to the control value
+	 * @return the reward
 	 */
 	public double stateTransition(final double controlValueChange) {
 		// TODO: (comment from Alex) not yet implemented: test if action is allowed

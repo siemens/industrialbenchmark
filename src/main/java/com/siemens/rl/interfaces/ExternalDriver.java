@@ -25,8 +25,7 @@ package com.siemens.rl.interfaces;
 public interface ExternalDriver {
 
 	/**
-	 * Sets the random seed.
-	 * @param seed
+	 * @param seed the random seed to set
 	 */
 	void setSeed(long seed);
 
@@ -43,8 +42,7 @@ public interface ExternalDriver {
 	void setConfiguration(DataVector state);
 
 	/**
-	 * Returns the current configuration.
-	 * @return
+	 * @return the current configuration
 	 */
 	DataVector getState();
 }

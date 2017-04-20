@@ -51,7 +51,7 @@ public class ActionAbsolute extends ActionDelta {
 	 * @param gain The gain to set
 	 * @param shift The shift to set
 	 * @param props The Properties file with boundaries for velocity, gain and shift
-	 * @throws PropertiesException
+	 * @throws PropertiesException if property values are badly formatted
 	 */
 	public ActionAbsolute(final double velocity, final double gain, final double shift, final Properties props) throws PropertiesException {
 		super(0.0, 0.0, 0.0);
