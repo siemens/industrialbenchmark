@@ -61,7 +61,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private CircularFifoBuffer mOperationalCostsBuffer;
 
 	private float[] mEmConvWeights;
-	private boolean convToInit = true;
+	private boolean convToInit;
 
 	private final GoldstoneEnvironment gsEnvironment;
 	private static final float MAX_REQUIRED_STEP = (float) Math.sin(15.0f / 180.0f * Math.PI);
@@ -98,6 +98,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		this.mRewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
 		this.stepSizeGain = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_GAIN.name(), true);
 		this.stepSizeVelocity = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_VELOCITY.name(), true);
+		this.convToInit = true;
 
 		if (externalDrivers == null) {
 			this.externalDrivers = new ArrayList<>(1);
