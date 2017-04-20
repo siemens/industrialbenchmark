@@ -389,6 +389,8 @@ approximation of any real system, but to pose the same hardness and complexity.
 							</execution>
 						</executions>
 						<configuration>
+							<charset>${project.build.sourceEncoding}</charset>
+							<encoding>${project.build.sourceEncoding}</encoding>
 						</configuration>
 					</plugin>
 					<plugin>
