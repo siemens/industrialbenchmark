@@ -64,7 +64,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private boolean convToInit = true;
 
 	private final GoldstoneEnvironment gsEnvironment;
-	private static final float MAX_REQUIRED_STEP = (float) Math.sin(15.0f/180.0f*Math.PI);
+	private static final float MAX_REQUIRED_STEP = (float) Math.sin(15.0f / 180.0f * Math.PI);
 	private static final float GS_BOUND = 1.5f;
 	private static final float GS_SET_POINT_DEPENDENCY = 0.02f;
 
@@ -85,7 +85,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private float crgs;
 
 	private final List<ExternalDriver> externalDrivers;
-	private final ActionDelta zeroAction = new ActionDelta(0, 0, 0);
+	private final ActionDelta zeroAction = new ActionDelta(0.0, 0.0, 0.0);
 
 	/**
 	 * Constructor with configuration Properties and external driver list.
@@ -157,7 +157,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// extract variable boundings + initial values from Properties
 		for (final String var : markovState.getKeys()) {
-			final float init = PropertiesUtil.getFloat(mProperties, var + "_INIT", 0);
+			final float init = PropertiesUtil.getFloat(mProperties, var + "_INIT", 0.0f);
 			final float max = PropertiesUtil.getFloat(mProperties, var + "_MAX", Float.MAX_VALUE);
 			final float min = PropertiesUtil.getFloat(mProperties, var + "_MIN", -Float.MAX_VALUE);
 			Preconditions.checkArgument(max > min, "variable=%s: max=%s must be > than min=%s", var, max, min);
@@ -172,9 +172,9 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		//mLogger.debug("init seed: " + randomSeed);
 		rda.reSeed(randomSeed);
 
-		//extDriver.setSeed(rda.nextLong(0, Long.MAX_VALUE));
+		//extDriver.setSeed(rda.nextLong(0L, Long.MAX_VALUE));
 		for (final ExternalDriver drv : externalDrivers) {
-			drv.setSeed(rda.nextLong(0, Long.MAX_VALUE));
+			drv.setSeed(rda.nextLong(0L, Long.MAX_VALUE));
 			drv.filter(markovState);
 		}
 
@@ -234,7 +234,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		// apply randomSeed to PRNGs and external drivers + filter (e.g. setpoint)
 		rda.reSeed(randomSeed);
 		for (final ExternalDriver drv : externalDrivers) {
-			drv.setSeed(rda.nextLong(0, Long.MAX_VALUE));
+			drv.setSeed(rda.nextLong(0L, Long.MAX_VALUE));
 			drv.filter(markovState);
 		}
 
@@ -263,7 +263,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		mRewardCore.calcReward(markovState);
 
 		// set random seed for next iteration
-		randomSeed = rda.nextLong(0, Long.MAX_VALUE);
+		randomSeed = rda.nextLong(0L, Long.MAX_VALUE);
 		markovState.setValue(MarkovianStateDescription.RandomSeed, Double.longBitsToDouble(randomSeed));
 
 		//return observableState;
@@ -276,7 +276,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// set new OperationalCosts
 		final double eNewHidden = markovState.getValue(MarkovianStateDescription.OperationalCostsConv) - (crgs * (rGS - 1.0));
-		final double operationalcosts = eNewHidden - rda.nextGaussian(0, 1) * (1 + 0.005 * eNewHidden);
+		final double operationalcosts = eNewHidden - rda.nextGaussian(0.0, 1.0) * (1.0 + 0.005 * eNewHidden);
 
 		markovState.setValue(MarkovianStateDescription.Consumption, operationalcosts);
 	}
@@ -310,19 +310,19 @@ public class IndustrialBenchmarkDynamics implements Environment {
 			gain = Math.min(gainMax, Math.max(gainMin, markovState.getValue(MarkovianStateDescription.Action_Gain) + diff));
 		}
 		// both: 10 = 2*1.5 + 0.07*100
-		final double gsScale = 2.0f*GS_BOUND + 100.0f*GS_SET_POINT_DEPENDENCY;
+		final double gsScale = (2.0f * GS_BOUND) + (100.0f * GS_SET_POINT_DEPENDENCY);
 		double shift = (float) Math.min(100.0f, Math.max(0.0f, markovState.getValue(MarkovianStateDescription.Action_Shift) + aAction.getDeltaShift()*(MAX_REQUIRED_STEP/0.9f)*100.0f/gsScale));
 		if (aAction instanceof ActionAbsolute) {
 			final double shiftToSet = ((ActionAbsolute)aAction).getShift();
 			double diff = shiftToSet - markovState.getValue(MarkovianStateDescription.Action_Shift);
-			if (diff > ((MAX_REQUIRED_STEP/0.9f)*100.0f/gsScale)) {
-				diff = ((MAX_REQUIRED_STEP/0.9f)*100.0f/gsScale);
-			} else if (diff < -((MAX_REQUIRED_STEP/0.9f)*100.0f/gsScale)) {
-				diff = -((MAX_REQUIRED_STEP/0.9f)*100.0f/gsScale);
+			if (diff > ((MAX_REQUIRED_STEP / 0.9f) * 100.0f / gsScale)) {
+				diff = ((MAX_REQUIRED_STEP / 0.9f) * 100.0f / gsScale);
+			} else if (diff < -((MAX_REQUIRED_STEP / 0.9f) * 100.0f / gsScale)) {
+				diff = -((MAX_REQUIRED_STEP / 0.9f) * 100.0f / gsScale);
 			}
 			shift = (float) Math.min(100.0f, Math.max(0.0f, markovState.getValue(MarkovianStateDescription.Action_Shift) + diff));
 		}
-		final double hiddenShift = (float) Math.min(GS_BOUND, Math.max(-GS_BOUND, (gsScale*shift/100.0f - GS_SET_POINT_DEPENDENCY*markovState.getValue(MarkovianStateDescription.SetPoint) - GS_BOUND)));
+		final double hiddenShift = (float) Math.min(GS_BOUND, Math.max(-GS_BOUND, ((gsScale * shift / 100.0f) - (GS_SET_POINT_DEPENDENCY * markovState.getValue(MarkovianStateDescription.SetPoint)) - GS_BOUND)));
 
 		markovState.setValue(MarkovianStateDescription.Action_Velocity, velocity);
 		markovState.setValue(MarkovianStateDescription.Action_Gain, gain);
@@ -356,8 +356,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		final double effActionGainBeta = effAction.getGainBeta();  // => velocity
 
 		// base noise
-		double noiseGain = 2.0 * (1.0/(1.0+Math.exp(-rda.nextExponential(expLambda))) - 0.5);
-		double noiseVelocity = 2.0 * (1.0/(1.0+Math.exp(-rda.nextExponential(expLambda))) - 0.5);
+		double noiseGain = 2.0 * (1.0 / (1.0 + Math.exp(-rda.nextExponential(expLambda))) - 0.5);
+		double noiseVelocity = 2.0 * (1.0 / (1.0 + Math.exp(-rda.nextExponential(expLambda))) - 0.5);
 
 		// add spikes
 		// keep error within range of [0.001, 0.999] because otherwise Binomial.staticNextInt() will fail.
@@ -366,15 +366,15 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// compute internal dynamics
 		if (hiddenStateGain >= fatigueAmplificationStart) {
-			hiddenStateGain = Math.min(fatigueAmplificationMax,  hiddenStateGain*fatigueAmplification);
+			hiddenStateGain = Math.min(fatigueAmplificationMax, hiddenStateGain * fatigueAmplification);
 		} else if (effActionGainBeta > actionTolerance) {
-			hiddenStateGain = (hiddenStateGain*0.9f) + ((float)noiseGain/3.0f);
+			hiddenStateGain = (hiddenStateGain * 0.9f) + ((float)noiseGain / 3.0f);
 		}
 
 		if (hiddenStateVelocity >= fatigueAmplificationStart) {
-			hiddenStateVelocity = Math.min(fatigueAmplificationMax,  hiddenStateVelocity*fatigueAmplification);
+			hiddenStateVelocity = Math.min(fatigueAmplificationMax,  hiddenStateVelocity * fatigueAmplification);
 		} else if (effActionVelocityAlpha > actionTolerance) {
-			hiddenStateVelocity = (hiddenStateVelocity*0.9f) + ((float)noiseVelocity/3.0f);
+			hiddenStateVelocity = (hiddenStateVelocity * 0.9f) + ((float)noiseVelocity / 3.0f);
 		}
 
 		// reset hiddenState in case actionError is within actionTolerance
@@ -389,7 +389,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		double dyn;
 		if (Math.max(hiddenStateVelocity, hiddenStateGain) == fatigueAmplificationMax) {
 			// bad noise in case fatigueAmplificationMax is reached
-			dyn = 1.0 / (1.0+Math.exp(-4.0 * rda.nextGaussian(0.6, 0.1)));
+			dyn = 1.0 / (1.0 + Math.exp(-4.0 * rda.nextGaussian(0.6, 0.1)));
 		} else {
 			dyn = Math.max(noiseGain,  noiseVelocity);
 		}
@@ -400,10 +400,10 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		final float cDynBase = getConst(C.DBase);
 
 		double dynOld = ((cDynBase / ((cDVelocity * velocity) + cDSetPoint)) - cDGain * gain*gain);
-		if (dynOld < 0) {
-			dynOld = 0;
+		if (dynOld < 0.0) {
+			dynOld = 0.0;
 		}
-		dyn = ((2.f * dyn + 1.0) * dynOld) / 3.f;
+		dyn = ((2.0f * dyn + 1.0) * dynOld) / 3.0f;
 
 		markovState.setValue(MarkovianStateDescription.Fatigue, dyn);
 		markovState.setValue(MarkovianStateDescription.FatigueBase, dynOld);
@@ -425,7 +425,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		final double velocity = markovState.getValue(MarkovianStateDescription.Action_Velocity);
 		final double costs = cCostSetPoint * setpoint + cCostGain * gain + cCostVelocity * velocity;
 
-		final double operationalcosts = (float) Math.exp(costs / 100.);
+		final double operationalcosts = (float) Math.exp(costs / 100.0);
 		markovState.setValue(MarkovianStateDescription.CurrentOperationalCost, operationalcosts);
 		mOperationalCostsBuffer.add(operationalcosts);
 
