@@ -35,7 +35,7 @@ public class TestState {
 	public void testNAN() {
 		ObservableState s = new ObservableState();
 		// read unset value
-		double gainValue = s.getValue(ObservableStateDescription.Action_Gain);
+		double gainValue = s.getValue(ObservableStateDescription.ACTION_GAIN);
 		System.out.println("gain: actual=" + gainValue + ", expected=NaN");
 		assertTrue(Double.isNaN(gainValue));
 	}
@@ -46,12 +46,12 @@ public class TestState {
 		ObservableState s = new ObservableState();
 
 		double value = 1.2345;
-		s.setValue(ObservableStateDescription.SetPoint, value);
-		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
+		s.setValue(ObservableStateDescription.SET_POINT, value);
+		assertEquals(value, s.getValue(ObservableStateDescription.SET_POINT), 0.0001);
 
 		value = value * 2.0f;
-		s.setValue(ObservableStateDescription.SetPoint, value);
-		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
+		s.setValue(ObservableStateDescription.SET_POINT, value);
+		assertEquals(value, s.getValue(ObservableStateDescription.SET_POINT), 0.0001);
 	}
 }
 

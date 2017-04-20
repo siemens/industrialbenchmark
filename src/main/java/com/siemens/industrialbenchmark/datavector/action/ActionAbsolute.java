@@ -56,12 +56,12 @@ public class ActionAbsolute extends ActionDelta {
 	public ActionAbsolute(final double velocity, final double gain, final double shift, final Properties props) throws PropertiesException {
 		super(0.0, 0.0, 0.0);
 
-		this.velocityMin = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Velocity + "_MIN", 0f);
-		this.velocityMax = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Velocity + "_MAX", 100f);
-		this.gainMin = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Gain + "_MIN", 0f);
-		this.gainMax = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Gain + "_MAX", 100f);
-		this.shiftMin = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Shift + "_MIN", 0f);
-		this.shiftMax = PropertiesUtil.getFloat(props, ObservableStateDescription.Action_Shift + "_MAX", 100f);
+		this.velocityMin = PropertiesUtil.getFloat(props, ObservableStateDescription.ACTION_VELOCITY + "_MIN", 0f);
+		this.velocityMax = PropertiesUtil.getFloat(props, ObservableStateDescription.ACTION_VELOCITY + "_MAX", 100f);
+		this.gainMin = PropertiesUtil.getFloat(props, ObservableStateDescription.ACTION_GAIN + "_MIN", 0f);
+		this.gainMax = PropertiesUtil.getFloat(props, ObservableStateDescription.ACTION_GAIN + "_MAX", 100f);
+		this.shiftMin = PropertiesUtil.getFloat(props, ObservableStateDescription.ACTION_SHIFT + "_MIN", 0f);
+		this.shiftMax = PropertiesUtil.getFloat(props, ObservableStateDescription.ACTION_SHIFT + "_MAX", 100f);
 
 		checkVelocity(velocity);
 		checkGain(gain);

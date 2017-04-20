@@ -23,22 +23,22 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 public class ObservableStateDescription extends DataVectorDescriptionImpl {
 
 	// Definition of the observable variables from the markov state ...
-	public static final String SetPoint = MarkovianStateDescription.SET_POINT;
-	public static final String Action_Velocity = MarkovianStateDescription.ACTION_VELOCITY;
-	public static final String Action_Gain = MarkovianStateDescription.ACTION_GAIN;
-	public static final String Action_Shift = MarkovianStateDescription.ACTION_SHIFT;
-	public static final String Fatigue = MarkovianStateDescription.FATIGUE;
-	public static final String Consumption = MarkovianStateDescription.CONSUMPTION;
-	public static final String RewardTotal = MarkovianStateDescription.REWARD_TOTAL;
+	public static final String SET_POINT = MarkovianStateDescription.SET_POINT;
+	public static final String ACTION_VELOCITY = MarkovianStateDescription.ACTION_VELOCITY;
+	public static final String ACTION_GAIN = MarkovianStateDescription.ACTION_GAIN;
+	public static final String ACTION_SHIFT = MarkovianStateDescription.ACTION_SHIFT;
+	public static final String FATIGUE = MarkovianStateDescription.FATIGUE;
+	public static final String CONSUMPTION = MarkovianStateDescription.CONSUMPTION;
+	public static final String REWARD_TOTAL = MarkovianStateDescription.REWARD_TOTAL;
 
 	private static final String[] STATE_VARS = new String[] {
-		SetPoint,
-		Action_Velocity,
-		Action_Gain,
-		Action_Shift,
-		Fatigue,
-		RewardTotal,
-		Consumption
+		SET_POINT,
+		ACTION_VELOCITY,
+		ACTION_GAIN,
+		ACTION_SHIFT,
+		FATIGUE,
+		REWARD_TOTAL,
+		CONSUMPTION
 	};
 
 	public ObservableStateDescription() {

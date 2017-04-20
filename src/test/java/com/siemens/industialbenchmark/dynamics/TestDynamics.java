@@ -124,10 +124,10 @@ public class TestDynamics {
 			mState = d.getMarkovState();
 
 			// check observable state
-			assertEquals(oStates[i].getValue(ObservableStateDescription.SetPoint), oState.getValue(ObservableStateDescription.SetPoint), 0.0001);
-			assertEquals(oStates[i].getValue(ObservableStateDescription.Fatigue), oState.getValue(ObservableStateDescription.Fatigue), 0.0001);
-			assertEquals(oStates[i].getValue(ObservableStateDescription.Consumption), oState.getValue(ObservableStateDescription.Consumption), 0.0001);
-			assertEquals(oStates[i].getValue(ObservableStateDescription.RewardTotal), oState.getValue(ObservableStateDescription.RewardTotal), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.SET_POINT), oState.getValue(ObservableStateDescription.SET_POINT), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.FATIGUE), oState.getValue(ObservableStateDescription.FATIGUE), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.CONSUMPTION), oState.getValue(ObservableStateDescription.CONSUMPTION), 0.0001);
+			assertEquals(oStates[i].getValue(ObservableStateDescription.REWARD_TOTAL), oState.getValue(ObservableStateDescription.REWARD_TOTAL), 0.0001);
 
 			//
 			assertEquals(mStates[i].getValue(MarkovianStateDescription.CURRENT_OPERATIONAL_COST), mState.getValue(MarkovianStateDescription.CURRENT_OPERATIONAL_COST), 0.0001);

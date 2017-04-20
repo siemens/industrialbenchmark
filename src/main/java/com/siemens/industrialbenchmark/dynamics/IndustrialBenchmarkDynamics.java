@@ -268,7 +268,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		markovState.setValue(MarkovianStateDescription.RANDOM_SEED, Double.longBitsToDouble(randomSeed));
 
 		//return observableState;
-		return markovState.getValue(ObservableStateDescription.RewardTotal);
+		return markovState.getValue(ObservableStateDescription.REWARD_TOTAL);
 	}
 
 	private void updateOperationalCosts() {
@@ -538,6 +538,6 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 	@Override
 	public double getReward() {
-		return markovState.getValue(ObservableStateDescription.RewardTotal);
+		return markovState.getValue(ObservableStateDescription.REWARD_TOTAL);
 	}
 }
