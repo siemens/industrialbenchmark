@@ -166,14 +166,14 @@ public class PenaltyFunction {
 		final double p = pTmp < 0 ? pTmp + (2 * Math.PI) : pTmp;
 
 		final double optRad = computeOptimalRadius(p, maxRequiredStep);
-		final double r0 = l.global_minimum_radius(p);
+		final double r0 = l.globalMinimumRadius(p);
 
 		final DoubleFunction tr = radTransformationFactory(optRad, r0, Math.signum(optRad) * 2, Math.signum(r0) * 2);
 
 		return new DoubleFunction() {
 			@Override
 			public double apply(final double r) {
-				return l.polar_nlgp(tr.apply(r), p);
+				return l.polarNlgp(tr.apply(r), p);
 			}
 		};
 	}

@@ -42,7 +42,7 @@ public class NLGP {
 	 * to one domain with one extrema.
 	 * @return transition angle in radians
 	 */
-	public double domain_border_angle() {
+	public double getDomainBorderAngle() {
 		return PHI_B;
 	}
 
@@ -53,7 +53,7 @@ public class NLGP {
 	 * @param y in R
 	 * @return resulting euclidian-NLGP function value
 	 */
-	public double euclidean_nlgp(final double x, final double y) {
+	public double euclideanNlgp(final double x, final double y) {
 		// 	rsq = np.square(x) + np.square(y)
 		//	return -self.__norm_alpha * rsq + self.__norm_beta * np.square(rsq) + self.__norm_kappa * y
 		final double rsq = x*x + y*y;
@@ -67,7 +67,7 @@ public class NLGP {
 	 * @param phi angle in Radians
 	 * @return resulting polar-NLGP function value
 	 */
-	public double polar_nlgp(final double r, final double phi) {
+	public double polarNlgp(final double r, final double phi) {
 		//rsq = np.square(r)
 		//return -self.__norm_alpha * rsq + self.__norm_beta * np.square(rsq) + self.__norm_kappa * sin(phi) * r
 		final double rsq = r*r;
@@ -76,11 +76,11 @@ public class NLGP {
 
 	/**
 	 * Returns the radius r0 along the phi-axis where NLG has minimal function value.
-	 * i.e. <code>r0 = argmin_{r} polar_nlgp(r, phi)</code>.
+	 * i.e. <code>r0 = argmin_{r} polarNlgp(r, phi)</code>.
 	 * @param phi angle in radians
 	 * @return r0 with minimal NLG
 	 */
-	public double global_minimum_radius(double phi) {
+	public double globalMinimumRadius(double phi) {
 		// use 2-pi-symmetry to move phi in domain [0,360°]
 		phi = phi % (2.*Math.PI);
 
@@ -128,27 +128,26 @@ public class NLGP {
 	}
 
 	/**
-	 * Vectorized version of {@link #global_minimum_radius(double)}.
+	 * Vectorized version of {@link #globalMinimumRadius(double)}.
 	 * @param phi a set of angles in radians
 	 * @return resulting r0s with minimal NLGs
 	 */
-	public double[] global_minimum_radius(final double[] phi) {
+	public double[] globalMinimumRadius(final double[] phi) {
 		final double[] ret = new double[phi.length];
 		for (int i = 0; i < phi.length; i++) {
-			ret[i] = global_minimum_radius(phi[i]);
+			ret[i] = NLGP.this.globalMinimumRadius(phi[i]);
 		}
 		return ret;
 	}
 
 	/**
 	 * Returns the minimal functional value along phi-axis.
-	 * i.e. <code>min_{r} polar_nlgp(r, phi)</code>.
+	 * i.e. <code>min_{r} polarNlgp(r, phi)</code>.
 	 * @param phi angle in Radians
 	 * @return the minimal functional value along phi-axis
 	 */
-	public double global_minimum(final double phi) {
-		final double r0 = global_minimum_radius(phi);
-		return polar_nlgp(r0, phi);
+	public double globalMinimum(final double phi) {
+		final double r0 = NLGP.this.globalMinimumRadius(phi);
+		return polarNlgp(r0, phi);
 	}
 }
-
