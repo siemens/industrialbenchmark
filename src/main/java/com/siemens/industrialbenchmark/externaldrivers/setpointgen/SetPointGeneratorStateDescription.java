@@ -25,7 +25,7 @@ public class SetPointGeneratorStateDescription extends DataVectorDescriptionImpl
 
 	// Definition of the observable variables from the markov state ...
 	// the variable we drive
-	public static final String SetPoint = MarkovianStateDescription.SetPoint;
+	public static final String SetPoint = MarkovianStateDescription.SET_POINT;
 
 	// internal state variables
 	public static final String SetPointLastSequenceSteps = "SetPointLastSequenceSteps";

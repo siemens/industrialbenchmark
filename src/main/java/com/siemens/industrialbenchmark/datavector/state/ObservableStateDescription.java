@@ -23,13 +23,13 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
 public class ObservableStateDescription extends DataVectorDescriptionImpl {
 
 	// Definition of the observable variables from the markov state ...
-	public static final String SetPoint = MarkovianStateDescription.SetPoint;
-	public static final String Action_Velocity = MarkovianStateDescription.Action_Velocity;
-	public static final String Action_Gain = MarkovianStateDescription.Action_Gain;
-	public static final String Action_Shift = MarkovianStateDescription.Action_Shift;
-	public static final String Fatigue = MarkovianStateDescription.Fatigue;
-	public static final String Consumption = MarkovianStateDescription.Consumption;
-	public static final String RewardTotal = MarkovianStateDescription.RewardTotal;
+	public static final String SetPoint = MarkovianStateDescription.SET_POINT;
+	public static final String Action_Velocity = MarkovianStateDescription.ACTION_VELOCITY;
+	public static final String Action_Gain = MarkovianStateDescription.ACTION_GAIN;
+	public static final String Action_Shift = MarkovianStateDescription.ACTION_SHIFT;
+	public static final String Fatigue = MarkovianStateDescription.FATIGUE;
+	public static final String Consumption = MarkovianStateDescription.CONSUMPTION;
+	public static final String RewardTotal = MarkovianStateDescription.REWARD_TOTAL;
 
 	private static final String[] STATE_VARS = new String[] {
 		SetPoint,

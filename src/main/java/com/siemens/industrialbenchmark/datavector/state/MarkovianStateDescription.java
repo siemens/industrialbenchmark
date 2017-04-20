@@ -27,67 +27,67 @@ import com.siemens.industrialbenchmark.datavector.DataVectorDescriptionImpl;
  */
 public class MarkovianStateDescription extends DataVectorDescriptionImpl {
 
-	public static final String CurrentOperationalCost = "CurrentOperationalCost";
-	public static final String FatigueLatent2 = "FatigueLatent2";
-	public static final String FatigueLatent1 = "FatigueLatent1";
+	public static final String CURRENT_OPERATIONAL_COST = "CurrentOperationalCost";
+	public static final String FATIGUE_LATENT_2 = "FatigueLatent2";
+	public static final String FATIGUE_LATENT_1 = "FatigueLatent1";
 
 	// gold stone
-	public static final String EffectiveShift = "EffectiveShift";
-	public static final String MisCalibrationDomain = "MisCalibrationDomain";
-	public static final String MisCalibrationSystemResponse = "MisCalibrationSystemResponse";
-	public static final String MisCalibrationPhiIdx = "MisCalibrationPhiIdx";
+	public static final String EFFECTIVE_SHIFT = "EffectiveShift";
+	public static final String MIS_CALIBRATION_DOMAIN = "MisCalibrationDomain";
+	public static final String MIS_CALIBRATION_SYSTEM_RESPONSE = "MisCalibrationSystemResponse";
+	public static final String MIS_CALIBRATION_PHI_IDX = "MisCalibrationPhiIdx";
 
-	public static final String EffectiveActionGainBeta = "EffectiveActionGainBeta";
-	public static final String EffectiveActionVelocityAlpha = "EffectiveActionVelocityAlpha";
+	public static final String EFFECTIVE_ACTION_GAIN_BETA = "EffectiveActionGainBeta";
+	public static final String EFFECTIVE_ACTION_VELOCITY_ALPHA = "EffectiveActionVelocityAlpha";
 
-	public static final String RewardFatigue = "RewardFatigue";
-	public static final String RewardFatigueWeighted = "RewardFatigueWeighted";
-	public static final String RewardConsumption = "RewardConsumption";
-	public static final String RewardConsumptionWeighted = "RewardConsumptionWeighted";
-	public static final String MisCalibration = "MisCalibration";
-	public static final String RandomSeed = "RandomSeed";
+	public static final String REWARD_FATIGUE = "RewardFatigue";
+	public static final String REWARD_FATIGUE_WEIGHTED = "RewardFatigueWeighted";
+	public static final String REWARD_CONSUMPTION = "RewardConsumption";
+	public static final String REWARD_CONSUMPTION_WEIGHTED = "RewardConsumptionWeighted";
+	public static final String MIS_CALIBRATION = "MisCalibration";
+	public static final String RANDOM_SEED = "RandomSeed";
 
 	/* observables */
-	public static final String SetPoint = "SetPoint";
-	public static final String Action_Velocity = "Velocity";
-	public static final String Action_Gain = "Gain";
-	public static final String Action_Shift = "Shift";
-	public static final String Fatigue = "Fatigue";
-	public static final String FatigueBase = "FatigueBase"; // without bifurcation aspects
-	public static final String OperationalCostsConv = "OperationalCostsConv";
-	public static final String Consumption = "Consumption";
-	public static final String RewardTotal = "RewardTotal";
+	public static final String SET_POINT = "SetPoint";
+	public static final String ACTION_VELOCITY = "Velocity";
+	public static final String ACTION_GAIN = "Gain";
+	public static final String ACTION_SHIFT = "Shift";
+	public static final String FATIGUE = "Fatigue";
+	public static final String FATIGUE_BASE = "FatigueBase"; // without bifurcation aspects
+	public static final String OPERATIONAL_COSTS_CONV = "OperationalCostsConv";
+	public static final String CONSUMPTION = "Consumption";
+	public static final String REWARD_TOTAL = "RewardTotal";
 
 	private static final List<String> STATE_VARS = new ArrayList<String>();
 
 	static {
 		// hidden state variables
-		STATE_VARS.add(CurrentOperationalCost);
-		STATE_VARS.add(FatigueLatent2);
-		STATE_VARS.add(FatigueLatent1);
-		STATE_VARS.add(EffectiveShift);
-		STATE_VARS.add(MisCalibrationDomain);
-		STATE_VARS.add(MisCalibrationSystemResponse);
-		STATE_VARS.add(MisCalibrationPhiIdx);
-		STATE_VARS.add(EffectiveActionGainBeta);
-		STATE_VARS.add(EffectiveActionVelocityAlpha);
-		STATE_VARS.add(RewardConsumption);
-		STATE_VARS.add(RewardFatigue);
-		STATE_VARS.add(MisCalibration);
-		STATE_VARS.add(RewardConsumptionWeighted);
-		STATE_VARS.add(RewardFatigueWeighted);
-		STATE_VARS.add(RandomSeed);
-		STATE_VARS.add(Consumption);
+		STATE_VARS.add(CURRENT_OPERATIONAL_COST);
+		STATE_VARS.add(FATIGUE_LATENT_2);
+		STATE_VARS.add(FATIGUE_LATENT_1);
+		STATE_VARS.add(EFFECTIVE_SHIFT);
+		STATE_VARS.add(MIS_CALIBRATION_DOMAIN);
+		STATE_VARS.add(MIS_CALIBRATION_SYSTEM_RESPONSE);
+		STATE_VARS.add(MIS_CALIBRATION_PHI_IDX);
+		STATE_VARS.add(EFFECTIVE_ACTION_GAIN_BETA);
+		STATE_VARS.add(EFFECTIVE_ACTION_VELOCITY_ALPHA);
+		STATE_VARS.add(REWARD_CONSUMPTION);
+		STATE_VARS.add(REWARD_FATIGUE);
+		STATE_VARS.add(MIS_CALIBRATION);
+		STATE_VARS.add(REWARD_CONSUMPTION_WEIGHTED);
+		STATE_VARS.add(REWARD_FATIGUE_WEIGHTED);
+		STATE_VARS.add(RANDOM_SEED);
+		STATE_VARS.add(CONSUMPTION);
 
 		// observables:
-		STATE_VARS.add(SetPoint);
-		STATE_VARS.add(Action_Velocity);
-		STATE_VARS.add(Action_Gain);
-		STATE_VARS.add(Action_Shift);
-		STATE_VARS.add(Fatigue);
-		STATE_VARS.add(FatigueBase);
-		STATE_VARS.add(OperationalCostsConv);
-		STATE_VARS.add(RewardTotal);
+		STATE_VARS.add(SET_POINT);
+		STATE_VARS.add(ACTION_VELOCITY);
+		STATE_VARS.add(ACTION_GAIN);
+		STATE_VARS.add(ACTION_SHIFT);
+		STATE_VARS.add(FATIGUE);
+		STATE_VARS.add(FATIGUE_BASE);
+		STATE_VARS.add(OPERATIONAL_COSTS_CONV);
+		STATE_VARS.add(REWARD_TOTAL);
 	}
 
 	/**

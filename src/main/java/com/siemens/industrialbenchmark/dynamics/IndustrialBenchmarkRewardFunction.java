@@ -46,19 +46,19 @@ public class IndustrialBenchmarkRewardFunction {
 	public void calcReward(final DataVector mState) {
 
 		// Dynamics
-		final double rD = -mState.getValue(MarkovianStateDescription.Fatigue);
+		final double rD = -mState.getValue(MarkovianStateDescription.FATIGUE);
 
 		// Goldstone reward
 		//double rGS = mState.getValue(MarkovianStateDescription.RewardGS);
 
 		// OperationalCost
-		final double rE = -mState.getValue(MarkovianStateDescription.Consumption);
+		final double rE = -mState.getValue(MarkovianStateDescription.CONSUMPTION);
 
-		mState.setValue(MarkovianStateDescription.RewardConsumptionWeighted, cre * rE);
-		mState.setValue(MarkovianStateDescription.RewardFatigueWeighted, crd * rD);
-		mState.setValue(MarkovianStateDescription.RewardConsumption, rE);
-		mState.setValue(MarkovianStateDescription.RewardFatigue, rD);
-		mState.setValue(MarkovianStateDescription.RewardTotal, crd * rD + cre * rE);
+		mState.setValue(MarkovianStateDescription.REWARD_CONSUMPTION_WEIGHTED, cre * rE);
+		mState.setValue(MarkovianStateDescription.REWARD_FATIGUE_WEIGHTED, crd * rD);
+		mState.setValue(MarkovianStateDescription.REWARD_CONSUMPTION, rE);
+		mState.setValue(MarkovianStateDescription.REWARD_FATIGUE, rD);
+		mState.setValue(MarkovianStateDescription.REWARD_TOTAL, crd * rD + cre * rE);
 	}
 }
 

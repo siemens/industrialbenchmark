@@ -41,7 +41,7 @@ public final class ExampleMain {
 	public static void main(final String[] args) throws IOException, PropertiesException {
 
 		final int nSteps = 1500;
-		final String outputVar = MarkovianStateDescription.RewardTotal;
+		final String outputVar = MarkovianStateDescription.REWARD_TOTAL;
 
 		// configuration of the properties file
 		final String simPropsFilePath;

@@ -130,21 +130,21 @@ public class TestDynamics {
 			assertEquals(oStates[i].getValue(ObservableStateDescription.RewardTotal), oState.getValue(ObservableStateDescription.RewardTotal), 0.0001);
 
 			//
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.CurrentOperationalCost), mState.getValue(MarkovianStateDescription.CurrentOperationalCost), 0.0001);
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.FatigueLatent2), mState.getValue(MarkovianStateDescription.FatigueLatent2), 0.0001);
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.FatigueLatent1), mState.getValue(MarkovianStateDescription.FatigueLatent1), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.CURRENT_OPERATIONAL_COST), mState.getValue(MarkovianStateDescription.CURRENT_OPERATIONAL_COST), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.FATIGUE_LATENT_2), mState.getValue(MarkovianStateDescription.FATIGUE_LATENT_2), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.FATIGUE_LATENT_1), mState.getValue(MarkovianStateDescription.FATIGUE_LATENT_1), 0.0001);
 
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.EffectiveActionGainBeta), mState.getValue(MarkovianStateDescription.EffectiveActionGainBeta), 0.0001);
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.EffectiveActionVelocityAlpha), mState.getValue(MarkovianStateDescription.EffectiveActionVelocityAlpha), 0.0001);
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.EffectiveShift), mState.getValue(MarkovianStateDescription.EffectiveShift), 0.0001);
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.MisCalibration), mState.getValue(MarkovianStateDescription.MisCalibration), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.EFFECTIVE_ACTION_GAIN_BETA), mState.getValue(MarkovianStateDescription.EFFECTIVE_ACTION_GAIN_BETA), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.EFFECTIVE_ACTION_VELOCITY_ALPHA), mState.getValue(MarkovianStateDescription.EFFECTIVE_ACTION_VELOCITY_ALPHA), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.EFFECTIVE_SHIFT), mState.getValue(MarkovianStateDescription.EFFECTIVE_SHIFT), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.MIS_CALIBRATION), mState.getValue(MarkovianStateDescription.MIS_CALIBRATION), 0.0001);
 
 			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), mState.getValue(SetPointGeneratorStateDescription.SetPointChangeRatePerStep), 0.0001);
 			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointCurrentSteps), 0.0001);
 			assertEquals(mStates[i].getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), mState.getValue(SetPointGeneratorStateDescription.SetPointLastSequenceSteps), 0.0001);
 
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.RewardFatigue), mState.getValue(MarkovianStateDescription.RewardFatigue), 0.0001);
-			assertEquals(mStates[i].getValue(MarkovianStateDescription.RewardConsumption), mState.getValue(MarkovianStateDescription.RewardConsumption), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.REWARD_FATIGUE), mState.getValue(MarkovianStateDescription.REWARD_FATIGUE), 0.0001);
+			assertEquals(mStates[i].getValue(MarkovianStateDescription.REWARD_CONSUMPTION), mState.getValue(MarkovianStateDescription.REWARD_CONSUMPTION), 0.0001);
 		}
 
 		System.out.println("last o-state 1st trajectory: " + oStates[oStates.length-1]);
