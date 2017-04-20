@@ -102,7 +102,7 @@ public class ActionAbsolute extends ActionDelta {
 				velocity >= velocityMin && velocity <= velocityMax,
 				"velocity=%s must be in range [%s, %s].",
 				velocity, velocityMin, velocityMax);
-		Preconditions.checkArgument(delta <= maxDelta,
+		Preconditions.checkArgument(delta <= MAX_DELTA,
 				"delta_velocity=%s out of range. 'Velocity' must be in range [%s, %s].",
 				this.absVelocity - delta, this.absVelocity + delta);
 		this.setValue(ActionDeltaDescription.DeltaVelocity, velocity - this.absVelocity);
@@ -116,7 +116,7 @@ public class ActionAbsolute extends ActionDelta {
 		final double delta = Math.abs(gain - this.absGain);
 		Preconditions.checkArgument(gain >= gainMin && gain <= gainMax,
 				"gain=%s must be in range [%s, %s].", gain, gainMin, gainMax);
-		Preconditions.checkArgument(delta <= maxDelta,
+		Preconditions.checkArgument(delta <= MAX_DELTA,
 				"delta_gain=%s out of range. 'gain' must be in range [%s, %s].",
 				this.absGain - delta, this.absGain + delta);
 		setValue(ActionDeltaDescription.DeltaGain, gain - this.absGain);
@@ -131,7 +131,7 @@ public class ActionAbsolute extends ActionDelta {
 		final double delta = Math.abs(shift - this.absShift);
 		Preconditions.checkArgument(shift >= gainMin && shift <= gainMax,
 				"shift=%s must be in range [%s, %s].", shift, shiftMin, shiftMax);
-		Preconditions.checkArgument(delta <= maxDelta,
+		Preconditions.checkArgument(delta <= MAX_DELTA,
 				"delta_shift=%s out of range. 'C' must be in range [%s, %s].",
 				this.absShift - delta, this.absShift + delta);
 		setValue(ActionDeltaDescription.DeltaShift, shift - this.absShift);

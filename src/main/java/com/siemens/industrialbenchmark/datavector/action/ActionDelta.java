@@ -28,7 +28,7 @@ public class ActionDelta extends DataVectorImpl {
 
 	private static final long serialVersionUID = 1159603096632053185L;
 
-	protected final double maxDelta = 100.0; // HACK This was 10.0 before, but the default range is 100.0, so it produced runtime exceptions by default. why use this arbitrary value here anyway?
+	protected static final double MAX_DELTA = 100.0; // HACK This was 10.0 before, but the default range is 100.0, so it produced runtime exceptions by default. why use this arbitrary value here anyway?
 
 	/**
 	 * Constructor with deltas and properties file.
@@ -42,10 +42,10 @@ public class ActionDelta extends DataVectorImpl {
 	{
 		super(new ActionDeltaDescription());
 
-		Preconditions.checkArgument(Math.abs(deltaVelocity) <= maxDelta,
-				"Math.abs(deltaA=%s) must be <= %s", deltaVelocity, maxDelta);
-		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta,
-				"Math.abs(deltaB=%s) must be <= %s", deltaGain, maxDelta);
+		Preconditions.checkArgument(Math.abs(deltaVelocity) <= MAX_DELTA,
+				"Math.abs(deltaA=%s) must be <= %s", deltaVelocity, MAX_DELTA);
+		Preconditions.checkArgument(Math.abs(deltaGain) <= MAX_DELTA,
+				"Math.abs(deltaB=%s) must be <= %s", deltaGain, MAX_DELTA);
 
 		setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
 		setValue(ActionDeltaDescription.DeltaGain, deltaGain);
@@ -77,8 +77,8 @@ public class ActionDelta extends DataVectorImpl {
 	 * @param deltaVelocity the delta velocity to set
 	 */
 	public void setDeltaVelocity(final double deltaVelocity) {
-		Preconditions.checkArgument(Math.abs(deltaVelocity) <= maxDelta,
-				"Math.abs(deltaVelocity=%s) must be <= %s", deltaVelocity, maxDelta);
+		Preconditions.checkArgument(Math.abs(deltaVelocity) <= MAX_DELTA,
+				"Math.abs(deltaVelocity=%s) must be <= %s", deltaVelocity, MAX_DELTA);
 		this.setValue(ActionDeltaDescription.DeltaVelocity, deltaVelocity);
 	}
 
@@ -86,8 +86,8 @@ public class ActionDelta extends DataVectorImpl {
 	 * @param deltaGain the delta gain to set
 	 */
 	public void setDeltaGain(final double deltaGain) {
-		Preconditions.checkArgument(Math.abs(deltaGain) <= maxDelta,
-				"Math.abs(deltaGain=%s) must be <= %s", deltaGain, maxDelta);
+		Preconditions.checkArgument(Math.abs(deltaGain) <= MAX_DELTA,
+				"Math.abs(deltaGain=%s) must be <= %s", deltaGain, MAX_DELTA);
 		this.setValue(ActionDeltaDescription.DeltaGain, deltaGain);
 	}
 
