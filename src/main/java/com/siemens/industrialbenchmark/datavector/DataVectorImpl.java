@@ -23,6 +23,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.siemens.rl.interfaces.DataVector;
 import com.siemens.rl.interfaces.DataVectorDescription;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -36,9 +38,8 @@ public class DataVectorImpl implements DataVector {
 
 	private static final long serialVersionUID = 2L;
 
-	private final transient Map<String, Integer> indexMap;
-	private double[] values;
-
+	private transient Map<String, Integer> indexMap;
+	private final double[] values;
 	private final DataVectorDescription description;
 	private final ImmutableList<String> keys;
 
@@ -46,10 +47,9 @@ public class DataVectorImpl implements DataVector {
 		Preconditions.checkNotNull(keys, "Keys must not be null.");
 		this.description = description;
 		this.keys = ImmutableList.copyOf(keys);
-		this.indexMap = new HashMap<>();
+		createIndexMap();
 		this.values = new double[this.keys.size()];
 		for (int i = 0; i < this.keys.size(); i++) {
-			this.indexMap.put(this.keys.get(i), i);
 			this.values[i] = Double.NaN;
 		}
 	}
@@ -79,10 +79,27 @@ public class DataVectorImpl implements DataVector {
 	 * @param otherDataVector the vector to copy
 	 */
 	protected DataVectorImpl(final DataVectorImpl otherDataVector) {
-		this(otherDataVector.getDescription(), otherDataVector.getKeys());
-
+		Preconditions.checkNotNull(otherDataVector, "The other DataVector must not be null.");
+		this.description = otherDataVector.getDescription();
+		this.keys = ImmutableList.copyOf(otherDataVector.getKeys());
+		createIndexMap();
 		final double[] otherValues = otherDataVector.getValuesArray();
 		this.values = Arrays.copyOf(otherValues, otherValues.length);
+	}
+
+	private void readObject(final ObjectInputStream in)
+			throws IOException, ClassNotFoundException
+	{
+		in.defaultReadObject();
+		createIndexMap();
+	}
+
+	private void createIndexMap() {
+
+		indexMap = new HashMap<>(keys.size());
+		for (int i = 0; i < keys.size(); i++) {
+			indexMap.put(keys.get(i), i);
+		}
 	}
 
 	@Override
