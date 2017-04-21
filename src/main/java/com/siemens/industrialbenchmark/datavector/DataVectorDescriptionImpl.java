@@ -43,7 +43,7 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 		Preconditions.checkArgument(new HashSet<>(names).size() == names.size(), "name list contains duplicates");
 
 		final Builder<String> lb = ImmutableList.builder();
-		for (String key : names) {
+		for (final String key : names) {
 			lb.add(key);
 		}
 		this.names = lb.build();
