@@ -76,7 +76,7 @@ public class PenaltyFunction {
 		};
 	}
 
-	private static DoubleFunction radTransformationFactory(double x0, double r0, double x1, double r1) {
+	private static DoubleFunction radTransformationFactory(final double x0, final double r0, final double x1, final double r1) {
 
 		Preconditions.checkArgument(
 				(x0 <= 0 && r0 <= 0 && x1 <= 0 && r1 <= 0)
@@ -84,39 +84,34 @@ public class PenaltyFunction {
 				"x0, r0, x1, r1 must be either all positive or all negative, "
 				+ "but was x0=%s, r0=%s, x1=%s, r1=%s", x0, r0, x1, r1);
 
-		x0 = Math.abs(x0);
-		r0 = Math.abs(r0);
-		x1 = Math.abs(x1);
-		r1 = Math.abs(r1);
+		final double absX0 = Math.abs(x0);
+		final double absR0 = Math.abs(r0);
+		final double absX1 = Math.abs(x1);
+		final double absR1 = Math.abs(r1);
 
-		Preconditions.checkArgument(x0 > 0 && r0 > 0,
-				"x0 and r0 must be positive, but was x0=%s and r0=%s", x0, r0);
-		Preconditions.checkArgument(x1 >= x0 && r1 >= r0,
-				"required: (x0, r0) < (x1, r1), but was x0=%s, r0=%s x1=%s, r1=%s", x0, r0, x1, r1);
+		Preconditions.checkArgument(absX0 > 0 && absR0 > 0,
+				"x0 and r0 must be positive, but was x0=%s and r0=%s", absX0, absR0);
+		Preconditions.checkArgument(absX1 >= absX0 && absR1 >= absR0,
+				"required: (x0, r0) < (x1, r1), but was x0=%s, r0=%s x1=%s, r1=%s", absX0, absR0, absX1, absR1);
 
-		final double rscaler = r0 / x0;
-
-		final double finalR0 = r0;
-		final double finalR1 = r1;
-		final double finalX0 = x0;
-		final double finalX1 = x1;
+		final double rScaler = absR0 / absX0;
 
 		final DoubleFunction seg2Tsf =
-				transferFunctionFactory(finalR0, finalX1 - finalX0, finalR1 - finalR0);
+				transferFunctionFactory(absR0, absX1 - absX0, absR1 - absR0);
 
 		return new DoubleFunction() {
 			@Override
-			public double apply(double x) {
-				final double s = Math.signum(x);
-				x = Math.abs(x);
+			public double apply(final double x) {
+				final double sign = Math.signum(x);
+				final double absX = Math.abs(x);
 
-				if (x <= finalX0) {
-					return s * rscaler * x;
+				if (absX <= absX0) {
+					return sign * rScaler * absX;
 				}
-				if (x < finalX1){
-					return s * seg2Tsf.apply(x - finalX0);
+				if (absX < absX1){
+					return sign * seg2Tsf.apply(absX - absX0);
 				}
-				return s * (x - finalX1 + finalR1);
+				return sign * (absX - absX1 + absR1);
 			}
 		};
 	}
@@ -144,10 +139,10 @@ public class PenaltyFunction {
 	 * @param maxRequiredStep
 	 * @return
 	 */
-	private static double computeOptimalRadius(double phi, final double maxRequiredStep) {
-		phi = phi % (2 * Math.PI);
-		double opt = Math.max(Math.abs(Math.sin(phi)), maxRequiredStep);
-		if (phi >= Math.PI) {
+	private static double computeOptimalRadius(final double phi, final double maxRequiredStep) {
+		final double modPhi = phi % (2 * Math.PI);
+		double opt = Math.max(Math.abs(Math.sin(modPhi)), maxRequiredStep);
+		if (modPhi >= Math.PI) {
 			opt *= -1;
 		}
 		return opt;

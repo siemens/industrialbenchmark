@@ -80,23 +80,23 @@ public class NLGP {
 	 * @param phi angle in radians
 	 * @return r0 with minimal NLG
 	 */
-	public double globalMinimumRadius(double phi) {
+	public double globalMinimumRadius(final double phi) {
 		// use 2-pi-symmetry to move phi in domain [0,360°]
-		phi = phi % (2.*Math.PI);
+		double modPhi = phi % (2.*Math.PI);
 
 		//
 		// if phi >= 180°, use symmetry of LGP:
 		// * compute r_min in domain: phi - 180° in [0,180°]
 		// * multiply resulting radius with -1
 		final double scalar;
-		if (phi >= Math.PI) {
-			phi -= Math.PI;
+		if (modPhi >= Math.PI) {
+			modPhi -= Math.PI;
 			scalar = -1;
 		} else {
 			scalar = 1;
 		}
 
-		final double qh = NORM_KAPPA * Math.sin(phi) / (8. * NORM_BETA);
+		final double qh = NORM_KAPPA * Math.sin(modPhi) / (8. * NORM_BETA);
 
 		/*
 		 * For numerical stability, we distinguish the domain with 3 extrema from the
