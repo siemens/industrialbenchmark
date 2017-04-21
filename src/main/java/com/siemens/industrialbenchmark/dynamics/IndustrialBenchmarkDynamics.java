@@ -54,13 +54,13 @@ import com.siemens.rl.interfaces.ExternalDriver;
 public class IndustrialBenchmarkDynamics implements Environment {
 
 	//private Logger mLogger = Logger.getLogger(IndustrialBenchmarkDynamics.class);
-	private final float stepSizeVelocity;
-	private final float stepSizeGain;
+	private final transient float stepSizeVelocity;
+	private final transient float stepSizeGain;
 
 	/** Ring Buffer of fixed size implementing a FIFO queue */
 	private CircularFifoBuffer mOperationalCostsBuffer;
 
-	private float[] mEmConvWeights;
+	private transient float[] mEmConvWeights;
 	private boolean convToInit;
 
 	private final GoldstoneEnvironment gsEnvironment;
@@ -75,14 +75,14 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	}
 
 	protected MarkovianState markovState;
-	protected MarkovianState mMax;
-	protected MarkovianState mMin;
+	protected transient MarkovianState mMax;
+	protected transient MarkovianState mMin;
 	protected final Properties mProperties;
 
-	private IndustrialBenchmarkRewardFunction mRewardCore;
+	private transient IndustrialBenchmarkRewardFunction mRewardCore;
 	private final RandomDataGenerator rda;
-	private long randomSeed;
-	private float crgs;
+	private transient long randomSeed;
+	private transient float crgs;
 
 	private final List<ExternalDriver> externalDrivers;
 	private static final ActionDelta ZERO_ACTION = new ActionDelta(0.0, 0.0, 0.0);

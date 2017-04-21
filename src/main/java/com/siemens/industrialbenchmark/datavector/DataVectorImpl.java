@@ -34,7 +34,7 @@ public class DataVectorImpl implements Cloneable, DataVector {
 
 	private static final long serialVersionUID = 4956886314253943518L;
 
-	private final Map<String, Integer> indexMap;
+	private final transient Map<String, Integer> indexMap;
 	private double[] values;
 
 	private final DataVectorDescription description;

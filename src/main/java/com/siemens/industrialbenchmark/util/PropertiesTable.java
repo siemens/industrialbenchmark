@@ -69,8 +69,8 @@ public class PropertiesTable extends JTable {
 		private static final Class[] COLUMN_TYPES = new Class[] {String.class, Object.class};
 
 		private final Properties properties;
-		private final List<String> propertiesKeys;
-		private final List<Object> propertiesValues;
+		private final transient List<String> propertiesKeys;
+		private final transient List<Object> propertiesValues;
 
 		PropertiesTableModel(final Properties properties) {
 

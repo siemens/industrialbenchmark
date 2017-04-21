@@ -38,12 +38,12 @@ public class ActionAbsolute extends ActionDelta {
 	private double absGain;
 	private double absShift;
 
-	private final double velocityMin;
-	private final double velocityMax;
-	private final double gainMin;
-	private final double gainMax;
-	private final double shiftMin;
-	private final double shiftMax;
+	private final transient double velocityMin;
+	private final transient double velocityMax;
+	private final transient double gainMin;
+	private final transient double gainMax;
+	private final transient double shiftMin;
+	private final transient double shiftMax;
 
 	/**
 	 * Constructor actions and properties file

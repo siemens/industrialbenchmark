@@ -26,7 +26,7 @@ public class PenaltyFunction {
 
 	private final double phi;
 	private final double maxRequiredStep;
-	private final DoubleFunction rewardFunction;
+	private final transient DoubleFunction rewardFunction;
 	private final double optimumRadius;
 	private final double optimumValue;
 

@@ -36,11 +36,11 @@ import com.siemens.rl.interfaces.ExternalDriver;
  */
 public class SetPointGenerator implements ExternalDriver {
 
-	private final float setPointStepSize;
-	private final float maxChangeRatePerStepSetPoint;
-	private final int maxSequenceLength;
-	private final float minSetPoint;
-	private final float maxSetPoint;
+	private final transient float setPointStepSize;
+	private final transient float maxChangeRatePerStepSetPoint;
+	private final transient int maxSequenceLength;
+	private final transient float minSetPoint;
+	private final transient float maxSetPoint;
 
 	private int mCurrentSteps;
 	private int mLastSequenceSteps;

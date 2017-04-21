@@ -29,8 +29,8 @@ import com.siemens.rl.interfaces.DataVector;
  */
 public class IndustrialBenchmarkRewardFunction {
 
-	private final double crd;
-	private final double cre;
+	private final transient double crd;
+	private final transient double cre;
 
 	public IndustrialBenchmarkRewardFunction(final Properties aProperties)
 			throws PropertiesException
