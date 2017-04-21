@@ -135,7 +135,7 @@ public class NLGP {
 	public double[] globalMinimumRadius(final double[] phi) {
 		final double[] ret = new double[phi.length];
 		for (int i = 0; i < phi.length; i++) {
-			ret[i] = NLGP.this.globalMinimumRadius(phi[i]);
+			ret[i] = globalMinimumRadius(phi[i]);
 		}
 		return ret;
 	}
@@ -147,7 +147,7 @@ public class NLGP {
 	 * @return the minimal functional value along phi-axis
 	 */
 	public double globalMinimum(final double phi) {
-		final double r0 = NLGP.this.globalMinimumRadius(phi);
+		final double r0 = globalMinimumRadius(phi);
 		return polarNlgp(r0, phi);
 	}
 }

@@ -41,15 +41,15 @@ public class GoldstoneEnvironment {
 	}
 
 	public double reward() {
-		return this.dynamics.rewardAt(controlPosition);
+		return dynamics.rewardAt(controlPosition);
 	}
 
 	public double optimalPosition() {
-		return this.dynamics.optimalPosition();
+		return dynamics.optimalPosition();
 	}
 
 	public double optimalReward() {
-		return this.dynamics.optimalReward();
+		return dynamics.optimalReward();
 	}
 
 	/**
@@ -59,13 +59,13 @@ public class GoldstoneEnvironment {
 	 */
 	public double stateTransition(final double controlValueChange) {
 		// TODO: (comment from Alex) not yet implemented: test if action is allowed
-		this.controlPosition += controlValueChange;
-		this.dynamics.stateTransition(controlPosition);
-		return this.reward();
+		controlPosition += controlValueChange;
+		dynamics.stateTransition(controlPosition);
+		return reward();
 	}
 
 	public PenaltyFunction getRewardFunction() {
-		return this.dynamics.getPenaltyFunction();
+		return dynamics.getPenaltyFunction();
 	}
 
 	public double getControlPosition() {
@@ -74,7 +74,7 @@ public class GoldstoneEnvironment {
 
 	public void setControlPosition(final double controlPosition) {
 		this.controlPosition = controlPosition;
-		this.dynamics.stateTransition(controlPosition);
+		dynamics.stateTransition(controlPosition);
 		reward();
 	}
 
