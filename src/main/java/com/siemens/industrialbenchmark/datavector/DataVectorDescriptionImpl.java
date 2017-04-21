@@ -53,7 +53,7 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 	 * Constructs a new description based on names in a <code>String</code> array.
 	 * @param names state/action description names
 	 */
-	public DataVectorDescriptionImpl(final String[] names) {
+	public DataVectorDescriptionImpl(final String... names) {
 		this(Arrays.asList(names));
 	}
 

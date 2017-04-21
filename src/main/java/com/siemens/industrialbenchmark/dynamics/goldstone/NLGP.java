@@ -132,7 +132,7 @@ public class NLGP {
 	 * @param phi a set of angles in radians
 	 * @return resulting r0s with minimal NLGs
 	 */
-	public double[] globalMinimumRadius(final double[] phi) {
+	public double[] globalMinimumRadius(final double... phi) {
 		final double[] ret = new double[phi.length];
 		for (int i = 0; i < phi.length; i++) {
 			ret[i] = globalMinimumRadius(phi[i]);

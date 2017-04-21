@@ -52,7 +52,7 @@ public class PenaltyFunction {
 		return rewardFunction.apply(r);
 	}
 
-	public double[] reward(final double[] r) {
+	public double[] reward(final double... r) {
 		final double[] ret = new double[r.length];
 		for (int i = 0; i < r.length; i++) {
 			ret[i] = reward(r[i]);
