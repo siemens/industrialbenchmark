@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
 import com.siemens.rl.interfaces.DataVector;
 import com.siemens.rl.interfaces.DataVectorDescription;
+import java.util.Arrays;
 import java.util.Map;
 
 /**
@@ -30,7 +31,7 @@ import java.util.Map;
  *
  * @author Michel Tokic
  */
-public class DataVectorImpl implements Cloneable, DataVector {
+public class DataVectorImpl implements DataVector {
 
 	private static final long serialVersionUID = 4956886314253943518L;
 
@@ -69,6 +70,18 @@ public class DataVectorImpl implements Cloneable, DataVector {
 	public DataVectorImpl(final List<String> keys) {
 		this(null, keys);
 		Preconditions.checkNotNull(keys, "Keys must not be null.");
+	}
+
+	/**
+	 * Initializes the state with the description, keys and values
+	 * of the given state.
+	 * @param otherDataVector the vector to copy
+	 */
+	protected DataVectorImpl(final DataVectorImpl otherDataVector) {
+		this(otherDataVector.getDescription(), otherDataVector.getKeys());
+
+		final double[] otherValues = otherDataVector.getValuesArray();
+		this.values = Arrays.copyOf(otherValues, otherValues.length);
 	}
 
 	@Override
@@ -153,16 +166,6 @@ public class DataVectorImpl implements Cloneable, DataVector {
 		// replace the last ", " with "}"
 		output.replace(output.length() - 2, output.length(), "}");
 		return output.toString();
-	}
-
-	@Override
-	public DataVector clone() throws CloneNotSupportedException {
-		final DataVector s = new DataVectorImpl(this.getKeys());
-		for (final String key : this.getKeys()) {
-			s.setValue(key, this.getValue(key));
-		}
-
-		return s;
 	}
 }
 

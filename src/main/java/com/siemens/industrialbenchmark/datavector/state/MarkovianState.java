@@ -30,5 +30,13 @@ public class MarkovianState extends DataVectorImpl {
 	public MarkovianState(final List<String> operationalCostVars) {
 		super(new MarkovianStateDescription(operationalCostVars));
 	}
+
+	/**
+	 * Copy-constructor.
+	 * @param otherMarkovianState the state to copy
+	 */
+	public MarkovianState(final MarkovianState otherMarkovianState) {
+		super(otherMarkovianState);
+	}
 }
 

@@ -24,7 +24,7 @@ import java.util.List;
  *
  * @author Michel Tokic
  */
-public interface DataVector extends Serializable, Cloneable {
+public interface DataVector extends Serializable {
 
 	DataVectorDescription getDescription();
 
@@ -56,19 +56,5 @@ public interface DataVector extends Serializable, Cloneable {
 	 * @return dimension values
 	 */
 	double[] getValuesArray();
-
-	/**
-	 * Creates and returns a copy of this object.
-	 *
-	 * @return     a clone of this instance.
-	 * @throws  CloneNotSupportedException  if the object's class does not
-	 *               support the {@code Cloneable} interface. Subclasses
-	 *               that override the {@code clone} method can also
-	 *               throw this exception to indicate that an instance cannot
-	 *               be cloned.
-	 * @see java.lang.Cloneable
-	 * @see java.lang.Object#clone()
-	 */
-	DataVector clone() throws CloneNotSupportedException;
 }
 

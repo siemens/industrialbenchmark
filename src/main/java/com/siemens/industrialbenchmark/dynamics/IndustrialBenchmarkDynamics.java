@@ -479,12 +479,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 */
 	@Override
 	public DataVector getMarkovState() {
-		try {
-			return markovState.clone();
-		} catch (final CloneNotSupportedException ex) {
-			// this should never happen
-			throw new RuntimeException(ex);
-		}
+		return new MarkovianState(markovState);
 	}
 
 	/**
