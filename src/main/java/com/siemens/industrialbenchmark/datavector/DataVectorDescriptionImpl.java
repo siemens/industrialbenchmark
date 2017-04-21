@@ -39,7 +39,7 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 	 */
 	public DataVectorDescriptionImpl(final List<String> names) {
 		Preconditions.checkNotNull(names, "name list must not be null.");
-		Preconditions.checkArgument(names.size() > 0, "name list has size 0");
+		Preconditions.checkArgument(!names.isEmpty(), "name list has size 0");
 		Preconditions.checkArgument(new HashSet<>(names).size() == names.size(), "name list contains duplicates");
 
 		final Builder<String> lb = ImmutableList.builder();
