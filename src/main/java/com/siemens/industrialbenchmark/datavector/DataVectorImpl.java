@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList.Builder;
 import com.siemens.rl.interfaces.DataVector;
 import com.siemens.rl.interfaces.DataVectorDescription;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Map;
 
 /**
@@ -33,7 +34,7 @@ import java.util.Map;
  */
 public class DataVectorImpl implements DataVector {
 
-	private static final long serialVersionUID = 4956886314253943518L;
+	private static final long serialVersionUID = 2L;
 
 	private final transient Map<String, Integer> indexMap;
 	private double[] values;
@@ -42,6 +43,7 @@ public class DataVectorImpl implements DataVector {
 	private final ImmutableList<String> keys;
 
 	private DataVectorImpl(final DataVectorDescription description, final List<String> keys) {
+		Preconditions.checkNotNull(keys, "Keys must not be null.");
 		this.description = description;
 		this.keys = ImmutableList.copyOf(keys);
 		this.indexMap = new HashMap<>();
@@ -58,7 +60,7 @@ public class DataVectorImpl implements DataVector {
 	 * @param description The StateVectorDescription
 	 */
 	public DataVectorImpl(final DataVectorDescription description) {
-		this(description, description.getVarNames());
+		this(description, description == null ? Collections.emptyList() : description.getVarNames());
 		Preconditions.checkNotNull(description, "Description must not be null.");
 	}
 
@@ -69,7 +71,6 @@ public class DataVectorImpl implements DataVector {
 	 */
 	public DataVectorImpl(final List<String> keys) {
 		this(null, keys);
-		Preconditions.checkNotNull(keys, "Keys must not be null.");
 	}
 
 	/**
