@@ -90,11 +90,6 @@ public class DataVectorImpl implements DataVector {
 		return description;
 	}
 
-	/**
-	 * Returns the value for a given state/action dimension
-	 * @param key The state dimension
-	 * @return The value
-	 */
 	@Override
 	public Double getValue(final String key) {
 		Preconditions.checkArgument(this.getKeys().contains(key),
@@ -107,11 +102,6 @@ public class DataVectorImpl implements DataVector {
 		}
 	}
 
-	/**
-	 * Sets the current value of a given state/action dimension
-	 * @param key The state/action dimension
-	 * @param value The value
-	 */
 	@Override
 	public void setValue(final String key, final double value) {
 		Preconditions.checkNotNull(getKeys(), "keySet is null!!");
@@ -120,9 +110,6 @@ public class DataVectorImpl implements DataVector {
 		values[indexMap.get(key)] = value;
 	}
 
-	/**
-	 * @return a list containing the state/action dimension names
-	 */
 	@Override
 	public List<String> getKeys() {
 		return this.keys;
@@ -139,9 +126,6 @@ public class DataVectorImpl implements DataVector {
 		return valueBuilder.build();
 	}
 
-	/**
-	 * @return a double[] array containing the values
-	 */
 	@Override
 	public double[] getValuesArray() {
 		final double[] valuesCopy = new double[keys.size()];
