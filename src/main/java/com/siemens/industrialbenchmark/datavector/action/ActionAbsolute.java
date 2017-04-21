@@ -34,9 +34,9 @@ public class ActionAbsolute extends ActionDelta {
 
 	private static final long serialVersionUID = 802570663649527391L;
 
-	private double absVelocity;
-	private double absGain;
-	private double absShift;
+	private double velocity;
+	private double gain;
+	private double shift;
 
 	private final transient double velocityMin;
 	private final transient double velocityMax;
@@ -67,30 +67,30 @@ public class ActionAbsolute extends ActionDelta {
 		checkGain(gain);
 		checkShift(shift);
 
-		this.absVelocity = velocity;
-		this.absGain = gain;
-		this.absShift = shift;
+		this.velocity = velocity;
+		this.gain = gain;
+		this.shift = shift;
 	}
 
 	/**
 	 * @return the velocity
 	 */
 	public double getVelocity() {
-		return absVelocity;
+		return velocity;
 	}
 
 	/**
 	 * @return the gain
 	 */
 	public double getGain() {
-		return absGain;
+		return gain;
 	}
 
 	/**
 	 * @return the shift
 	 */
 	public double getShift() {
-		return absShift;
+		return shift;
 	}
 
 	private void checkVelocity(final double velocityCandidate) {
@@ -105,8 +105,8 @@ public class ActionAbsolute extends ActionDelta {
 	 */
 	public void setVelocity(final double velocity) {
 		checkVelocity(velocity);
-		setDeltaVelocity(velocity - this.absVelocity);
-		this.absVelocity = velocity;
+		setDeltaVelocity(velocity - this.velocity);
+		this.velocity = velocity;
 	}
 
 	private void checkGain(final double gainCandidate) {
@@ -121,8 +121,8 @@ public class ActionAbsolute extends ActionDelta {
 	 */
 	public void setGain(final double gain) {
 		checkGain(gain);
-		setDeltaGain(gain - this.absGain);
-		this.absGain = gain;
+		setDeltaGain(gain - this.gain);
+		this.gain = gain;
 	}
 
 	private void checkShift(final double shiftCandidate) {
@@ -137,8 +137,8 @@ public class ActionAbsolute extends ActionDelta {
 	 */
 	public void setShift(final float shift) {
 		checkShift(shift);
-		setDeltaShift(shift - this.absShift);
-		this.absShift = shift;
+		setDeltaShift(shift - this.shift);
+		this.shift = shift;
 	}
 }
 
