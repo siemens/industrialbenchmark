@@ -46,7 +46,7 @@ public class ActionAbsolute extends ActionDelta {
 	private final transient double shiftMax;
 
 	/**
-	 * Constructor actions and properties file
+	 * Constructor actions and properties file.
 	 * @param velocity The velocity to set
 	 * @param gain The gain to set
 	 * @param shift The shift to set

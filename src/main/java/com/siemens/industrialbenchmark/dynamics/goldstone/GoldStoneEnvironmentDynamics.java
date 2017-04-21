@@ -159,12 +159,12 @@ public class GoldStoneEnvironmentDynamics {
 	 * Only changes the system response if the turn angle hits 90deg
 	 * in the domain of the current position.
 	 * I.e.:
-	 * <code>new_position >  this.__safe_zone and new_Phi_idx =  90deg</code>
-	 * <code>new_position < -this.__safe_zone and new_Phi_idx = -90deg</code>
+	 * <code>new_position &gt;  this.__safe_zone and new_Phi_idx =  90deg</code>
+	 * <code>new_position &lt; -this.__safe_zone and new_Phi_idx = -90deg</code>
 	 *
 	 * @param phiIdx
 	 * @param newControlValue
-	 * @return
+	 * @return the resulting system response
 	 */
 	private SystemResponse updateSystemResponse(final int newPhiIdx, final double newControlValue) {
 		if (Math.abs(newPhiIdx) >= strongestPenaltyAbsIdx) {
@@ -176,20 +176,20 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	/**
-	 *
-	 * By employing reflection symmetry with respect to x-axis:
+	 * Calculates a symmetric version of a given phi.
+	 * By employing reflection symmetry with respect to the x-axis:
 	 * <ul>
-	 *	<li>Phi -> pi -Phi</li>
-	 *	<li>turn direction -> turn direction</li>
-	 *	<li>x -> x</li>
+	 *	<li>Phi -&gt; pi -Phi</li>
+	 *	<li>turn direction -&gt; turn direction</li>
+	 *	<li>x -&gt; x</li>
 	 * </ul>
 	 * moves 'penalty landscape' rotation angle in domain
-	 * <math>[-90deg ... +90deg]</math>
-	 * corresponding to <math>Phi_index</math> in
-	 * <math>[ -strongest_penality_abs_idx*angular_speed, ..., -angular_speed, 0, angular_speed, ..., strongest_penality_abs_idx*angular_speed ]</math>
-
+	 * <code>[-90deg ... +90deg]</code>
+	 * corresponding to <code>Phi_index</code> in
+	 * <code>[ -strongest_penality_abs_idx*angular_speed, ..., -angular_speed, 0, angular_speed, ..., strongest_penality_abs_idx*angular_speed ]</code>
+	 *
 	 * @param otherPhiIdx
-	 * @return
+	 * @return the symmetric phi
 	 */
 	private int applySymmetry(final int otherPhiIdx) {
 
@@ -248,40 +248,40 @@ public class GoldStoneEnvironmentDynamics {
 	 *   multiple of 4.
 	 *   By employing reflection symmetry with respect to x-axis:
 	 *   <ul>
-	 *		<li>Phi -> pi -Phi</li>
-	 *		<li>turn direction -> turn direction</li>
-	 *		<li>x -> x</li>
+	 *		<li>Phi -&gt; pi -Phi</li>
+	 *		<li>turn direction -&gt; turn direction</li>
+	 *		<li>x -&gt; x</li>
 	 *   </ul>
 	 *   The required rewards functions can be restricted to turn angles Phi in
-	 *   <math>[-90deg ... +90deg]</math> of the 'penalty landscape'.
-	 *   One quarter-segment (e.g <math>[0 ... 90deg]</math>) of the entire
-	 *   'penalty landscape' is divided into <math>numberSteps / 4</math> steps.
-	 *   Note that <math>numberSteps / 4</math> is an integer per requirement
+	 *   <code>[-90deg ... +90deg]</code> of the 'penalty landscape'.
+	 *   One quarter-segment (e.g <code>[0 ... 90deg]</code>) of the entire
+	 *   'penalty landscape' is divided into <code>numberSteps / 4</code> steps.
+	 *   Note that <code>numberSteps / 4</code> is an integer per requirement
 	 *   from above.
 	 * @param maxRequiredStep
 	 *
 	 * Implementation:
 	 * According to the above explanation, the 'penalty landscape' turns
-	 * <math>angular_speed = 360deg / numberSteps</math>
+	 * <code>angular_speed = 360deg / numberSteps</code>
 	 * in each state transition, or does not turn at all.
 	 * Per convention, the 'penalty landscape' positions are confined to a
 	 * homogeneously spaced grid of turn angles
-	 * <math>[ 0, angular_speed, 2*angular_speed, ... , (numberSteps -1)*angular_speed ]</math>.
-	 * Lets define <math>strongest_penality_abs_idx = numberSteps / 4</math>.
+	 * <code>[ 0, angular_speed, 2*angular_speed, ... , (numberSteps -1)*angular_speed ]</code>.
+	 * Lets define <code>strongest_penality_abs_idx = numberSteps / 4</code>.
 	 * Hence,
-	 * <math>strongest_penality_abs_idx*angular_speed = (numberSteps / 4) * (360deg /  numberSteps)= 90deg</math>.
+	 * <code>strongest_penality_abs_idx*angular_speed = (numberSteps / 4) * (360deg /  numberSteps)= 90deg</code>.
 	 * It follows that:
 	 *   <ul>
-	 *		<li><math>Phi = - strongest_penality_abs_idx*angular_speed</math>
+	 *		<li><code>Phi = - strongest_penality_abs_idx*angular_speed</code>
 	 *			maximized the control penalties for the positive domain
-	 *			(i.e. where <math>x > 0</math>)</li>
-	 *		<li><math>Phi = + strongest_penality_abs_idx*angular_speed</math>
+	 *			(i.e. where <code>x &gt; 0</code>)</li>
+	 *		<li><code>Phi = + strongest_penality_abs_idx*angular_speed</code>
 	 *			maximized the control penalties for the negative domain
-	 *			(i.e. where <math>x < 0</math>)</li>
+	 *			(i.e. where <code>x &lt; 0</code>)</li>
 	 *   </ul>
 	 * Exploiting reflection symmetry,
 	 * the required grid of reward functions can be reduced to
-	 * <math>[ -strongest_penality_abs_idx*angular_speed, ..., -angular_speed, 0, angular_speed, ..., strongest_penality_abs_idx*angular_speed ]</math>
+	 * <code>[ -strongest_penality_abs_idx*angular_speed, ..., -angular_speed, 0, angular_speed, ..., strongest_penality_abs_idx*angular_speed ]</code>
 	 * This has the advantage, that either end of the grid represents
 	 * the worst case points of the ???.
 	 */

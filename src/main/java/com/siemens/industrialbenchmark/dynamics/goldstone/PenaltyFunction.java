@@ -122,8 +122,8 @@ public class PenaltyFunction {
 		for angles phi = 0, pi, 2pi, ... the Normalized Linear-biased
 		Goldstone Potential has two global minima.
 		Per convention, the desired sign of the return value is:
-		   opt radius > 0 for phi in [0,pi)
-		   opt radius < 0 for phi in [pi,2pi)
+		   opt radius &gt; 0 for phi in [0,pi)
+		   opt radius &lt; 0 for phi in [pi,2pi)
 		Explanation:
 		 * for very small angles, where the sin(phi) is smaller than max_required_step
 		   the opt of the reward landscape should be per definition at
