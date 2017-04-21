@@ -54,7 +54,7 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 		this.output = output;
 	}
 
-	public int getnSteps() {
+	public int getNSteps() {
 		return nSteps;
 	}
 
