@@ -28,6 +28,8 @@ import com.siemens.industrialbenchmark.properties.PropertiesUtil;
 import com.siemens.industrialbenchmark.util.PlotCurve;
 import com.siemens.rl.interfaces.DataVector;
 import com.siemens.rl.interfaces.ExternalDriver;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The seedable setpoint generator.
@@ -199,14 +201,14 @@ public class SetPointGenerator implements ExternalDriver {
 	public static void main(final String[] args) throws IOException, PropertiesException {
 
 		final int episodeLength = 10000;
-		final double[] data = new double[episodeLength];
+		final List<Double> data = new ArrayList<>(episodeLength);
 
 		final Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 
 		final SetPointGenerator lg = new SetPointGenerator(props);
 
-		for (int i = 0; i < episodeLength; i++) {
-			data[i] = lg.step();
+		for (int si = 0; si < episodeLength; si++) {
+			data.add(lg.step());
 		}
 
 		PlotCurve.plot("SetPoint Trajectory", "Time", "SetPoint [%]", data);

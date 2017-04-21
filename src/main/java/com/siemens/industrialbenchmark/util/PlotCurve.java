@@ -22,7 +22,6 @@ import info.monitorenter.gui.chart.traces.Trace2DSimple;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JFrame;
 
@@ -73,14 +72,5 @@ public final class PlotCurve {
 			}
 		});
 		frame.setVisible(true);
-	}
-
-	public static void plot(final String title, final String xlabel, final String ylabel, final double[] data) {
-
-		final List<Double> dataList = new ArrayList<>(data.length);
-		for (int di = 0; di < data.length; di++) {
-			dataList.add(data[di]);
-		}
-		plot(title, xlabel, ylabel, dataList);
 	}
 }
