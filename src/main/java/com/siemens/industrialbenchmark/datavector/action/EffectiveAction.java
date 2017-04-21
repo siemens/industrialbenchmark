@@ -46,6 +46,14 @@ public class EffectiveAction {
 		return effectiveB;
 	}
 
+	public double getAlpha() {
+		return alpha;
+	}
+
+	public double getBeta() {
+		return beta;
+	}
+
 	private static double calcAlphaScaled(final double a, final double b, final double setpoint) {
 		final double minAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(100, setpoint), calcEffectiveB(0, setpoint));
 		final double maxAlphaUnscaled = calcAlphaUnscaled(calcEffectiveA(0, setpoint), calcEffectiveB(100, setpoint));

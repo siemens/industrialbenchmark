@@ -56,6 +56,22 @@ public class ExampleExperiment {
 
 			return result;
 		}
+
+		public Callable<R> getSimulation() {
+			return simulation;
+		}
+
+		public int getSimulationIndex() {
+			return simulationIndex;
+		}
+
+		public int getNumSimulations() {
+			return numSimulations;
+		}
+
+		public long getStartTimeMillis() {
+			return startTimeMillis;
+		}
 	}
 
 	public static void main(final String[] args) throws IOException, PropertiesException {

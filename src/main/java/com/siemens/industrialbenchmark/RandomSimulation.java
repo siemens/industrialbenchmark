@@ -54,6 +54,22 @@ public class RandomSimulation implements Callable<Map<String, List<Double>>> {
 		this.output = output;
 	}
 
+	public int getnSteps() {
+		return nSteps;
+	}
+
+	public Properties getProps() {
+		return props;
+	}
+
+	public BoundedRangeModel getProgressListener() {
+		return progressListener;
+	}
+
+	public File getOutput() {
+		return output;
+	}
+
 	@Override
 	public Map<String, List<Double>> call() throws IOException, PropertiesException {
 
