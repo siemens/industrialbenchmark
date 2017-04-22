@@ -235,13 +235,13 @@ public class SetPointGenerator implements ExternalDriver {
 
 	@Override
 	public DataVector getState() {
-		final DataVectorImpl s = new DataVectorImpl(new SetPointGeneratorStateDescription());
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT, setPoint);
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, changeRatePerStep);
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, currentSteps);
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, lastSequenceSteps);
+		final DataVectorImpl state = new DataVectorImpl(new SetPointGeneratorStateDescription());
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT, setPoint);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, changeRatePerStep);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, currentSteps);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, lastSequenceSteps);
 
-		return s;
+		return state;
 	}
 }
 
