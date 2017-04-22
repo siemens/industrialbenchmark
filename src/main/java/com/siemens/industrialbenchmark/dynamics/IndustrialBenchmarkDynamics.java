@@ -74,10 +74,10 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		STEP_SIZE_GAIN, STEP_SIZE_VELOCITY
 	}
 
-	protected MarkovianState markovState;
-	protected transient MarkovianState mMax;
-	protected transient MarkovianState mMin;
-	protected final Properties mProperties;
+	private MarkovianState markovState;
+	private transient MarkovianState max;
+	private transient MarkovianState min;
+	private final Properties properties;
 
 	private transient IndustrialBenchmarkRewardFunction mRewardCore;
 	private final RandomDataGenerator rda;
@@ -94,15 +94,15 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 * @throws PropertiesException if property values are badly formatted
 	 */
 	public IndustrialBenchmarkDynamics(final Properties aProperties, final List<ExternalDriver> externalDrivers) throws PropertiesException {
-		this.mProperties = aProperties;
+		this.properties = aProperties;
 		this.mRewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
-		this.stepSizeGain = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_GAIN.name(), true);
-		this.stepSizeVelocity = PropertiesUtil.getFloat(mProperties, C.STEP_SIZE_VELOCITY.name(), true);
+		this.stepSizeGain = PropertiesUtil.getFloat(properties, C.STEP_SIZE_GAIN.name(), true);
+		this.stepSizeVelocity = PropertiesUtil.getFloat(properties, C.STEP_SIZE_VELOCITY.name(), true);
 		this.convToInit = true;
 
 		if (externalDrivers == null) {
 			this.externalDrivers = new ArrayList<>(1);
-			this.externalDrivers.add(new SetPointGenerator(mProperties));
+			this.externalDrivers.add(new SetPointGenerator(properties));
 		} else {
 			this.externalDrivers = new ArrayList<>(externalDrivers);
 		}
@@ -126,11 +126,11 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 * Initializes the industrial benchmark.
 	 * @throws PropertiesException if property values are badly formatted
 	 */
-	protected void init() throws PropertiesException {
+	protected final void init() throws PropertiesException {
 
 		// configure convolution variables
-		crgs = PropertiesUtil.getFloat(mProperties, "CRGS", true);
-		mEmConvWeights = getFloatArray(mProperties.getProperty("ConvArray"));
+		crgs = PropertiesUtil.getFloat(properties, "CRGS", true);
+		mEmConvWeights = getFloatArray(properties.getProperty("ConvArray"));
 		final List<String> markovStateAdditionalNames = new ArrayList<>();
 		mOperationalCostsBuffer = new CircularFifoBuffer(mEmConvWeights.length);
 		for (int cwi = 0; cwi < mEmConvWeights.length; cwi++) {
@@ -153,23 +153,23 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// instantiate markov state with additional convolution variable names
 		markovState = new MarkovianState(markovStateAdditionalNames);
-		mMin = new MarkovianState(markovStateAdditionalNames); // lower variable boundaries
-		mMax = new MarkovianState(markovStateAdditionalNames); // upper variable boundaries
+		min = new MarkovianState(markovStateAdditionalNames); // lower variable boundaries
+		max = new MarkovianState(markovStateAdditionalNames); // upper variable boundaries
 
 		// extract variable boundings + initial values from Properties
 		for (final String var : markovState.getKeys()) {
-			final float init = PropertiesUtil.getFloat(mProperties, var + "_INIT", 0.0f);
-			final float max = PropertiesUtil.getFloat(mProperties, var + "_MAX", Float.MAX_VALUE);
-			final float min = PropertiesUtil.getFloat(mProperties, var + "_MIN", -Float.MAX_VALUE);
-			Preconditions.checkArgument(max > min, "variable=%s: max=%s must be > than min=%s", var, max, min);
-			Preconditions.checkArgument(init >= min && init <= max,  "variable=%s: init=%s must be between min=%s and max=%s", var, init, min, max);
-			mMax.setValue(var, max);
-			mMin.setValue(var, min);
+			final float init = PropertiesUtil.getFloat(properties, var + "_INIT", 0.0f);
+			final float mMax = PropertiesUtil.getFloat(properties, var + "_MAX", Float.MAX_VALUE);
+			final float mMin = PropertiesUtil.getFloat(properties, var + "_MIN", -Float.MAX_VALUE);
+			Preconditions.checkArgument(mMax > mMin, "variable=%s: max=%s must be > than min=%s", var, mMax, mMin);
+			Preconditions.checkArgument(init >= mMin && init <= mMax,  "variable=%s: init=%s must be between min=%s and max=%s", var, init, mMin, mMax);
+			max.setValue(var, mMax);
+			min.setValue(var, mMin);
 			markovState.setValue(var, init);
 		}
 
 		// seed all random number generators for allowing to re-conduct the experiment
-		randomSeed = PropertiesUtil.getLong(mProperties, "SEED", System.currentTimeMillis());
+		randomSeed = PropertiesUtil.getLong(properties, "SEED", System.currentTimeMillis());
 		//mLogger.debug("init seed: " + randomSeed);
 		rda.reSeed(randomSeed);
 
@@ -284,8 +284,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 	private void addAction(final ActionDelta aAction) {
 
-		final double velocityMax = mMax.getValue(MarkovianStateDescription.ACTION_VELOCITY);
-		final double velocityMin = mMin.getValue(MarkovianStateDescription.ACTION_VELOCITY);
+		final double velocityMax = max.getValue(MarkovianStateDescription.ACTION_VELOCITY);
+		final double velocityMin = min.getValue(MarkovianStateDescription.ACTION_VELOCITY);
 		double velocity = Math.min(velocityMax, Math.max(velocityMin, markovState.getValue(MarkovianStateDescription.ACTION_VELOCITY) + aAction.getDeltaVelocity() * stepSizeVelocity));
 		if (aAction instanceof ActionAbsolute) {
 			final double velocityToSet = ((ActionAbsolute)aAction).getVelocity();
@@ -297,8 +297,8 @@ public class IndustrialBenchmarkDynamics implements Environment {
 			}
 			velocity = Math.min(velocityMax, Math.max(velocityMin, markovState.getValue(MarkovianStateDescription.ACTION_VELOCITY) + diff));
 		}
-		final double gainMax = mMax.getValue(MarkovianStateDescription.ACTION_GAIN);
-		final double gainMin = mMin.getValue(MarkovianStateDescription.ACTION_GAIN);
+		final double gainMax = max.getValue(MarkovianStateDescription.ACTION_GAIN);
+		final double gainMin = min.getValue(MarkovianStateDescription.ACTION_GAIN);
 		double gain = Math.min(gainMax, Math.max(gainMin, markovState.getValue(MarkovianStateDescription.ACTION_GAIN) + aAction.getDeltaGain() * stepSizeGain));
 		if (aAction instanceof ActionAbsolute) {
 			final double gainToSet = ((ActionAbsolute)aAction).getGain();
@@ -352,7 +352,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		double hiddenStateGain = markovState.getValue(MarkovianStateDescription.FATIGUE_LATENT_2);
 
 		// dyn variables
-		final EffectiveAction effAction = new EffectiveAction(new ActionAbsolute(velocity, gain, 0.0, this.mProperties), setpoint);
+		final EffectiveAction effAction = new EffectiveAction(new ActionAbsolute(velocity, gain, 0.0, this.properties), setpoint);
 		final double effActionVelocityAlpha = effAction.getVelocityAlpha(); // => gain
 		final double effActionGainBeta = effAction.getGainBeta();  // => velocity
 
@@ -460,7 +460,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	}
 
 	private float getConst(final C aConst) throws PropertiesException {
-		return PropertiesUtil.getFloat(mProperties, aConst.name());
+		return PropertiesUtil.getFloat(properties, aConst.name());
 	}
 
 	/**
@@ -534,5 +534,21 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	@Override
 	public double getReward() {
 		return markovState.getValue(ObservableStateDescription.REWARD_TOTAL);
+	}
+
+	protected final DataVector getMarkovStateInternal() {
+		return markovState;
+	}
+
+	protected final MarkovianState getMax() {
+		return max;
+	}
+
+	protected final MarkovianState getMin() {
+		return min;
+	}
+
+	protected final Properties getProperties() {
+		return properties;
 	}
 }
