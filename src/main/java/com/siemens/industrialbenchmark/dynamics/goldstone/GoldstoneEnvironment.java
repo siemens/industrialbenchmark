@@ -20,20 +20,23 @@ import com.siemens.industrialbenchmark.dynamics.goldstone.GoldStoneEnvironmentDy
 
 public class GoldstoneEnvironment {
 
+	private static final double DEFAULT_CONTROL_START_VALUE = 0.0;
+
 	private final GoldStoneEnvironmentDynamics dynamics;
 	private double controlPosition;
 
 	public GoldstoneEnvironment(final int numberSteps, final double maxRequiredStep, final double safeZone) {
 		this.dynamics = new GoldStoneEnvironmentDynamics(numberSteps, maxRequiredStep, safeZone);
-		reset();
+		this.controlPosition = DEFAULT_CONTROL_START_VALUE;
+	}
+
+	// for eventual serialization
+	protected GoldStoneEnvironmentDynamics getDynamics() {
+		return dynamics;
 	}
 
 	public void reset() {
-		reset(0);
-	}
-
-	public void reset(final double controlStartValue) {
-		setControlStartValue(controlStartValue);
+		setControlStartValue(DEFAULT_CONTROL_START_VALUE);
 	}
 
 	public void setControlStartValue(final double controlStartValue) {
