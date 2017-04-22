@@ -31,7 +31,7 @@ import java.util.Objects;
  */
 public abstract class DataVectorDescriptionImpl implements DataVectorDescription {
 
-	private final List<String> names;
+	private final List<String> varNames;
 
 	/**
 	 * Constructs a new description based on names in a <code>List</code>.
@@ -46,7 +46,7 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 		for (final String key : names) {
 			lb.add(key);
 		}
-		this.names = lb.build();
+		this.varNames = lb.build();
 	}
 
 	/**
@@ -59,12 +59,12 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 
 	@Override
 	public int getNumberVariables() {
-		return names.size();
+		return varNames.size();
 	}
 
 	@Override
 	public List<String> getVarNames() {
-		return names;
+		return varNames;
 	}
 
 	@Override
@@ -79,18 +79,18 @@ public abstract class DataVectorDescriptionImpl implements DataVectorDescription
 			return false;
 		}
 		final DataVectorDescriptionImpl other = (DataVectorDescriptionImpl) obj;
-		return Objects.equals(this.names, other.names);
+		return Objects.equals(this.varNames, other.varNames);
 	}
 
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		hash = 19 * hash + Objects.hashCode(this.names);
+		hash = 19 * hash + Objects.hashCode(this.varNames);
 		return hash;
 	}
 
 	@Override
 	public String toString() {
-		return names.toString();
+		return varNames.toString();
 	}
 }
