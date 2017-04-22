@@ -193,6 +193,18 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		simulationRunAction.actionPerformed(null);
 	}
 
+	protected Map<String, List<Double>> getStates() {
+		return states;
+	}
+
+	protected PropertiesTable getSimPropsTable() {
+		return simPropsTable;
+	}
+
+	protected Preferences getPreferences() {
+		return preferences;
+	}
+
 	public static String formatSaveFileName(final String saveFileNameTemplate, final Properties inputParams) {
 
 		final Date now = new Date();
