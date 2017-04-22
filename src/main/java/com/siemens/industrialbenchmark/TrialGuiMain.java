@@ -134,25 +134,25 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		this.shownStateKeyCB.addItemListener(new OutputVarKeyChangeListener());
 
 		final String safeFileTemplate = this.preferences.get(PREF_SAVE_FILE_TEMPLATE, SAVE_FILE_TEMPLATE_DEFAULT);
-		final StringBuilder tt = new StringBuilder();
+		final StringBuilder tt = new StringBuilder(1024 + (simulationProps.size() * 64));
 		tt
-				.append("<html>\n")
-				.append("<h3>File-Name template for the results in CSV format</h3>\n")
-				.append("The file-name has to end in \".csv\",<br>\n")
-				.append(" and may use any of the following variables,<br>\n")
-				.append(" which will be substituted to create the actual file name:<br>\n")
-				.append("<ul>\n")
-				.append("<li>${time:<i>format</i>} (special), gets replaced with the time at the end of the simulation,<br>\n")
-				.append(" according to the given <i>format</i><br>\n")
-				.append(" (see <a href=\"http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\">the Javadoc</a> for formatting details).<br>\n")
-				.append(" example: \"${time:yyyy-MM-dd_HH:mm:ss:SSS}\"\n")
-				.append("</li>\n");
+				.append("<html>\n"
+						+ "<h3>File-Name template for the results in CSV format</h3>\n"
+						+ "The file-name has to end in \".csv\",<br>\n"
+						+ " and may use any of the following variables,<br>\n"
+						+ " which will be substituted to create the actual file name:<br>\n"
+						+ "<ul>\n"
+						+ "<li>${time:<i>format</i>} (special), gets replaced with the time at the end of the simulation,<br>\n"
+						+ " according to the given <i>format</i><br>\n"
+						+ " (see <a href=\"http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html\">the Javadoc</a> for formatting details).<br>\n"
+						+ " example: \"${time:yyyy-MM-dd_HH:mm:ss:SSS}\"\n"
+						+ "</li>\n");
 		for (final String key : simulationProps.stringPropertyNames()) {
 			tt.append("<li>${").append(key).append("}</li>\n");
 		}
 		tt
-				.append("</ul>\n")
-				.append("</html>\n");
+				.append("</ul>\n"
+						+ "</html>\n");
 		this.saveFileNameTF.setToolTipText(tt.toString());
 		this.saveFileNameTF.setText(safeFileTemplate);
 		this.saveFileNameTF.getDocument().addDocumentListener(new DocumentListener() {
@@ -199,12 +199,12 @@ public class TrialGuiMain extends javax.swing.JFrame {
 		String saveFileName = saveFileNameTemplate;
 		while (saveFileName.contains("${")) {
 			final int startIndex = saveFileName.indexOf("${");
-			final int endIndex = saveFileName.indexOf("}", startIndex) + 1;
+			final int endIndex = saveFileName.indexOf('}', startIndex) + 1;
 			final String replaceVarRaw = saveFileName.substring(startIndex, endIndex);
 			final String replaceVar = replaceVarRaw.substring(2, replaceVarRaw.length() - 1);
 			final String replaceValue;
 			if (replaceVar.startsWith("time:")) {
-				final String timeFormat = replaceVar.substring(replaceVar.indexOf(":") + 1);
+				final String timeFormat = replaceVar.substring(replaceVar.indexOf(':') + 1);
 				final String formattedTime = new SimpleDateFormat(timeFormat).format(now);
 				replaceValue = formattedTime;
 			} else if (inputParams.containsKey(replaceVar)) {
