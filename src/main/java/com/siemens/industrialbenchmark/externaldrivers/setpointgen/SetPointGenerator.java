@@ -38,19 +38,17 @@ import java.util.List;
  */
 public class SetPointGenerator implements ExternalDriver {
 
-	private final transient float setPointStepSize;
-	private final transient float maxChangeRatePerStepSetPoint;
-	private final transient int maxSequenceLength;
-	private final transient float minSetPoint;
-	private final transient float maxSetPoint;
-
-	private int mCurrentSteps;
-	private int mLastSequenceSteps;
-	private double mChangeRatePerStep;
-	private boolean mIsStationary;
-	private double mSetPoint;
-
-	private RandomDataGenerator mRandom = new RandomDataGenerator();
+	private final float setPointStepSize;
+	private final float maxChangeRatePerStepSetPoint;
+	private final int maxSequenceLength;
+	private final float minSetPoint;
+	private final float maxSetPoint;
+	private int currentSteps;
+	private int lastSequenceSteps;
+	private double changeRatePerStep;
+	private boolean stationary;
+	private double setPoint;
+	private final RandomDataGenerator random;
 
 	/**
 	 * Constructor with given seed and properties file
@@ -61,10 +59,10 @@ public class SetPointGenerator implements ExternalDriver {
 	public SetPointGenerator(final long seed, final Properties aProperties)
 			throws PropertiesException
 	{
-		this.mIsStationary = aProperties.containsKey("STATIONARY_SETPOINT");
-		if (mIsStationary) {
-			this.mSetPoint = PropertiesUtil.getFloat(aProperties, "STATIONARY_SETPOINT", true);
-			Preconditions.checkArgument(mSetPoint >= 0.0f && mSetPoint <= 100.0f, "setpoint must be in range [0, 100]");
+		this.stationary = aProperties.containsKey("STATIONARY_SETPOINT");
+		if (stationary) {
+			this.setPoint = PropertiesUtil.getFloat(aProperties, "STATIONARY_SETPOINT", true);
+			Preconditions.checkArgument(setPoint >= 0.0f && setPoint <= 100.0f, "setpoint must be in range [0, 100]");
 		}
 		this.maxChangeRatePerStepSetPoint = PropertiesUtil.getFloat(aProperties, "MAX_CHANGE_RATE_PER_STEP_SETPOINT", true);
 		this.maxSequenceLength = PropertiesUtil.getInt(aProperties, "MAX_SEQUENCE_LENGTH", true);
@@ -72,8 +70,8 @@ public class SetPointGenerator implements ExternalDriver {
 		this.maxSetPoint = PropertiesUtil.getFloat(aProperties, "SetPoint_MAX", true);
 		this.setPointStepSize = PropertiesUtil.getFloat(aProperties, "SETPOINT_STEP_SIZE", true);
 
-		this.mRandom = new RandomDataGenerator();
-		this.mRandom.reSeed(seed);
+		this.random = new RandomDataGenerator();
+		this.random.reSeed(seed);
 		defineNewSequence();
 	}
 
@@ -90,14 +88,14 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @return the current steps
 	 */
 	public int getCurrentSteps() {
-		return this.mCurrentSteps;
+		return this.currentSteps;
 	}
 
 	/**
 	 * @return the change rate per step
 	 */
 	public double getChangeRatePerStep() {
-		return this.mChangeRatePerStep;
+		return this.changeRatePerStep;
 	}
 
 	/**
@@ -108,10 +106,10 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @param changeRatePerStep see {@link #getChangeRatePerStep()}
 	 */
 	public void setState(final double setpoint, final int currentSteps, final int lastSequenceSteps, final double changeRatePerStep) {
-		this.mSetPoint = setpoint;
-		this.mCurrentSteps = currentSteps;
-		this.mLastSequenceSteps = lastSequenceSteps;
-		this.mChangeRatePerStep = changeRatePerStep;
+		this.setPoint = setpoint;
+		this.currentSteps = currentSteps;
+		this.lastSequenceSteps = lastSequenceSteps;
+		this.changeRatePerStep = changeRatePerStep;
 	}
 
 	/**
@@ -119,7 +117,7 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @return the last sequence steps
 	 */
 	public double getSetPoint() {
-		return this.mSetPoint;
+		return this.setPoint;
 	}
 
 	/**
@@ -127,7 +125,7 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @return the last sequence steps
 	 */
 	public int getLastSequenceSteps() {
-		return this.mLastSequenceSteps;
+		return this.lastSequenceSteps;
 	}
 
 	/**
@@ -135,8 +133,8 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @return the next setpoint
 	 */
 	public double step() {
-		final double newSetPoint = step(mSetPoint);
-		mSetPoint = newSetPoint;
+		final double newSetPoint = step(setPoint);
+		setPoint = newSetPoint;
 		return newSetPoint;
 	}
 
@@ -146,27 +144,27 @@ public class SetPointGenerator implements ExternalDriver {
 	 * @return
 	 */
 	private double step(final double aSetPoint) {
-		if (mIsStationary) {
+		if (stationary) {
 			return aSetPoint;
 		}
 
-		if (mCurrentSteps >= mLastSequenceSteps) {
+		if (currentSteps >= lastSequenceSteps) {
 			defineNewSequence();
 		}
 
-		mCurrentSteps++;
-		double setpointLevel = aSetPoint + mChangeRatePerStep * setPointStepSize;
+		currentSteps++;
+		double setpointLevel = aSetPoint + changeRatePerStep * setPointStepSize;
 
 		if (setpointLevel > maxSetPoint) {
 			setpointLevel = maxSetPoint;
-			if (mRandom.nextBinomial(1, 0.5) == 1) {
-				mChangeRatePerStep *= (-1);
+			if (random.nextBinomial(1, 0.5) == 1) {
+				changeRatePerStep *= (-1);
 			}
 		}
 		if (setpointLevel < minSetPoint) {
 			setpointLevel = minSetPoint;
-			if (mRandom.nextBinomial(1, 0.5) == 1) {
-				mChangeRatePerStep *= (-1);
+			if (random.nextBinomial(1, 0.5) == 1) {
+				changeRatePerStep *= (-1);
 			}
 		}
 
@@ -179,15 +177,15 @@ public class SetPointGenerator implements ExternalDriver {
 	 */
 	private void defineNewSequence() {
 		//mLastSequenceSteps = mRandom.nextIntFromTo(0, MAX_SEQUENCE_LENGTH) + 1;
-		mLastSequenceSteps = mRandom.nextInt(1, maxSequenceLength);
-		mCurrentSteps = 0;
-		mChangeRatePerStep = mRandom.nextUniform(0, 1) * maxChangeRatePerStepSetPoint;
-		final double r = mRandom.nextUniform(0, 1);
+		lastSequenceSteps = random.nextInt(1, maxSequenceLength);
+		currentSteps = 0;
+		changeRatePerStep = random.nextUniform(0, 1) * maxChangeRatePerStepSetPoint;
+		final double r = random.nextUniform(0, 1);
 		if (r < 0.45f) {
-			mChangeRatePerStep *= (-1);
+			changeRatePerStep *= (-1);
 		}
 		if (r > 0.9f) {
-			mChangeRatePerStep = 0;
+			changeRatePerStep = 0;
 		}
 	}
 
@@ -216,32 +214,32 @@ public class SetPointGenerator implements ExternalDriver {
 
 	@Override
 	public void setSeed(final long seed) {
-		this.mRandom.reSeed(seed);
+		this.random.reSeed(seed);
 	}
 
 	@Override
 	public void filter(final DataVector state) {
 		state.setValue(SetPointGeneratorStateDescription.SET_POINT, step());
-		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, mChangeRatePerStep);
-		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, mCurrentSteps);
-		state.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, mLastSequenceSteps);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, changeRatePerStep);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, currentSteps);
+		state.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, lastSequenceSteps);
 	}
 
 	@Override
 	public void setConfiguration(final DataVector state) {
-		this.mSetPoint = state.getValue(SetPointGeneratorStateDescription.SET_POINT);
-		this.mChangeRatePerStep = state.getValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP);
-		this.mCurrentSteps = state.getValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS).intValue();
-		this.mLastSequenceSteps = state.getValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS).intValue();
+		this.setPoint = state.getValue(SetPointGeneratorStateDescription.SET_POINT);
+		this.changeRatePerStep = state.getValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP);
+		this.currentSteps = state.getValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS).intValue();
+		this.lastSequenceSteps = state.getValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS).intValue();
 	}
 
 	@Override
 	public DataVector getState() {
 		final DataVectorImpl s = new DataVectorImpl(new SetPointGeneratorStateDescription());
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT, mSetPoint);
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, mChangeRatePerStep);
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, mCurrentSteps);
-		s.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, mLastSequenceSteps);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT, setPoint);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CHANGE_RATE_PER_STEP, changeRatePerStep);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT_CURRENT_STEPS, currentSteps);
+		s.setValue(SetPointGeneratorStateDescription.SET_POINT_LAST_SEQUENCE_STEPS, lastSequenceSteps);
 
 		return s;
 	}
