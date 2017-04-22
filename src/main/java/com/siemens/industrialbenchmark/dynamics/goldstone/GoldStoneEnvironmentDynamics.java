@@ -72,7 +72,7 @@ public class GoldStoneEnvironmentDynamics {
 		reset();
 	}
 
-	public void reset() {
+	private void reset() {
 		domain = Domain.INITIAL;
 		phiIdx = 0;
 		systemResponse = SystemResponse.ADVANTAGEOUS;
@@ -108,7 +108,7 @@ public class GoldStoneEnvironmentDynamics {
 		phiIdx += computeAngularStep(newControlValue);
 
 		// (3) update system response if necessary
-		systemResponse = updateSystemResponse(phiIdx, newControlValue);
+		systemResponse = updateSystemResponse(phiIdx);
 
 		// (4) if Phi_index == 0: reset internal state
 		if (phiIdx == 0 && Math.abs(newControlValue) <= safeZone) {
@@ -163,10 +163,9 @@ public class GoldStoneEnvironmentDynamics {
 	 * <code>new_position &lt; -this.__safe_zone and new_Phi_idx = -90deg</code>
 	 *
 	 * @param phiIdx
-	 * @param newControlValue
 	 * @return the resulting system response
 	 */
-	private SystemResponse updateSystemResponse(final int newPhiIdx, final double newControlValue) {
+	private SystemResponse updateSystemResponse(final int newPhiIdx) {
 		if (Math.abs(newPhiIdx) >= strongestPenaltyAbsIdx) {
 			LOGGER.trace("  turning sys behavior -> disadvantageous");
 			return SystemResponse.DISADVANTAGEOUS;
@@ -329,5 +328,21 @@ public class GoldStoneEnvironmentDynamics {
 
 	public void setPhiIdx(final int phiIdx) {
 		this.phiIdx = phiIdx;
+	}
+
+	protected int getStrongestPenaltyAbsIdx() {
+		return strongestPenaltyAbsIdx;
+	}
+
+	protected PenaltyFunction getCurrentPenaltyFunction() {
+		return currentPenaltyFunction;
+	}
+
+	protected double getSafeZone() {
+		return safeZone;
+	}
+
+	protected PenaltyFunction[] getPenaltyFunctionsArray() {
+		return penaltyFunctionsArray;
 	}
 }
