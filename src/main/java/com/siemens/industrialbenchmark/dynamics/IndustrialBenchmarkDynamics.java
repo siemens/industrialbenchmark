@@ -58,9 +58,9 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private final transient float stepSizeGain;
 
 	/** Ring Buffer of fixed size implementing a FIFO queue */
-	private CircularFifoBuffer mOperationalCostsBuffer;
+	private CircularFifoBuffer operationalCostsBuffer;
 
-	private transient float[] mEmConvWeights;
+	private transient float[] emConvWeights;
 	private boolean convToInit;
 
 	private final GoldstoneEnvironment gsEnvironment;
@@ -79,7 +79,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private transient MarkovianState min;
 	private final Properties properties;
 
-	private transient IndustrialBenchmarkRewardFunction mRewardCore;
+	private transient IndustrialBenchmarkRewardFunction rewardCore;
 	private final RandomDataGenerator rda;
 	private transient long randomSeed;
 	private transient float crgs;
@@ -95,7 +95,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 */
 	public IndustrialBenchmarkDynamics(final Properties aProperties, final List<ExternalDriver> externalDrivers) throws PropertiesException {
 		this.properties = aProperties;
-		this.mRewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
+		this.rewardCore = new IndustrialBenchmarkRewardFunction(aProperties);
 		this.stepSizeGain = PropertiesUtil.getFloat(properties, C.STEP_SIZE_GAIN.name(), true);
 		this.stepSizeVelocity = PropertiesUtil.getFloat(properties, C.STEP_SIZE_VELOCITY.name(), true);
 		this.convToInit = true;
@@ -130,11 +130,11 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// configure convolution variables
 		crgs = PropertiesUtil.getFloat(properties, "CRGS", true);
-		mEmConvWeights = getFloatArray(properties.getProperty("ConvArray"));
+		emConvWeights = getFloatArray(properties.getProperty("ConvArray"));
 		final List<String> markovStateAdditionalNames = new ArrayList<>();
-		mOperationalCostsBuffer = new CircularFifoBuffer(mEmConvWeights.length);
-		for (int cwi = 0; cwi < mEmConvWeights.length; cwi++) {
-			mOperationalCostsBuffer.add(0.0); // initialize all operationalcosts with zero
+		operationalCostsBuffer = new CircularFifoBuffer(emConvWeights.length);
+		for (int cwi = 0; cwi < emConvWeights.length; cwi++) {
+			operationalCostsBuffer.add(0.0); // initialize all operationalcosts with zero
 			markovStateAdditionalNames.add("OPERATIONALCOST_" + cwi); // add operationalcost_lag to list of convoluted markov variables
 		}
 		markovStateAdditionalNames.addAll(MarkovianStateDescription.getNonConvolutedInternalVariables());
@@ -261,7 +261,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		updateOperationalCosts();
 
 		// update reward
-		mRewardCore.calcReward(markovState);
+		rewardCore.calcReward(markovState);
 
 		// set random seed for next iteration
 		randomSeed = rda.nextLong(0L, Long.MAX_VALUE);
@@ -428,11 +428,11 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		final double operationalcosts = (float) Math.exp(costs / 100.0);
 		markovState.setValue(MarkovianStateDescription.CURRENT_OPERATIONAL_COST, operationalcosts);
-		mOperationalCostsBuffer.add(operationalcosts);
+		operationalCostsBuffer.add(operationalcosts);
 
 		if (convToInit) {
-			for(int oci = 1; oci < mOperationalCostsBuffer.size(); oci++) {
-				mOperationalCostsBuffer.add(operationalcosts);
+			for(int oci = 1; oci < operationalCostsBuffer.size(); oci++) {
+				operationalCostsBuffer.add(operationalcosts);
 			}
 			convToInit = false;
 		}
@@ -441,10 +441,10 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	private void updateOperationalCostCovolution() {
 		double aggregatedOperationalCosts = 0;
 		int oci = 0;
-		final Iterator<?> iterator = mOperationalCostsBuffer.iterator();
+		final Iterator<?> iterator = operationalCostsBuffer.iterator();
 		while (iterator.hasNext()) {
 			final double operationalCost = (Double)iterator.next();
-			aggregatedOperationalCosts += mEmConvWeights[oci] * operationalCost;
+			aggregatedOperationalCosts += emConvWeights[oci] * operationalCost;
 			markovState.setValue("OPERATIONALCOST_" + oci, operationalCost);
 			oci += 1;
 		}
@@ -469,7 +469,7 @@ public class IndustrialBenchmarkDynamics implements Environment {
 	 * @return length of the operational-costs history (including current value)
 	 */
 	public int getOperationalCostsHistoryLength() {
-		return mOperationalCostsBuffer.size();
+		return operationalCostsBuffer.size();
 	}
 
 	/**
@@ -506,15 +506,15 @@ public class IndustrialBenchmarkDynamics implements Environment {
 
 		// 3) reconstruct operationalcost convolution + reward computation
 		double aggregatedOperationalCosts = 0;
-		for (int cwi = 0; cwi < mEmConvWeights.length; cwi++) {
+		for (int cwi = 0; cwi < emConvWeights.length; cwi++) {
 			final String key = "OPERATIONALCOST_" + cwi;
 			final double operationalcost = this.markovState.getValue(key);
-			aggregatedOperationalCosts += this.markovState.getValue(key) * mEmConvWeights[cwi];
-			mOperationalCostsBuffer.add(operationalcost);
+			aggregatedOperationalCosts += this.markovState.getValue(key) * emConvWeights[cwi];
+			operationalCostsBuffer.add(operationalcost);
 		}
 		this.markovState.setValue(MarkovianStateDescription.OPERATIONAL_COSTS_CONV, aggregatedOperationalCosts);
 		//mRewardCore.setNormal(rda);
-		mRewardCore.calcReward(this.markovState);
+		rewardCore.calcReward(this.markovState);
 
 		// 4) set state variables to external driver (e.g. SetPointGenerator parameters)
 		for (final ExternalDriver drv : externalDrivers) {
