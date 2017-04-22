@@ -84,6 +84,30 @@ public class SetPointGenerator implements ExternalDriver {
 		this(System.currentTimeMillis(), aProperties);
 	}
 
+	protected float getSetPointStepSize() {
+		return setPointStepSize;
+	}
+
+	protected float getMaxChangeRatePerStepSetPoint() {
+		return maxChangeRatePerStepSetPoint;
+	}
+
+	protected int getMaxSequenceLength() {
+		return maxSequenceLength;
+	}
+
+	protected float getMinSetPoint() {
+		return minSetPoint;
+	}
+
+	protected float getMaxSetPoint() {
+		return maxSetPoint;
+	}
+
+	protected RandomDataGenerator getRandom() {
+		return random;
+	}
+
 	/**
 	 * @return the current steps
 	 */
