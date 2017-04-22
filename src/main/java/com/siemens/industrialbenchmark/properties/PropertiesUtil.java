@@ -81,6 +81,18 @@ public final class PropertiesUtil {
 
 	private PropertiesUtil() {}
 
+	private static class MalformedPropertiesException extends PropertiesException {
+		MalformedPropertiesException(
+				final Properties properties,
+				final String tag,
+				final Exception exception,
+				final String type)
+		{
+			super(String.format("Could not map %s to a %s value: ", tag, type),
+					exception, properties, tag);
+		}
+	}
+
 	public static float getFloat(final Properties aProperties, final String aTag)
 			throws PropertiesException
 	{
@@ -123,8 +135,8 @@ public final class PropertiesUtil {
 
 		try {
 			return Long.parseLong(value.trim());
-		} catch (final NumberFormatException e) {
-			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
+		} catch (final NumberFormatException exc) {
+			throw new MalformedPropertiesException(aProperties, aTag, exc, "long");
 		}
 	}
 
@@ -133,8 +145,8 @@ public final class PropertiesUtil {
 	{
 		try {
 			return Double.parseDouble(aProperties.getProperty(aTag).trim());
-		} catch (final NumberFormatException e) {
-			throw new PropertiesException("Could not map " + aTag + " to a double value: ", e, aProperties, aTag);
+		} catch (final NumberFormatException exc) {
+			throw new MalformedPropertiesException(aProperties, aTag, exc, "double");
 		}
 	}
 
@@ -161,8 +173,9 @@ public final class PropertiesUtil {
 		}
 		try {
 			return Boolean.parseBoolean(value.trim());
-		} catch (final Exception e) {
-			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
+		} catch (final Exception exc) {
+			// FIXME Actually, parseBoolean will nevr throw an exception, no matter the value. Therefore we might want to "manually" throw exceptions if the value does not confirm to something we want to accept as a boolean
+			throw new MalformedPropertiesException(aProperties, aTag, exc, "boolean");
 		}
 	}
 
@@ -183,8 +196,8 @@ public final class PropertiesUtil {
 		}
 		try {
 			return Float.parseFloat(value.trim());
-		} catch (NumberFormatException e) {
-			throw new PropertiesException("Could not map " + aTag + " to a float value: ", e, aProperties, aTag);
+		} catch (NumberFormatException exc) {
+			throw new MalformedPropertiesException(aProperties, aTag, exc, "float");
 		}
 	}
 
@@ -217,8 +230,8 @@ public final class PropertiesUtil {
 		}
 		try {
 			return Integer.parseInt(value.trim());
-		} catch (final NumberFormatException e) {
-			throw new PropertiesException("Could not map " + aTag + " to an integer value: ", e, aProperties, aTag);
+		} catch (final NumberFormatException exc) {
+			throw new MalformedPropertiesException(aProperties, aTag, exc, "integer");
 		}
 	}
 
