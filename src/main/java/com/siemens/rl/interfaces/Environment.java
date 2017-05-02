@@ -45,7 +45,7 @@ public interface Environment {
 	double step(DataVector action);
 
 	/**
-	 * Function for resetting the environment.
+	 * Resets the environment.
 	 */
 	void reset();
 }
