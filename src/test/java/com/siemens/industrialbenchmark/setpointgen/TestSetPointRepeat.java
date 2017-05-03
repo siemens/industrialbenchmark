@@ -58,7 +58,7 @@ public class TestSetPointRepeat {
 
 		// instantiate objects
 		Properties props = null;
-		props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 		SetPointGenerator setpointgen = new SetPointGenerator(props);
 
 		// 1) do a few random steps
@@ -95,7 +95,7 @@ public class TestSetPointRepeat {
 		final float stationarySetPoint = 53.23f;
 		// instantiate objects
 		Properties props = null;
-		props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 		props.setProperty("STATIONARY_SETPOINT", "" +stationarySetPoint);
 		SetPointGenerator setpointgen = new SetPointGenerator(props);
 

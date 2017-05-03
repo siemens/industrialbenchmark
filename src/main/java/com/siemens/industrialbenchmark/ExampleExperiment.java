@@ -85,7 +85,7 @@ public class ExampleExperiment {
 				+ "Seed${SEED}_"
 				+ "Time${time:yyyy-MM-dd_HH:mm:ss:SSS}.csv"; // for time format documentation, see: http://docs.oracle.com/javase/7/docs/api/java/text/SimpleDateFormat.html
 
-		final Properties props = PropertiesUtil.setpointProperties(new File(simPropsFilePath));
+		final Properties props = PropertiesUtil.loadSetPointProperties(new File(simPropsFilePath));
 
 		final ExecutorService simulationThreadPool = Executors.newFixedThreadPool(numThreads);
 		int experimentIndex = 0;

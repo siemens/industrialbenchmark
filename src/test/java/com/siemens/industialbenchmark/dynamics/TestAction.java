@@ -43,7 +43,7 @@ public class TestAction {
 		float a = 0;
 		float c = 0;
 
-		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		Properties props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 		ActionAbsolute aa = new ActionAbsolute(b, a, c, props);
 		ActionDelta ad = new ActionDelta(0, 0, 0);
 

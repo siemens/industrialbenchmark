@@ -285,7 +285,7 @@ public class TrialGuiMain extends javax.swing.JFrame {
 
 		// set-point configuration parameters
 		try {
-			return PropertiesUtil.setpointProperties(new File(simPropsFilePath));
+			return PropertiesUtil.loadSetPointProperties(new File(simPropsFilePath));
 		} catch (final IOException ex) {
 			throw new RuntimeException(ex);
 		}

@@ -69,7 +69,7 @@ public class TestDynamics {
 
 
 		// INSTANTIATE benchmark
-		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		Properties props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 		SetPointGenerator lg = new SetPointGenerator(props);
 		List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>();
 		externalDrivers.add(lg);
@@ -158,7 +158,7 @@ public class TestDynamics {
 	public void testHistoryLength() throws IOException, PropertiesException {
 
 		// INSTANTIATE benchmark
-		Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		Properties props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 		SetPointGenerator lg = new SetPointGenerator(props);
 		List<ExternalDriver> externalDrivers = new ArrayList<ExternalDriver>();
 		externalDrivers.add(lg);

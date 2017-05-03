@@ -105,7 +105,7 @@ public class EffectiveAction {
 		try (final PrintWriter writer = new PrintWriter(file)) {
 			// evaluate EffectiveAction class
 			final int setpoint = 100;
-			final Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+			final Properties props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 			writer.println("x,y,alpha,beta");
 
 			for (float x = min; x <= max; x += step) {

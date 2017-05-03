@@ -203,7 +203,7 @@ public class SetPointGenerator implements ExternalDriver {
 		final int episodeLength = 10000;
 		final List<Double> data = new ArrayList<>(episodeLength);
 
-		final Properties props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		final Properties props = PropertiesUtil.loadSetPointProperties(new File("src/main/resources/sim.properties"));
 
 		final SetPointGenerator lg = new SetPointGenerator(props);
 

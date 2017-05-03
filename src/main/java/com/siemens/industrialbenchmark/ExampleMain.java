@@ -54,7 +54,7 @@ public final class ExampleMain {
 		}
 
 		// setpoint configuration parameters
-		final Properties props = PropertiesUtil.setpointProperties(new File(simPropsFilePath));
+		final Properties props = PropertiesUtil.loadSetPointProperties(new File(simPropsFilePath));
 
 		final RandomSimulation randomSimulation = new RandomSimulation(nSteps, props, null, new File("dyn-markov.csv"));
 		final Map<String, List<Double>> states = randomSimulation.call();

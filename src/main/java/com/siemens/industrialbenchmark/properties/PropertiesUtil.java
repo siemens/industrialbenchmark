@@ -253,13 +253,13 @@ public final class PropertiesUtil {
 		return ret;
 	}
 
-	public static Properties setpointProperties(final File aFile) throws IOException {
+	public static Properties loadSetPointProperties(final File propertiesFile) throws IOException {
 
-		if (!aFile.exists()) {
-			throw new FileNotFoundException("Properties file '" + aFile.getAbsolutePath() + "' does not exist");
+		if (!propertiesFile.exists()) {
+			throw new FileNotFoundException("Properties file '" + propertiesFile.getAbsolutePath() + "' does not exist");
 		}
 		final Properties p = new Properties();
-		try (final FileInputStream in = new FileInputStream(aFile)) {
+		try (final FileInputStream in = new FileInputStream(propertiesFile)) {
 			p.load(in);
 		}
 		return p;
