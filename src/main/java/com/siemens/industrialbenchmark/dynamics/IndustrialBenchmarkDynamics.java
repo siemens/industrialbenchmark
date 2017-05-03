@@ -499,26 +499,26 @@ public class IndustrialBenchmarkDynamics implements Environment {
 		// 2) set random number generator states
 		randomSeed = Double.doubleToLongBits(this.markovState.getValue(MarkovianStateDescription.RANDOM_SEED));
 
-		gsEnvironment.setControlPosition(markovState.getValue(MarkovianStateDescription.EFFECTIVE_SHIFT));
-		gsEnvironment.setDomain(markovState.getValue(MarkovianStateDescription.MIS_CALIBRATION_DOMAIN));
-		gsEnvironment.setSystemResponse(markovState.getValue(MarkovianStateDescription.MIS_CALIBRATION_SYSTEM_RESPONSE));
-		gsEnvironment.setPhiIdx(markovState.getValue(MarkovianStateDescription.MIS_CALIBRATION_PHI_IDX));
+		gsEnvironment.setControlPosition(this.markovState.getValue(MarkovianStateDescription.EFFECTIVE_SHIFT));
+		gsEnvironment.setDomain(this.markovState.getValue(MarkovianStateDescription.MIS_CALIBRATION_DOMAIN));
+		gsEnvironment.setSystemResponse(this.markovState.getValue(MarkovianStateDescription.MIS_CALIBRATION_SYSTEM_RESPONSE));
+		gsEnvironment.setPhiIdx(this.markovState.getValue(MarkovianStateDescription.MIS_CALIBRATION_PHI_IDX));
 
 		// 3) reconstruct operationalcost convolution + reward computation
 		double aggregatedOperationalCosts = 0;
 		for (int cwi = 0; cwi < mEmConvWeights.length; cwi++) {
 			final String key = "OPERATIONALCOST_" + cwi;
-			final double operationalcost = markovState.getValue(key);
-			aggregatedOperationalCosts += markovState.getValue(key) * mEmConvWeights[cwi];
+			final double operationalcost = this.markovState.getValue(key);
+			aggregatedOperationalCosts += this.markovState.getValue(key) * mEmConvWeights[cwi];
 			mOperationalCostsBuffer.add(operationalcost);
 		}
-		markovState.setValue(MarkovianStateDescription.OPERATIONAL_COSTS_CONV, aggregatedOperationalCosts);
+		this.markovState.setValue(MarkovianStateDescription.OPERATIONAL_COSTS_CONV, aggregatedOperationalCosts);
 		//mRewardCore.setNormal(rda);
-		mRewardCore.calcReward(markovState);
+		mRewardCore.calcReward(this.markovState);
 
 		// 4) set state variables to external driver (e.g. SetPointGenerator parameters)
 		for (final ExternalDriver drv : externalDrivers) {
-			drv.setConfiguration(markovState);
+			drv.setConfiguration(this.markovState);
 		}
 	}
 
