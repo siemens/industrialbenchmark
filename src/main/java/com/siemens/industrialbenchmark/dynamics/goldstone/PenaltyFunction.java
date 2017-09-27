@@ -15,8 +15,6 @@ limitations under the License.
 */
 package com.siemens.industrialbenchmark.dynamics.goldstone;
 
-import com.google.common.base.Preconditions;
-
 /**
  * Reward function for normalized, linearly biased Goldstone Potential
  *
@@ -24,24 +22,16 @@ import com.google.common.base.Preconditions;
  */
 public class PenaltyFunction {
 
-	private final double phi;
-	private final double maxRequiredStep;
 	private final transient DoubleFunction rewardFunction;
 	private final double optimumRadius;
 	private final double optimumValue;
 
 	/**
-	 * generates the reward function for fixed phi
-	 * works ONLY WITH SCALAR inputs
+	 * Generates the reward function for fixed phi
 	 * @param phi angle in radians
 	 * @param maxRequiredStep the max. required step by the optimal policy; must be positive
 	 */
 	public PenaltyFunction(final double phi, final double maxRequiredStep) {
-
-		Preconditions.checkArgument(maxRequiredStep > 0,
-				"max_required_step must be > 0, but was %s", maxRequiredStep);
-		this.phi = phi;
-		this.maxRequiredStep = maxRequiredStep;
 
 		this.rewardFunction = rewardFunctionFactory(phi, maxRequiredStep);
 		this.optimumRadius = computeOptimalRadius(phi, maxRequiredStep);
@@ -52,100 +42,18 @@ public class PenaltyFunction {
 		return rewardFunction.apply(r);
 	}
 
-	public double[] reward(final double... r) {
-		final double[] ret = new double[r.length];
-		for (int i = 0; i < r.length; i++) {
-			ret[i] = reward(r[i]);
-		}
-		return ret;
-	}
-
-	// ################################################################################### #
-	// #                           Radius Transformation                                   #
-	// # --------------------------------------------------------------------------------- #
-	// # ################################################################################# #
-	private static DoubleFunction transferFunctionFactory(final double r0, final double chi, final double xi) {
-		final double exponent = chi / xi;
-		final double scaling = xi / Math.pow(chi, exponent);
-
-		return new DoubleFunction() {
-			@Override
-			public double apply(final double value) {
-				return r0 + scaling * Math.pow(value, exponent);
-			}
-		};
-	}
-
-	private static DoubleFunction radTransformationFactory(final double x0, final double r0, final double x1, final double r1) {
-
-		Preconditions.checkArgument(
-				(x0 <= 0 && r0 <= 0 && x1 <= 0 && r1 <= 0)
-				|| (x0 >= 0 && r0 >= 0 && x1 >= 0 && r1 >= 0),
-				"x0, r0, x1, r1 must be either all positive or all negative, "
-				+ "but was x0=%s, r0=%s, x1=%s, r1=%s", x0, r0, x1, r1);
-
-		final double absX0 = Math.abs(x0);
-		final double absR0 = Math.abs(r0);
-		final double absX1 = Math.abs(x1);
-		final double absR1 = Math.abs(r1);
-
-		Preconditions.checkArgument(absX0 > 0 && absR0 > 0,
-				"x0 and r0 must be positive, but was x0=%s and r0=%s", absX0, absR0);
-		Preconditions.checkArgument(absX1 >= absX0 && absR1 >= absR0,
-				"required: (x0, r0) < (x1, r1), but was x0=%s, r0=%s x1=%s, r1=%s", absX0, absR0, absX1, absR1);
-
-		final double rScaler = absR0 / absX0;
-
-		final DoubleFunction seg2Tsf =
-				transferFunctionFactory(absR0, absX1 - absX0, absR1 - absR0);
-
-		return new DoubleFunction() {
-			@Override
-			public double apply(final double x) {
-				final double sign = Math.signum(x);
-				final double absX = Math.abs(x);
-
-				if (absX <= absX0) {
-					return sign * rScaler * absX;
-				}
-				if (absX < absX1){
-					return sign * seg2Tsf.apply(absX - absX0);
-				}
-				return sign * (absX - absX1 + absR1);
-			}
-		};
-	}
-
 	/**
-	 * Radius transforming NLGP.
-		Computes radius for the optimum (global minimum). Note that
-		for angles phi = 0, pi, 2pi, ... the Normalized Linear-biased
-		Goldstone Potential has two global minima.
-		Per convention, the desired sign of the return value is:
-		   opt radius &gt; 0 for phi in [0,pi)
-		   opt radius &lt; 0 for phi in [pi,2pi)
-		Explanation:
-		 * for very small angles, where the sin(phi) is smaller than max_required_step
-		   the opt of the reward landscape should be per definition at
-			 max_required_step if phi in [0,pi)
-			-max_required_step if phi in [pi,2pi)
-		   (max_required_step is assumed to be positive)
-		 * for all cases phi != 0,pi,2pi
-		   the sign is identical to the sign of the sin function
-		 * but for phi = 0,pi,2pi the sig-function is zero and
-		   provides no indication about the sign of the opt
-	 *
+	 * Computes radius for the optimum (global minimum).
 	 * @param phi
 	 * @param maxRequiredStep
 	 * @return
 	 */
 	private static double computeOptimalRadius(final double phi, final double maxRequiredStep) {
-		final double modPhi = phi % (2 * Math.PI);
-		double opt = Math.max(Math.abs(Math.sin(modPhi)), maxRequiredStep);
-		if (modPhi >= Math.PI) {
-			opt *= -1;
+		double signum_phi = Math.signum(Math.sin(phi));
+		if (signum_phi == 0.0) {
+			signum_phi = 1.0;
 		}
-		return opt;
+		return signum_phi * Math.max(Math.abs(Math.sin(phi)), maxRequiredStep);
 	}
 
 	/**
@@ -155,20 +63,23 @@ public class PenaltyFunction {
 	 * @return
 	 */
 	private static DoubleFunction rewardFunctionFactory(final double phi, final double maxRequiredStep) {
-
 		final NLGP l = new NLGP();
-		final double pTmp = phi % (2 * Math.PI);
-		final double p = pTmp < 0 ? pTmp + (2 * Math.PI) : pTmp;
 
-		final double optRad = computeOptimalRadius(p, maxRequiredStep);
-		final double r0 = l.globalMinimumRadius(p);
-
-		final DoubleFunction tr = radTransformationFactory(optRad, r0, Math.signum(optRad) * 2, Math.signum(r0) * 2);
+		final double optRad = computeOptimalRadius(phi, maxRequiredStep);
+		final double r0 = l.globalMinimumRadius(phi);
 
 		return new DoubleFunction() {
 			@Override
-			public double apply(final double r) {
-				return l.polarNlgp(tr.apply(r), p);
+			public double apply(final double x) {
+				double result = Double.NaN;
+				if (Math.abs(x) <= Math.abs(optRad)) {
+					result = x * Math.abs(r0) / Math.abs(optRad);
+				} else {
+					final double exponent = (2.0 - Math.abs(optRad)) / (2.0 - Math.abs(r0));
+					final double scaling = (2.0 - Math.abs(r0)) / Math.pow((2.0 - Math.abs(optRad)), exponent);
+					result = Math.signum(x) * (Math.abs(r0) + scaling * Math.pow(Math.abs(x) - Math.abs(optRad), exponent));
+				}
+				return l.polarNlgp(result, phi);
 			}
 		};
 	}
@@ -179,14 +90,6 @@ public class PenaltyFunction {
 
 	public double getOptimumValue() {
 		return optimumValue;
-	}
-
-	public double getPhi() {
-		return phi;
-	}
-
-	public double getMaxRequiredStep() {
-		return maxRequiredStep;
 	}
 }
 

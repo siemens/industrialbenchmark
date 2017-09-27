@@ -12,7 +12,7 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-*/
+ */
 package com.siemens.industrialbenchmark.dynamics.goldstone;
 
 import org.slf4j.Logger;
@@ -33,33 +33,29 @@ public class GoldStoneEnvironmentDynamics {
 
 	public enum Domain {
 		POSITIVE(+1),
-		INITIAL(0),
 		NEGATIVE(-1);
 
 		private final int id;
 		Domain(final int id) { this.id = id; }
 		public int getValue() { return id; }
 		public static Domain fromDouble(final double id) {
-			if (id == -1.0) { return NEGATIVE; }
-			if (id == 0.0) { return INITIAL; }
-			if (id == 1.0) { return POSITIVE; }
-			throw new IllegalArgumentException("id must be either [-1, 0, 1], but is " + id);
+			if (id < 0.0) return  NEGATIVE;
+			if (id >= 0.0) return POSITIVE;
+			throw new IllegalArgumentException("id must be either [-1, 1], but is " + id);
 		}
 	}
 
 	public enum SystemResponse {
 		ADVANTAGEOUS(+1),
-		DISADVANTAGEOUS(-1),
-		NEUTRAL(0);
+		DISADVANTAGEOUS(-1);
 
 		private final int id;
 		SystemResponse(final int id) { this.id = id; }
 		public int getValue() { return id; }
 		public static SystemResponse fromDouble(final double id) {
-			if (id == -1.0) { return DISADVANTAGEOUS; }
-			if (id == 0.0) { return NEUTRAL; }
-			if (id == 1.0) { return ADVANTAGEOUS; }
-			throw new IllegalArgumentException("id must be either [-1, 0, 1], but is " + id);
+			if (id < 0.0) return  DISADVANTAGEOUS;
+			if (id >= 0.0) return ADVANTAGEOUS;
+			throw new IllegalArgumentException("id must be either [-1, 1], but is " + id);
 		}
 	}
 
@@ -73,10 +69,9 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	private void reset() {
-		domain = Domain.INITIAL;
+		domain = Domain.POSITIVE;
 		phiIdx = 0;
 		systemResponse = SystemResponse.ADVANTAGEOUS;
-		currentPenaltyFunction = getPenaltyFunction();
 	}
 
 	public double rewardAt(final double pos) {
@@ -93,7 +88,7 @@ public class GoldStoneEnvironmentDynamics {
 
 	public void stateTransition(final double newControlValue) {
 
-		final Domain oldDomain = domain;
+		Domain oldDomain = domain;
 
 		// (0) compute new domain
 		domain = computeDomain(newControlValue);
@@ -104,19 +99,25 @@ public class GoldStoneEnvironmentDynamics {
 			LOGGER.trace("  turning sys behavior -> advantageous");
 		}
 
+		int oldPhiIdx = this.phiIdx;
+
 		// (2) compute & apply turn direction
 		phiIdx += computeAngularStep(newControlValue);
 
 		// (3) update system response if necessary
 		systemResponse = updateSystemResponse(phiIdx);
 
-		// (4) if Phi_index == 0: reset internal state
+		oldPhiIdx = this.phiIdx;
+
+		// (4) apply symmetry
+		this.phiIdx = this.applySymmetry(this.phiIdx);
+
+		oldDomain = this.domain;
+
+		// (5) if Phi_index == 0: reset internal state
 		if (phiIdx == 0 && Math.abs(newControlValue) <= safeZone) {
 			reset();
 		}
-
-		// (5) apply symmetry
-		phiIdx = applySymmetry(phiIdx);
 
 		LOGGER.trace("  phiIdx = " + phiIdx);
 		currentPenaltyFunction = getPenaltyFunction();
@@ -124,11 +125,6 @@ public class GoldStoneEnvironmentDynamics {
 
 	/**
 	 * Computes the new domain of control action.
-	 * Note:
-	 * if control action is in safe zone, domain remains unchanged
-	 * as 'penalty landscape' turn direction is independent of exact position
-	 * in safe zone, reset to Domain.initial can be applied later.
-	 *
 	 * @param newPosition The new position.
 	 * @return The numerical value of the new domain.
 	 */
@@ -156,12 +152,7 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	/**
-	 * Only changes the system response if the turn angle hits 90deg
-	 * in the domain of the current position.
-	 * I.e.:
-	 * <code>new_position &gt;  this.__safe_zone and new_Phi_idx =  90deg</code>
-	 * <code>new_position &lt; -this.__safe_zone and new_Phi_idx = -90deg</code>
-	 *
+	 * Update system response
 	 * @param phiIdx
 	 * @return the resulting system response
 	 */
@@ -175,56 +166,17 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	/**
-	 * Calculates a symmetric version of a given phi.
-	 * By employing reflection symmetry with respect to the x-axis:
-	 * <ul>
-	 *	<li>Phi -&gt; pi -Phi</li>
-	 *	<li>turn direction -&gt; turn direction</li>
-	 *	<li>x -&gt; x</li>
-	 * </ul>
-	 * moves 'penalty landscape' rotation angle in domain
-	 * <code>[-90deg ... +90deg]</code>
-	 * corresponding to <code>Phi_index</code> in
-	 * <code>[ -strongest_penality_abs_idx*angular_speed, ..., -angular_speed, 0, angular_speed, ..., strongest_penality_abs_idx*angular_speed ]</code>
-	 *
-	 * @param otherPhiIdx
-	 * @return the symmetric phi
+	 * Apply symmetric properties on phiIdx
+	 * @param phiIdx
+	 * @return
 	 */
 	private int applySymmetry(final int otherPhiIdx) {
-
-		int currentPhiIdx = otherPhiIdx;
-
-		/*
-		 * Do nothing if 'penalty landscape' rotation angle is in
-		 * <math>[-90deg ... +90deg]</math>
-		 * corresponding to angle indices
-		 * <math>[-self.__strongest_penality_abs_idx, ...-1,0,1, ..., self.__strongest_penality_abs_idx-]</math>
-		 */
-		if (Math.abs(currentPhiIdx) <= strongestPenaltyAbsIdx) {
-			return currentPhiIdx;
+		if (Math.abs(otherPhiIdx) < strongestPenaltyAbsIdx) {
+			return otherPhiIdx;
 		}
 
-		/*
-		 * Otherwise:
-		 * Use 2pi symmetry to move angle index p in domain
-		 * [0 ... 360deg)
-		 * corresponding to angle indices
-		 * [0, ..., 4*self.__strongest_penality_abs_idx-1]
-		 * But we are only executing the following code, if the angle is in
-		 * (90deg, ..., 270deg)
-		 * corresponding to angle indices
-		 * [self.__strongest_penality_abs_idx+1, ..., 3*self.__strongest_penality_abs_idx-1]
-		 * Therefore, the reflection-symmetry operation
-		 * p <- 2*self.__strongest_penality_abs_idx - p
-		 * will transform p back into the desired angle indices domain
-		 * [-self.__strongest_penality_abs_idx, ...-1,0,1, ..., self.__strongest_penality_abs_idx-]
-		 * */
-		currentPhiIdx = currentPhiIdx % (4 * strongestPenaltyAbsIdx);
-		if (currentPhiIdx < 0) {
-			currentPhiIdx += (4 * strongestPenaltyAbsIdx);
-		}
+		int currentPhiIdx = (otherPhiIdx + (4 * strongestPenaltyAbsIdx)) % (4 * strongestPenaltyAbsIdx);
 		currentPhiIdx = 2 * strongestPenaltyAbsIdx - currentPhiIdx;
-
 		return currentPhiIdx;
 	}
 
@@ -233,7 +185,7 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	public PenaltyFunction getPenaltyFunction(final int otherPhiIdx) {
-		int idx = strongestPenaltyAbsIdx + this.applySymmetry(otherPhiIdx);
+		int idx = strongestPenaltyAbsIdx + otherPhiIdx;
 		if (idx < 0) {
 			idx += penaltyFunctionsArray.length;
 		}
@@ -241,6 +193,7 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	/**
+	 * Define the reward functions
 	 * @param numberSteps
 	 *   the number of steps required for one full cycle of the optimal policy.
 	 *   For easy numerics, it is required that this is positive and an integer
@@ -284,9 +237,9 @@ public class GoldStoneEnvironmentDynamics {
 	 * This has the advantage, that either end of the grid represents
 	 * the worst case points of the ???.
 	 */
-	private static PenaltyFunction[] defineRewardFunctions(final int numberSteps, final double maxRequiredStep) {
+	private PenaltyFunction[] defineRewardFunctions(final int numberSteps, final double maxRequiredStep) {
 
-		final int k = computeStrongestPenaltyAbsIdx(numberSteps);
+		final int k = strongestPenaltyAbsIdx;
 		final double[] angleGid = new double[k * 2 + 1];
 		for (int i = -k; i <= k; i++) {
 			angleGid[i + k] = i * 2 * Math.PI / numberSteps;
@@ -300,7 +253,7 @@ public class GoldStoneEnvironmentDynamics {
 	}
 
 	private static int computeStrongestPenaltyAbsIdx(final int numberSteps) {
-		Preconditions.checkArgument(numberSteps >= 1 && (numberSteps %4) == 0,
+		Preconditions.checkArgument(numberSteps >= 1 && (numberSteps % 4) == 0,
 				"numberSteps must be positive and an integer multiple of 4, but is %s", numberSteps);
 
 		return numberSteps / 4;
