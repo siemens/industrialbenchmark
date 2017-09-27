@@ -52,7 +52,6 @@ public class GoldstoneEnvironment {
 	 * Applies action and returns reward
 	 */
 	public double stateTransition(double controlValueChange) {
-		// TODO: (comment from Alex) not yet implemented: test if action is allowed
 		this.controlPosition += controlValueChange;
 		this.dynamics.stateTransition(controlPosition);
 		return this.reward();
