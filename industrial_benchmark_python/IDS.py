@@ -51,7 +51,7 @@ class IDS(object):
         self.maxRequiredStep = np.sin(15./180.*np.pi);
         self.gsBound = 1.5
         self.gsSetPointDependency = 0.02
-	self.gsScale = 2.*self.gsBound + 100.*self.gsSetPointDependency
+        self.gsScale = 2.*self.gsBound + 100.*self.gsSetPointDependency
 
         self.CRD = 3.
         self.CRE = 1
@@ -110,7 +110,7 @@ class IDS(object):
         self.state['v'] = np.clip(self.state['v'] + delta[0],0.,100.)
         self.state['g'] = np.clip(self.state['g'] + 10*delta[1],0.,100.)
         self.state['s'] = np.clip(self.state['s'] + ((self.maxRequiredStep/0.9)*100./self.gsScale)*delta[2],0.,100.)
-	self.state['hs'] = np.clip(self.gsScale*self.state['s']/100. - self.gsSetPointDependency*self.state['p'] - self.gsBound,-self.gsBound,self.gsBound) # hidden/effective shift
+        self.state['hs'] = np.clip(self.gsScale*self.state['s']/100. - self.gsSetPointDependency*self.state['p'] - self.gsBound,-self.gsBound,self.gsBound) # hidden/effective shift
 
 
     def updateFatigue(self):
@@ -190,7 +190,7 @@ class IDS(object):
         velocity = self.state['v']
         setpoint = self.state['p']
 
-	costs = CostSetPoint * setpoint + CostGain * gain + CostVelocity * velocity;
+        costs = CostSetPoint * setpoint + CostGain * gain + CostVelocity * velocity;
         o = np.exp(costs / 100.)
         self.state['coc'] = o
 
