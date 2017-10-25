@@ -91,8 +91,19 @@ class IDS(object):
         return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['s'],self.state['f'],self.state['c'],self.state['cost']])
 
     def markovState(self):
-        return np.hstack((self.state['o'],np.array([self.state[k] for k in self.state.keys()[1:]])))
+        return np.hstack((self.state['o'], np.array([self.state[k] for k in self.state.keys()])))
+        #return np.hstack((self.state['o'],np.array([self.state[k] for k in self.state.keys()[1:]])))
 
+#---------------FOR TESTING---------------------------------------------------
+    #TODO: remove: this 2 methods are only here for testing
+    def operational_cost_Buffer(self):
+        return np.array(self.state['o'])
+
+    def allStates(self):
+        #return np.array([self.state[k] for k in self.state.keys()])
+        return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['s'],self.state['f'],self.state['c'],self.state['cost'], self.state['coc'], self.state['hs'], self.state['ge'], self.state['ve'], self.state['MC'], self.state['fb'], self.state['oc'], self.state['cost'], self.state['gs_domain'], self.state['gs_sys_response'], self.state['gs_phi_idx'] ])
+
+# -----------------------------------------------------------------------------
 
     def step(self,delta):
         self.updateSetPoint()
@@ -174,7 +185,8 @@ class IDS(object):
         else:
             alpha = np.maximum(nv,ng)
 
-
+        # TODO: only for testing: fixed alpha, hv, hg remove
+        alpha = 0.173435359565
         fb = np.maximum(0,((30000. / ((5*v) + 100)) - 0.01 * (g**2)))
         self.state['hv'] = hv
         self.state['hg'] = hg
@@ -218,9 +230,10 @@ class IDS(object):
         self.state['gs_phi_idx'] = self.gsEnvironment._dynamics._Phi_idx
 
 
+    #TODO: for Testing remove random
     def updateOperationalCosts(self):
         eNewHidden = self.state['oc'] - (self.CRGS * (self.state['MC'] - 1.0))
-        operationalcosts = eNewHidden - np.random.randn()*(1+0.005*eNewHidden)
+        operationalcosts = eNewHidden - 0.3121526999267631*(1+0.005*eNewHidden) # TODO: real value: np.random.randn()*(1+0.005*eNewHidden)
         self.state['c'] = operationalcosts
 
 
@@ -229,7 +242,7 @@ class IDS(object):
         rE = self.state['c']
         self.state['cost'] = self.CRD*rD + self.CRE*rE
 
-
+    #TODO: for testing remove random
     def updateSetPoint(self):
         if self.stationary_p == True:
             return
@@ -239,7 +252,8 @@ class IDS(object):
 
             new_p = self.state['p'] + self._p_ch
             if new_p > 100 or new_p < 0:
-                if np.random.rand() > 0.5:
+
+                if 0.6554288666329164 > 0.5:      # TODO: real value: if np.random.rand() > 0.5:
                     self._p_ch *= -1
 
             new_p = np.clip(new_p,0,100)
@@ -248,13 +262,14 @@ class IDS(object):
 
             self._p_step += 1
 
-
+    #TODO: for testing remove random
     def defineNewSequence(self):
-        length = np.random.randint(1,100)
+
+        length = 8 # TODO: reale value: np.random.randint(1,100)
         self._p_steps = length
         self._p_step = 0
-        p_ch = 2 * np.random.rand() -1
-        if np.random.rand() < 0.1:
+        p_ch = 0.5275933206568404 # TODO: real value: 2 * np.random.rand() -1
+        if 0.8917805810261847 < 0.1: # TODO: real value: if np.random.rand() < 0.1:
             p_ch *= 0.
         self._p_ch =  p_ch
 
