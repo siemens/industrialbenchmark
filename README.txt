@@ -1,21 +1,22 @@
 Industrial Benchmark: 
 =====================
 
-Requires: Java 8 and Apache Maven 3.x
+Requires: 	Java 8 and Apache Maven 3.x or
+			Python 2.7
 
-Documentation: The documentation is available online at: https://arxiv.org/abs/1610.03793
-	Source: D. Hein, A. Hentschel, V. Sterzing, M. Tokic and S. Udluft. "Introduction to the 
-	Industrial Benchmark". CoRR, arXiv:1610.03793 [cs.LG], pages 1-11. 2016. 
+Documentation: The documentation is available online at: https://arxiv.org/abs/1709.09480
+	Source: D. Hein, S. Depeweg, M. Tokic, S. Udluft, A. Hentschel, T.A. Runkler, and V. Sterzing. 
+	"A Benchmark Environment Motivated by Industrial Control Problems". arXiv preprint arXiv:1709.09480, 2017. 
 	
 Citing Industrial Benchmark:
 ============================
 To cite Industrial Benchmark, please reference:
-	D. Hein, A. Hentschel, V. Sterzing, M. Tokic and S. Udluft. "Introduction to the 
-		Industrial Benchmark". CoRR, arXiv:1610.03793 [cs.LG], pages 1-11. 2016.
+	D. Hein, S. Depeweg, M. Tokic, S. Udluft, A. Hentschel, T.A. Runkler, and V. Sterzing. "A Benchmark Environment 
+		Motivated by Industrial Control Problems". arXiv preprint arXiv:1709.09480, 2017. 
 		
 	D. Hein, S. Udluft, M. Tokic, A. Hentschel, T.A. Runkler, and V. Sterzing. "Batch Reinforcement 
-		Learning on the Industrial Benchmark: First Experiences." Neural Networks (IJCNN), 2017 
-		International Joint Conference on. IEEE, 2017. (accepted) (to be published)
+		Learning on the Industrial Benchmark: First Experiences," in 2017 International Joint Conference on Neural
+		Networks (IJCNN), 2017, pp. 4214–4221.
 		
 	S. Depeweg, J. M. Hernández-Lobato, F. Doshi-Velez, and S. Udluft. "Learning and 
 		policy search in stochastic dynamical systems with bayesian neural networks." arXiv 

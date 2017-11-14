@@ -3,3 +3,4 @@
 /.settings/
 /dyn-markov.csv
 /dyn-observable.csv
+*.pyc
