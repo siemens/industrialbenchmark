@@ -9,19 +9,9 @@ class TestIB(unittest.TestCase):
     def test_example(self):
         # TODO create result list with fixed seed (Markov State, q Values) import it and compare ist to result of "example"
         print("Test is running")
-        # load csv state values
-
-        # load csv Matkov states
-
-        # load GS Parameter: domain, Phi_idx, Phi_idx_symmetrisch, Sytem_response, reward
-
-        # load Fatigue
-
-        # run env, get values
-
-        env = IDS(p=100)
-        at = [-0.72329821, -0.65278997,  0.90032803] # 2 * np.random.rand(3) - 1 --> for testing fixed seed
-
+        np.random.seed(500)
+        env = IDS(p=100, inital_seed = 1005)
+        at = 2 * np.random.rand(3) - 1  #[-0.72329821, -0.65278997,  0.90032803]
         print(at)
         # eine Aktion ausführen
         env.step(at)
@@ -49,3 +39,4 @@ class TestIB(unittest.TestCase):
 
         # Test if result and muster are equal
         np.testing.assert_array_almost_equal(muster_all_States, all_States)
+        np.testing.assert_array_almost_equal(muster_operational_States, operational_States)
