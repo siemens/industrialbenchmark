@@ -280,25 +280,21 @@ class environment:
     # TODO reset Methoden unbenannt, da zweimal vorhanden --> Verwirrung
     def __init__(self, number_steps, max_required_step, safe_zone):
         self._dynamics = dynamics(number_steps, max_required_step, safe_zone)
-        self.reset_env()
+        self.reset_position_zero()
 
-    def reset_env(self, control_start_value=None):
-        if control_start_value is None:
-            self._control_position = 0
-        else:
-            self._control_position = control_start_value
-              
+    def reset_position_zero(self):
+        self._control_position = self.reset_position(0)
+
+    def reset_position(self, control_start_value):
+        self._control_position = control_start_value
+
     def reward(self):
         return self._dynamics.reward(self._control_position)
 
-    # TODO wird nicht aufgrufen
-    '''
-    def optimal_position(self):
-        return self._dynamics.optimal_position()
-    def optimal_reward(self):
-        return self._dynamics.optimal_reward()
-    '''
 
+
+
+    # TODO wird nicht aufgrufen
     '''
     def state_transition(self, control_value_change):
         """
@@ -321,6 +317,12 @@ class environment:
     def get_penalty_function(self):
         return self._dynamics.get_penalty_function()
 
+
+    def optimal_position(self):
+        return self._dynamics.optimal_position()
+
+    def optimal_reward(self):
+        return self._dynamics.optimal_reward()
 
 
 
