@@ -28,7 +28,7 @@ class dynamics:
             raise ValueError('safe_zone must be non-negative')
         return safe_zone
 
-    # TODO wird nicht aufgerufen
+    # DONE wird nicht aufgerufen
     '''
     def _check_number_steps(self, number_steps):
         if (number_steps < 1):
@@ -38,7 +38,6 @@ class dynamics:
         return number_steps
     '''
 
-    # TODO evtl. am Anfang der Klasse ??
     # DONE Funktionsnamen unbenannt --> alle Funktionen nun mit penalty
     def reset(self):
         self._domain = self.Domain.positive # DONE initial raus, dafür positive

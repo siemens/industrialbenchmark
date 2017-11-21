@@ -31,7 +31,7 @@ import reward_function
 from enum import Enum
 from dynamics import dynamics
 
-# TODO diese Klasse in eine extra
+# DONE diese Klasse in eine extra
 '''
 class dynamics:
 

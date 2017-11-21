@@ -2,12 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="9e2aef39-300b-43bf-a283-050c37cc7c4a" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/industrialbenchmark.iml" afterPath="$PROJECT_DIR$/.idea/industrialbenchmark.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" afterPath="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" afterPath="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py" afterPath="$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" afterPath="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -45,7 +41,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="interpreter.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="interpreter.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="960">
@@ -70,7 +66,7 @@
       <file leaf-file-name="DQN_KerasRL_IBDiscrete.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="158">
+            <state relative-caret-position="675">
               <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="16" />
               <folding>
                 <element signature="e#1126#1144#0" expanded="true" />
@@ -79,33 +75,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="example.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/example.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-              <folding>
-                <element signature="e#1121#1140#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="IDS.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/IDS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4095">
-              <caret line="273" column="10" lean-forward="false" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
+            <state relative-caret-position="572">
+              <caret line="159" column="45" lean-forward="true" selection-start-line="159" selection-start-column="45" selection-end-line="159" selection-end-column="45" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="environment.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="environment.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4200">
-              <caret line="280" column="33" lean-forward="false" selection-start-line="280" selection-start-column="33" selection-end-line="280" selection-end-column="33" />
+            <state relative-caret-position="-3232">
+              <caret line="33" column="6" lean-forward="false" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
               <folding />
             </state>
           </provider>
@@ -114,8 +98,8 @@
       <file leaf-file-name="dynamics.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="151" column="24" lean-forward="false" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="24" />
+            <state relative-caret-position="92">
+              <caret line="117" column="14" lean-forward="false" selection-start-line="117" selection-start-column="10" selection-end-line="117" selection-end-column="14" />
               <folding>
                 <element signature="e#0#18#0" expanded="true" />
               </folding>
@@ -144,8 +128,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>_penalty_functions_array</find>
-      <find>_define_reward_functions</find>
       <find>environment</find>
       <find>reset</find>
       <find>state</find>
@@ -153,7 +135,6 @@
       <find>rE</find>
       <find>rE</find>
       <find>rD</find>
-      <find>gsScale</find>
       <find>hs</find>
       <find>s</find>
       <find>['s']</find>
@@ -172,8 +153,11 @@
       <find>action_space</find>
       <find>reward</find>
       <find>cost</find>
+      <find>gsSetPointDependency</find>
+      <find>gsScale</find>
       <find>get_penalty_function</find>
       <find>observation_space</find>
+      <find>TODO</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -186,17 +170,18 @@
         <option value="$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_python/example.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/reward_function.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_python/test_industrial_benchmark_python.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
+    <option name="x" value="14" />
     <option name="y" value="23" />
     <option name="width" value="1266" />
     <option name="height" value="773" />
@@ -510,7 +495,7 @@
     </history-entry>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1266" height="773" extended-state="0" />
+    <frame x="14" y="23" width="1266" height="773" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24979919" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -619,16 +604,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="151" column="24" lean-forward="false" selection-start-line="151" selection-start-column="8" selection-end-line="151" selection-end-column="24" />
-          <folding>
-            <element signature="e#0#18#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/reward_function.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1530">
@@ -655,42 +630,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4200">
-          <caret line="280" column="33" lean-forward="false" selection-start-line="280" selection-start-column="33" selection-end-line="280" selection-end-column="33" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/IDS.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4095">
-          <caret line="273" column="10" lean-forward="false" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/example.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
-          <folding>
-            <element signature="e#1121#1140#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="158">
-          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="16" />
-          <folding>
-            <element signature="e#1126#1144#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="75">
@@ -706,6 +645,52 @@
           <folding>
             <element signature="e#0#47#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/example.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="251">
+          <caret line="44" column="0" lean-forward="true" selection-start-line="44" selection-start-column="0" selection-end-line="44" selection-end-column="0" />
+          <folding>
+            <element signature="e#1121#1140#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="675">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="16" />
+          <folding>
+            <element signature="e#1126#1144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="92">
+          <caret line="117" column="14" lean-forward="false" selection-start-line="117" selection-start-column="10" selection-end-line="117" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#18#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/IDS.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="572">
+          <caret line="159" column="45" lean-forward="true" selection-start-line="159" selection-start-column="45" selection-end-line="159" selection-end-column="45" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-3232">
+          <caret line="33" column="6" lean-forward="false" selection-start-line="33" selection-start-column="6" selection-end-line="33" selection-end-column="6" />
+          <folding />
         </state>
       </provider>
     </entry>

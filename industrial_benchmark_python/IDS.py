@@ -58,7 +58,7 @@ class IDS(object):
         self.gsScale = 2.*self.gsBound + 100.*self.gsSetPointDependency # scaling factor for shift
 
         self.CRD = 3. # Reward Fatigue weighted
-        self.CRE = 1 # TODO im Paper -1 # Reward Consumtion weighted
+        self.CRE = 1 # DONE im Paper -1 # Reward Consumtion weighted
         self.CRGS =  25.
 
         self.dv = 1 # scaling factor for velocity
@@ -153,9 +153,7 @@ class IDS(object):
         self.state['v'] = np.clip(self.state['v'] + self.dv*delta[0],0.,100.)
         self.state['g'] = np.clip(self.state['g'] + self.dg*delta[1],0.,100.)
         self.state['h'] = np.clip(self.state['h'] + self.dh*delta[2],0.,100.)
-
-        # TODO Fromel im Paper anders??
-        self.state['he'] = np.clip(self.gsScale*self.state['h']/100. - self.gsSetPointDependency*self.state['p'] - self.gsBound,-self.gsBound,self.gsBound) # hidden/effective shift: max(-1.5, min(a.5, h/20 - p/50 -1.5)) --> Im java Code genauso wie im Python
+        self.state['he'] = np.clip(self.gsScale*self.state['h']/100. - self.gsSetPointDependency*self.state['p'] - self.gsBound,-self.gsBound,self.gsBound)
 
 
     def updateFatigue(self):
