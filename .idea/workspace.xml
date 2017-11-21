@@ -1,7 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9e2aef39-300b-43bf-a283-050c37cc7c4a" name="Default" comment="" />
+    <list default="true" id="9e2aef39-300b-43bf-a283-050c37cc7c4a" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py" />
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/industrialbenchmark.iml" afterPath="$PROJECT_DIR$/.idea/industrialbenchmark.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" afterPath="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" afterPath="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" afterPath="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -15,13 +23,57 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="test_industrial_benchmark_python.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="test_industrial_benchmark_python.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/test_industrial_benchmark_python.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="135">
-              <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+            <state relative-caret-position="30">
+              <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="OpenAI_IB.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="interpreter.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="960">
+              <caret line="64" column="27" lean-forward="false" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#47#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="agent.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="DQN_KerasRL_IBDiscrete.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="158">
+              <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="16" />
+              <folding>
+                <element signature="e#1126#1144#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -42,8 +94,8 @@
       <file leaf-file-name="IDS.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/IDS.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="280" column="9" lean-forward="false" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
+            <state relative-caret-position="4095">
+              <caret line="273" column="10" lean-forward="false" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
               <folding />
             </state>
           </provider>
@@ -52,8 +104,8 @@
       <file leaf-file-name="environment.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="383">
-              <caret line="324" column="44" lean-forward="false" selection-start-line="324" selection-start-column="30" selection-end-line="324" selection-end-column="44" />
+            <state relative-caret-position="4200">
+              <caret line="280" column="33" lean-forward="false" selection-start-line="280" selection-start-column="33" selection-end-line="280" selection-end-column="33" />
               <folding />
             </state>
           </provider>
@@ -81,16 +133,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EffectiveAction.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/EffectiveAction.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="498">
-              <caret line="35" column="50" lean-forward="false" selection-start-line="35" selection-start-column="42" selection-end-line="35" selection-end-column="50" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
     </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
@@ -102,10 +144,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>new_Phi_idx</find>
-      <find>4*</find>
-      <find>getSize</find>
-      <find>np.random</find>
       <find>_penalty_functions_array</find>
       <find>_define_reward_functions</find>
       <find>environment</find>
@@ -128,10 +166,14 @@
       <find>_apply_symmetry</find>
       <find>CRE</find>
       <find>parent</find>
-      <find>reward</find>
       <find>_current_penalty_function</find>
+      <find>self.IB</find>
+      <find>obs</find>
+      <find>action_space</find>
+      <find>reward</find>
       <find>cost</find>
       <find>get_penalty_function</find>
+      <find>observation_space</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -142,13 +184,15 @@
       <list>
         <option value="$PROJECT_DIR$/industrial_benchmark_python/EffectiveAction.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_python/test_industrial_benchmark_python.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_python/example.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/reward_function.py" />
-        <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" />
         <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/dynamics.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_python/test_industrial_benchmark_python.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_python/IDS.py" />
+        <option value="$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py" />
       </list>
     </option>
   </component>
@@ -196,7 +240,7 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
-              <option name="myItemId" value="industrial_benchmark_python" />
+              <option name="myItemId" value="industrial_benchmark_wrapper" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -211,10 +255,6 @@
             </PATH_ELEMENT>
             <PATH_ELEMENT>
               <option name="myItemId" value="industrial_benchmark_python" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="goldstone" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
@@ -240,24 +280,7 @@
     <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PythonContentEntriesConfigurable" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
-  <component name="RunManager" selected="Python.example">
-    <configuration default="false" name="example" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/industrial_benchmark_python" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <module name="industrialbenchmark" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/industrial_benchmark_python/example.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <method />
-    </configuration>
+  <component name="RunManager" selected="Python tests.Unittests in test_industrial_benchmark_python">
     <configuration default="false" name="Unittests in test_industrial_benchmark_python" type="tests" factoryName="Unittests" temporary="true" nameIsGenerated="true">
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -414,14 +437,30 @@
       <option name="USE_KEYWORD" value="false" />
       <method />
     </configuration>
+    <configuration default="false" name="example" type="PythonConfigurationType" factoryName="Python">
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/industrial_benchmark_python" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <module name="industrialbenchmark" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/industrial_benchmark_python/example.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <method />
+    </configuration>
     <list size="2">
       <item index="0" class="java.lang.String" itemvalue="Python.example" />
       <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in test_industrial_benchmark_python" />
     </list>
     <recent_temporary>
-      <list size="2">
-        <item index="0" class="java.lang.String" itemvalue="Python.example" />
-        <item index="1" class="java.lang.String" itemvalue="Python tests.Unittests in test_industrial_benchmark_python" />
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Python tests.Unittests in test_industrial_benchmark_python" />
       </list>
     </recent_temporary>
   </component>
@@ -439,12 +478,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="Unittests_in_test_industrial_benchmark_python - 2017.11.20 at 20h 27m 46s.xml">
-      <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
-    </history-entry>
-    <history-entry file="Unittests_in_test_industrial_benchmark_python - 2017.11.20 at 20h 28m 16s.xml">
-      <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
-    </history-entry>
     <history-entry file="Unittests_in_test_industrial_benchmark_python - 2017.11.20 at 20h 30m 48s.xml">
       <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
     </history-entry>
@@ -467,6 +500,12 @@
       <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
     </history-entry>
     <history-entry file="Unittests_in_test_industrial_benchmark_python - 2017.11.20 at 20h 43m 52s.xml">
+      <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_industrial_benchmark_python - 2017.11.21 at 09h 08m 25s.xml">
+      <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
+    </history-entry>
+    <history-entry file="Unittests_in_test_industrial_benchmark_python - 2017.11.21 at 09h 24m 12s.xml">
       <configuration name="Unittests in test_industrial_benchmark_python" configurationId="tests" />
     </history-entry>
   </component>
@@ -572,36 +611,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1590">
-          <caret line="137" column="149" lean-forward="false" selection-start-line="137" selection-start-column="149" selection-end-line="137" selection-end-column="149" />
-          <folding>
-            <element signature="e#1126#1144#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15">
-          <caret line="35" column="30" lean-forward="false" selection-start-line="35" selection-start-column="30" selection-end-line="35" selection-end-column="30" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/../../../Studium/Master/2.Semester/AutonomeSysteme/IMAPS-Genetic-Factory/View.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="720">
           <caret line="69" column="34" lean-forward="false" selection-start-line="69" selection-start-column="34" selection-end-line="69" selection-end-column="34" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="324" column="44" lean-forward="false" selection-start-line="324" selection-start-column="30" selection-end-line="324" selection-end-column="44" />
           <folding />
         </state>
       </provider>
@@ -624,10 +637,36 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/OpenAI_IB.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/test_industrial_benchmark_python.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="7" column="0" lean-forward="true" selection-start-line="7" selection-start-column="0" selection-end-line="7" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/goldstone/environment.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4200">
+          <caret line="280" column="33" lean-forward="false" selection-start-line="280" selection-start-column="33" selection-end-line="280" selection-end-column="33" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/IDS.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="280" column="9" lean-forward="false" selection-start-line="280" selection-start-column="9" selection-end-line="280" selection-end-column="9" />
+        <state relative-caret-position="4095">
+          <caret line="273" column="10" lean-forward="false" selection-start-line="273" selection-start-column="10" selection-end-line="273" selection-end-column="10" />
           <folding />
         </state>
       </provider>
@@ -642,12 +681,30 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/industrial_benchmark_python/test_industrial_benchmark_python.py">
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_openai/DQN_KerasRL_IBDiscrete.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="135">
-          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        <state relative-caret-position="158">
+          <caret line="45" column="0" lean-forward="false" selection-start-line="45" selection-start-column="0" selection-end-line="45" selection-end-column="16" />
           <folding>
-            <element signature="e#0#15#0" expanded="true" />
+            <element signature="e#1126#1144#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_wrapper/agent.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="27" lean-forward="false" selection-start-line="5" selection-start-column="27" selection-end-line="5" selection-end-column="27" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/industrial_benchmark_wrapper/interpreter.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="64" column="27" lean-forward="false" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
           </folding>
         </state>
       </provider>

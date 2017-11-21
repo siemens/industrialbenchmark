@@ -277,7 +277,8 @@ class dynamics:
 
 
 class environment:
-    # TODO reset Methoden unbenannt, da zweimal vorhanden --> Verwirrung
+    # Done reset Methoden unbenannt, da zweimal vorhanden --> Verwirrung
+    # Done Methoden umgeschrieben
     def __init__(self, number_steps, max_required_step, safe_zone):
         self._dynamics = dynamics(number_steps, max_required_step, safe_zone)
         self.reset_position_zero()
@@ -294,7 +295,7 @@ class environment:
 
 
 
-    # TODO wird nicht aufgrufen
+    # Done wird nicht aufgrufen
     '''
     def state_transition(self, control_value_change):
         """

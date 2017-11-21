@@ -7,6 +7,7 @@
       <sourceFolder url="file://$MODULE_DIR$/industrial_benchmark_python/goldstone" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/industrial_benchmark_openai" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/industrial_benchmark_wrapper" isTestSource="false" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

@@ -93,7 +93,7 @@ class IDS(object):
         self.state['f'] = 0.  # fatigue
         self.state['fb'] = 0.  # basic fatigue: without bifurcation aspects
         self.state['oc'] = 0 # current operational cost conv
-        #self.state['cost'] = 0. #  signal/ Total
+        self.state['cost'] = 0. #  signal/ Total
         self.state['reward'] = 0. # reward
 
         self.init = True
@@ -101,7 +101,7 @@ class IDS(object):
         self.step(np.zeros(3))
 
     def visibleState(self):
-        return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['h'],self.state['f'],self.state['c'], self.state['reward']])
+        return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['h'],self.state['f'],self.state['c'], self.state['cost'], self.state['reward']])
 
     def markovState(self):
         return np.hstack((self.state['o'], np.array([self.state[k] for k in self.state.keys()])))
@@ -271,15 +271,15 @@ class IDS(object):
         self.state['c'] = operationalcosts
 
 
-    # TODO: cost = reward und negativ
+    # DONE: cost = reward und negativ
     def cost(self):
         # Dynmaics
         rD = -(self.state['f'])
-        #fatigue = self.state['f']
+        fatigue = self.state['f']
         # Consumtion
         rE = - (self.state['c'])
-        #consumption = self.state['c']
-        #self.state['cost'] = self.CRD*fatigue + self.CRE*consumption # DONE: MINUS --> cost in reward umwandeln mit rD und rE ?????
+        consumption = self.state['c']
+        self.state['cost'] = self.CRD*fatigue + self.CRE*consumption # DONE: MINUS --> cost in reward umwandeln mit rD und rE ?????
         self.state['reward'] = self.CRD*rD + self.CRE*rE
 
 
