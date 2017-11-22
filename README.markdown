@@ -1,4 +1,4 @@
-# Industrial Benchmark (Java)
+# Industrial Benchmark
 
 Requires: Java 8 and Apache Maven 3.x
 
@@ -42,11 +42,12 @@ Without it, compilation will fail.
 	java -jar target/industrialbenchmark-*-jar-with-dependencies.jar src/main/resources/sim.properties
 
 * => a random trajectory is generated
-* => all observable state variables are written to file _dyn-observable.csv_.
-* => all markov state variables are written to file _dyn-markov.csv_
+* => all observable state variables are written to file dyn-observable.csv.
+* => all markov state variables are written to file dyn-markov.csv
 
 # Sample usage in code
 
 An example usage of the industrial benchmark can be found in the class `com.siemens.industrialbenchmark.ExampleMain`.
-It is intended to be a template for data generation.
+It is intented to be a template for data generation.
+
 
