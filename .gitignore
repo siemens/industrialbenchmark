@@ -4,3 +4,4 @@
 /dyn-markov.csv
 /dyn-observable.csv
 *.pyc
+industrial_benchmark_python/.idea/
