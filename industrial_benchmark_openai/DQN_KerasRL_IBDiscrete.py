@@ -40,19 +40,19 @@ env = OpenAI_IB(setpoint=50, reward_type='classic', action_type='discrete')
 np.random.seed(123)
 env.seed(123)
 nb_actions = env.action_space.n
-print nb_actions
+print (nb_actions)
 
 
-print 'step 1'
+print ('step 1')
 obs, reward, done, info =  env.step(0)
-print 'obs:'
-print obs
-print 'reward: ', reward
-print 'done: ', done
-print 'info'
-print info
-print env.action_space
-print env.observation_space.shape
+print ('obs:')
+print (obs)
+print ('reward: ', reward)
+print ('done: ', done)
+print ('info')
+print (info)
+print (env.action_space)
+print (env.observation_space.shape)
 
 
 # Next, we build a very simple model.

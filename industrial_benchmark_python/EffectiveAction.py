@@ -36,11 +36,17 @@ class EffectiveAction(object):
         self.alpha = self.calcAlphaScaled(velocity, gain, setpoint)
         self.beta = self.calcBetaScaled(gain, setpoint)
 
+    # TODO in GAIN, Velocity, Shift unbenennen
+
+
+    # TODO wird nicht aufgerufen
+    '''
     def getEffectiveA(self):
         return self.effectiveA
 
     def getEffectiveB(self):
         return self.effectiveB
+    '''
 
     def calcAlphaScaled(self, a, b, setpoint):
         minAlphaUnscaled = self.calcAlphaUnscaled(self.calcEffectiveA(100, setpoint), self.calcEffectiveB(0, setpoint))

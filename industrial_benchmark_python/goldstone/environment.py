@@ -28,11 +28,14 @@ SOFTWARE.
 import numpy as np
 from numpy import pi, sign
 import reward_function
-from enum import Enum 
+from enum import Enum
+from dynamics import dynamics
 
-
+# DONE diese Klasse in eine extra
+'''
 class dynamics:
-    
+
+
     class Domain(Enum):
         negative = -1
         initial = 0
@@ -42,12 +45,13 @@ class dynamics:
         advantageous = +1
         neutral = 0
         disadvantageous = -1
+
     
     def __init__(self, number_steps, max_required_step, safe_zone):
         self._safe_zone = self._check_safe_zone(safe_zone)
-        #
-        self._define_reward_functions(number_steps, max_required_step)
-        #
+        self._strongest_penality_abs_idx = self.compute_strongest_penalty_absIdx(number_steps)
+        self._penalty_functions_array = self._define_reward_functions(number_steps, max_required_step)
+
         # internal state
         self.reset()
 
@@ -56,57 +60,66 @@ class dynamics:
             raise ValueError('safe_zone must be non-negative')
         return safe_zone
 
+    # TODO wird nicht aufgerufen
+    '''
+'''
     def _check_number_steps(self, number_steps):
         if (number_steps < 1):
             raise ValueError('number_steps must be positive integer')
         if (number_steps // 4):
             raise ValueError('number_steps must be integer multiple of 4')
         return number_steps
-         
+    '''
+'''
+    # TODO evtl. am Anfang der Klasse ??
     def reset(self):
         self._domain = self.Domain.initial
         self._Phi_idx = 0
         self._system_response = self.System_Response.advantageous
-        self._current_reward_function = self.get_reward_function()
+        self._current_penalty_function = self.get_penalty_function()
               
     def reward(self, pos):
-        return self._current_reward_function.reward(pos)
+        return self._current_penalty_function.reward(pos)
+
 
     def optimal_position(self):
-        return self._current_reward_function.optimum_radius
+        return self._current_penalty_function.optimum_radius
 
     def optimal_reward(self):
-        return self._current_reward_function.optimum_value
-    
+        return self._current_penalty_function.optimum_value
+
+
+    # TODO new_control_value unbennen?
     def state_transition(self, new_control_value):
-        """
-        """
+
         old_domain = self._domain
+
         # (0) compute new domain
-        self._domain = self._compue_domain(new_control_value)
-        #
+        self._domain = self._compute_domain(new_control_value)
+
         # (1) if domain change: system_response <- advantageous
         if self._domain != old_domain:
             self._system_response = self.System_Response.advantageous
-            #print("  turning sys behavior -> advantageous")
-        #
+
         # (2) compute & apply turn direction
         self._Phi_idx += self._compute_angular_step(new_control_value)
-        #
+
         # (3) Update system response if necessary
         self._system_response = self._updated_system_response(self._Phi_idx, new_control_value)
-        #
-        # (4) if self._Phi_idx == 0: reset internal state
+
+        # TODO Reihenfolge ändern
+        # (4) apply symmetry
+        self._Phi_idx = self._apply_symmetry(self._Phi_idx)
+        #TODO old_domain = self._domain ? war im anderen Code
+
+        # (5) if self._Phi_idx == 0: reset internal state
         if (self._Phi_idx == 0) and (abs(new_control_value) <= self._safe_zone):
             self.reset()
-        #
-        # (5) apply symmetry
-        self._Phi_idx = self._apply_symmetry(self._Phi_idx)
-        #
+
         #print("  self._Phi_idx = " + str(self._Phi_idx))
-        self._current_reward_function = self.get_reward_function()
+        self._current_penalty_function = self.get_penalty_function()
         
-    def _compue_domain(self, new_position):
+    def _compute_domain(self, new_position):
         """
         compute the new domain of control action
         Note: 
@@ -116,13 +129,14 @@ class dynamics:
         """
         if abs(new_position) <= self._safe_zone: 
             return self._domain
-        return self.Domain( sign(new_position) )
+        else:
+            return self.Domain(sign(new_position))
     
     def _compute_angular_step(self, new_position):
         # cool down: when position close to zero
         if abs(new_position) <= self._safe_zone: # cool down
             return -sign(self._Phi_idx)
-        #
+
         if self._Phi_idx == -self._domain.value * self._strongest_penality_abs_idx:
             return 0
         return self._system_response.value * sign(new_position)
@@ -157,7 +171,7 @@ class dynamics:
         #    [-90deg ... +90deg] 
         # corresponding to angle indices
         #    [-self._strongest_penality_abs_idx, ...-1,0,1, ..., self._strongest_penality_abs_idx-]
-        if abs(Phi_idx) <= self._strongest_penality_abs_idx:
+        if abs(Phi_idx) < self._strongest_penality_abs_idx:
             return Phi_idx
         # 
         # Otherwise:
@@ -173,18 +187,24 @@ class dynamics:
         #    p <- 2*self._strongest_penality_abs_idx - p
         # will transform p back into the desired angle indices domain
         #    [-self._strongest_penality_abs_idx, ...-1,0,1, ..., self._strongest_penality_abs_idx-]
+        # TODO im anderen Code: Phi_idx + (4*self._strongest_penality_abs_idx) % (4*self._strongest_penality_abs_idx)
         Phi_idx = Phi_idx % (4*self._strongest_penality_abs_idx)
         Phi_idx = 2*self._strongest_penality_abs_idx - Phi_idx
         return Phi_idx
-        
-    def get_reward_function(self, Phi_idx=None):
+
+    def get_penalty_function(self, Phi_idx=None):
         if Phi_idx is None:
             p = self._Phi_idx
         else:
             p = self._apply_symmetry(Phi_idx)
 #             if (abs(p) > self._strongest_penality_abs_idx):
 #                 raise IndexError("Turn index (" + str(p) + ") exceeds bounds (" + str(self._strongest_penality_abs_idx) + ")")
-        return self._reward_functions_array[ int(self._strongest_penality_abs_idx + p)  ]
+        # TODO idx außerhalb con ArrayIndex
+        idx = int(self._strongest_penality_abs_idx + p)
+        # TODO: es fehlt:
+        if idx < 0 :
+            idx = idx + len(self._penalty_functions_array)
+        return self._penalty_functions_array[idx]
  
     def _define_reward_functions(self, number_steps, max_required_step):
         """
@@ -225,40 +245,57 @@ class dynamics:
               0, 
               angular_speed, ..., strongest_penality_abs_idx*angular_speed ]
         This has the advantage, that either end of the grid represents the worst case points of the 
-        """        
+        """
+        '''
+'''
         if (number_steps < 1) or (number_steps % 4 != 0):
             raise ValueError('number_steps must be positive and integer multiple of 4')
         #
         k = number_steps // 4 # integer devision
+        '''
+'''
+        # TODO extra Funktion für k --> im Konstruktor gleich aufgerufen
+        k = self._strongest_penality_abs_idx
         angle_gid = np.arange(-k,k+1) * 2*pi / number_steps 
         reward_functions = [reward_function.reward_function(Phi, max_required_step) for Phi in angle_gid]
         #
         # store in member variables
-        self._strongest_penality_abs_idx = k 
-        self._reward_functions_array = np.array(reward_functions)
+        #self._strongest_penality_abs_idx = k
+
+        self._penalty_functions_array = np.array(reward_functions)
+        return self._penalty_functions_array
+
+    def compute_strongest_penalty_absIdx(self, number_steps):
+        if (number_steps < 1) or (number_steps % 4 != 0):
+            raise ValueError('number_steps must be positive and integer multiple of 4')
+
+        _strongest_penality_abs_idx = number_steps // 4  # integer devision
+        return _strongest_penality_abs_idx
+
+
+'''
 
 
 class environment:
+    # Done reset Methoden unbenannt, da zweimal vorhanden --> Verwirrung
+    # Done Methoden umgeschrieben
     def __init__(self, number_steps, max_required_step, safe_zone):
         self._dynamics = dynamics(number_steps, max_required_step, safe_zone)
-        self.reset()
+        self.reset_position_zero()
 
-    def reset(self, control_start_value=None):
-        if control_start_value is None:
-            self._control_position = 0
-        else:
-            self._control_position = control_start_value
-              
+    def reset_position_zero(self):
+        self._control_position = self.reset_position(0)
+
+    def reset_position(self, control_start_value):
+        self._control_position = control_start_value
+
     def reward(self):
         return self._dynamics.reward(self._control_position)
 
-    def optimal_position(self):
-        return self._dynamics.optimal_position()
 
-    def optimal_reward(self):
-        return self._dynamics.optimal_reward()
-    
-    
+
+
+    # Done wird nicht aufgrufen
     '''
     def state_transition(self, control_value_change):
         """
@@ -278,9 +315,15 @@ class environment:
         self._dynamics.state_transition(self._control_position)
         return self.reward()
 
-    def get_reward_function(self):
-        return self._dynamics.get_reward_function()
+    def get_penalty_function(self):
+        return self._dynamics.get_penalty_function()
 
+
+    def optimal_position(self):
+        return self._dynamics.optimal_position()
+
+    def optimal_reward(self):
+        return self._dynamics.optimal_reward()
 
 
 

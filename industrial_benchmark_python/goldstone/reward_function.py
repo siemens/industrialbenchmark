@@ -75,7 +75,6 @@ class reward_function:
         return lambda x: r0 + scaling * x**exponent
     
     def __rad_transformation_factory(self, x0, r0, x1, r1):
-
         if not ((x0<=0 and r0<=0 and x1<=0 and r1<=0) or (x0>=0 and r0>=0 and x1>=0 and r1>=0)):
             raise ValueError("x0, r0, x1, r1 must bei either all positive or all negative")
         x0 = abs(x0)
