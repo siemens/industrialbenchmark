@@ -21,9 +21,9 @@ Additional references:
 		Networks (IJCNN), 2017, pp. 4214–4221.
 
 	S. Depeweg, J. M. Hernández-Lobato, F. Doshi-Velez, and S. Udluft. "Uncertainty decomposition 
-		in Bayesian neural networks with latent variables." arXiv preprint arXiv:1605.07127, 2016.
+		in Bayesian neural networks with latent variables." arXiv preprint arXiv:1605.07127, 2017.
 	
 	S. Depeweg, J. M. Hernández-Lobato, F. Doshi-Velez, and S. Udluft. "Learning and
-		policy search in stochastic dynamical systems with bayesian neural networks." arXiv
+		policy search in stochastic dynamical systems with Bayesian neural networks." arXiv
 		preprint arXiv:1605.07127, 2016.
 
