@@ -1,4 +1,4 @@
-# Industrial Benchmark (Python)
+# Industrial Benchmark 
 
 Requires: Java 8 and Apache Maven 3.x or Python 2.7
 
