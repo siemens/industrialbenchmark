@@ -93,7 +93,7 @@ class IDS(object):
         self.state['f'] = 0.  # fatigue
         self.state['fb'] = 0.  # basic fatigue: without bifurcation aspects
         self.state['oc'] = 0 # current operational cost conv
-        self.state['cost'] = 0. #  signal/ Total
+        self.state['cost'] = 0. #  signal/ total
         self.state['reward'] = 0. # reward
 
         self.init = True
@@ -240,8 +240,8 @@ class IDS(object):
             self.state['o'] += o
             self.init = False
         else:
-            self.state['o'][:-1] = self.state['o'][1:] # remove last character
-            self.state['o'][-1] = o # o = last element
+            self.state['o'][:-1] = self.state['o'][1:]
+            self.state['o'][-1] = o
 
 
 
@@ -253,9 +253,9 @@ class IDS(object):
     def updateGS(self):
         setpoint = self.state['p']
         shift = self.state['h']
-        effective_hift = self.state['he']
+        effective_shift = self.state['he']
 
-        reward = -self.gsEnvironment.state_transition(effective_hift)
+        reward = -self.gsEnvironment.state_transition(effective_shift)
         self.state['MC'] = reward
         self.state['gs_domain'] = self.gsEnvironment._dynamics._domain.value 
         self.state['gs_sys_response'] = self.gsEnvironment._dynamics._system_response.value
