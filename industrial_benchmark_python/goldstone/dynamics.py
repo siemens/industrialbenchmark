@@ -8,7 +8,7 @@ The MIT License (MIT)
 
 Copyright 2017 Siemens AG
 
-Authors: Judith Mosandl
+Author: Judith Mosandl
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

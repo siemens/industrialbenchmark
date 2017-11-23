@@ -7,7 +7,7 @@ The MIT License (MIT)
 
 Copyright 2017 Siemens AG
 
-Authors: Stefan Depeweg
+Author: Stefan Depeweg
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
