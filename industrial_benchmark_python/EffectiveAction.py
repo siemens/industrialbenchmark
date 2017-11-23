@@ -1,6 +1,7 @@
 # coding=utf-8
 from __future__ import print_function
 from __future__ import division
+import numpy as np
 '''
 The MIT License (MIT)
 
@@ -26,38 +27,24 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-import numpy as np
+
 class EffectiveAction(object):
 
     def __init__(self, velocity,gain, setpoint):
         self.setpoint = setpoint
-        self.effectiveA = self.calcEffectiveA(velocity, setpoint)
-        self.effectiveB = self.calcEffectiveB(gain, setpoint)
-        self.alpha = self.calcAlphaScaled(velocity, gain, setpoint)
-        self.beta = self.calcBetaScaled(gain, setpoint)
+        self.effectiveVelocity = self.calcEffectiveVelocity(velocity, gain, setpoint)
+        self.effectiveGain = self.calcEffectiveGain(gain, setpoint)
 
-    # TODO in GAIN, Velocity, Shift unbenennen
-
-
-    # TODO wird nicht aufgerufen
-    '''
-    def getEffectiveA(self):
-        return self.effectiveA
-
-    def getEffectiveB(self):
-        return self.effectiveB
-    '''
-
-    def calcAlphaScaled(self, a, b, setpoint):
-        minAlphaUnscaled = self.calcAlphaUnscaled(self.calcEffectiveA(100, setpoint), self.calcEffectiveB(0, setpoint))
-        maxAlphaUnscaled = self.calcAlphaUnscaled(self.calcEffectiveA(0, setpoint), self.calcEffectiveB(100, setpoint))
-        alphaUnscaled = self.calcAlphaUnscaled(self.calcEffectiveA(a, setpoint), self.calcEffectiveB(b, setpoint))
+    def calcEffectiveVelocity(self, a, b, setpoint):
+        minAlphaUnscaled = self.calcEffectiveVelocityUnscaled(self.calcEffectiveA(100, setpoint), self.calcEffectiveB(0, setpoint))
+        maxAlphaUnscaled = self.calcEffectiveVelocityUnscaled(self.calcEffectiveA(0, setpoint), self.calcEffectiveB(100, setpoint))
+        alphaUnscaled = self.calcEffectiveVelocityUnscaled(self.calcEffectiveA(a, setpoint), self.calcEffectiveB(b, setpoint))
         return (alphaUnscaled - minAlphaUnscaled) / (maxAlphaUnscaled - minAlphaUnscaled)
 
-    def calcBetaScaled(self, b, setpoint):
-        minBetaUnscaled = self.calcBetaUnscaled(self.calcEffectiveB(100, setpoint))
-        maxBetaUnscaled = self.calcBetaUnscaled(self.calcEffectiveB(0, setpoint))
-        betaUnscaled = self.calcBetaUnscaled(self.calcEffectiveB(b, setpoint))
+    def calcEffectiveGain(self, b, setpoint):
+        minBetaUnscaled = self.calcEffectiveGainUnscaled(self.calcEffectiveB(100, setpoint))
+        maxBetaUnscaled = self.calcEffectiveGainUnscaled(self.calcEffectiveB(0, setpoint))
+        betaUnscaled = self.calcEffectiveGainUnscaled(self.calcEffectiveB(b, setpoint))
         return (betaUnscaled - minBetaUnscaled) / (maxBetaUnscaled - minBetaUnscaled)
 
     def calcEffectiveA(self, a, setpoint):
@@ -66,16 +53,14 @@ class EffectiveAction(object):
     def calcEffectiveB(self, b, setpoint):
         return b + 1. + setpoint
 
-    def calcAlphaUnscaled(self, effectiveA, effectiveB):
+    def calcEffectiveVelocityUnscaled(self, effectiveA, effectiveB):
         return (effectiveB + 1.0) / effectiveA
 
-    def calcBetaUnscaled(self, effectiveB):
+    def calcEffectiveGainUnscaled(self, effectiveB):
         return 1.0 / effectiveB
 
-    def getVelocityAlpha(self):
-        return self.alpha
+    def getEffectiveVelocity(self):
+        return self.effectiveVelocity
 
-    def getGainBeta(self):
-        return self.beta
-
-
+    def getEffectiveGain(self):
+        return self.effectiveGain

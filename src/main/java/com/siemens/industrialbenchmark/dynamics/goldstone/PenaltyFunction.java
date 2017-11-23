@@ -65,18 +65,18 @@ public class PenaltyFunction {
 		final NLGP l = new NLGP();
 
 		double opt_rad = compute_optimal_radius(phi, max_required_step);
-		double r0 = l.global_minimum_radius(phi);
+		double min_rad = l.global_minimum_radius(phi);
 
 		return new DoubleFunction() {
 			@Override
 			public double apply(double x) {
 				double result = Double.NaN;
 				if (Math.abs(x)<=Math.abs(opt_rad)) {
-					result = x*Math.abs(r0)/Math.abs(opt_rad);
+					result = x*Math.abs(min_rad)/Math.abs(opt_rad);
 				}else{
-					final double exponent = (2.0-Math.abs(opt_rad)) / (2.0-Math.abs(r0));
-					final double scaling = (2.0-Math.abs(r0)) / Math.pow((2.0-Math.abs(opt_rad)), exponent);
-					result = Math.signum(x)*(Math.abs(r0) + scaling * Math.pow(Math.abs(x)-Math.abs(opt_rad), exponent));
+					final double exponent = (2.0-Math.abs(opt_rad)) / (2.0-Math.abs(min_rad));
+					final double scaling = (2.0-Math.abs(min_rad)) / Math.pow((2.0-Math.abs(opt_rad)), exponent);
+					result = Math.signum(x)*(Math.abs(min_rad) + scaling * Math.pow(Math.abs(x)-Math.abs(opt_rad), exponent));
 				}
 				return l.polar_nlgp(result, phi);
 			}

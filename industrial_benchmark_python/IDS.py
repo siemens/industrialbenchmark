@@ -1,5 +1,9 @@
 # coding=utf-8
 from __future__ import division
+import numpy as np
+from goldstone.environment import environment as GoldstoneEnvironment
+from EffectiveAction import EffectiveAction
+from collections import OrderedDict
 '''
 The MIT License (MIT)
 
@@ -25,10 +29,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-import numpy as np
-from goldstone.environment import environment as GoldstoneEnvironment
-from EffectiveAction import EffectiveAction
-from collections import OrderedDict
 
 class IDS(object):
     '''
@@ -38,7 +38,6 @@ class IDS(object):
     '''
 
     def __init__(self,p=50,stationary_p=True, inital_seed=None):
-
         '''
         p sets the setpoint hyperparameter (between 1-100) which will
         affect the dynamics and stochasticity.
@@ -51,14 +50,13 @@ class IDS(object):
         #if inital_seed != None:
         np.random.seed(inital_seed)
 
-
         self.maxRequiredStep = np.sin(15./180.*np.pi);
         self.gsBound = 1.5
         self.gsSetPointDependency = 0.02
         self.gsScale = 2.*self.gsBound + 100.*self.gsSetPointDependency # scaling factor for shift
 
         self.CRD = 3. # Reward Fatigue weighted
-        self.CRE = 1 # DONE im Paper -1 # Reward Consumtion weighted
+        self.CRE = 1
         self.CRGS =  25.
 
         self.dv = 1 # scaling factor for velocity
@@ -105,7 +103,6 @@ class IDS(object):
 
     def markovState(self):
         return np.hstack((self.state['o'], np.array([self.state[k] for k in self.state.keys()])))
-        #return np.hstack((self.state['o'],np.array([self.state[k] for k in self.state.keys()[1:]])))
 
 #---------------FOR TESTING---------------------------------------------------
     #this 2 methods are only here for testing
@@ -113,9 +110,7 @@ class IDS(object):
         return np.array(self.state['o'])
 
     def allStates(self):
-        #return np.array([self.state[k] for k in self.state.keys()])
         return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['h'],self.state['f'],self.state['c'],self.state['reward'], self.state['coc'], self.state['he'], self.state['ge'], self.state['ve'], self.state['MC'], self.state['fb'], self.state['oc'], self.state['gs_domain'], self.state['gs_sys_response'], self.state['gs_phi_idx'] ])
-
 # -----------------------------------------------------------------------------
 
     def step(self,delta):
@@ -157,7 +152,7 @@ class IDS(object):
 
 
     def updateFatigue(self):
-        expLambda = 0.1 # => scale = 1/lambda
+        expLambda = 0.1
         actionTolerance = 0.05
         fatigueAmplification = 1.1    
         fatigueAmplificationMax = 5.0
@@ -172,8 +167,8 @@ class IDS(object):
         hidden_velocity = self.state['hv']
 
         effAct =  EffectiveAction(velocity,gain,setpoint)
-        effAct_velocity_alpha = effAct.getVelocityAlpha()
-        effAct_gain_beta = effAct.getGainBeta()
+        effAct_velocity_alpha = effAct.getEffectiveVelocity()
+        effAct_gain_beta = effAct.getEffectiveGain()
 
         self.state['ge'] = effAct_gain_beta
         self.state['ve'] = effAct_velocity_alpha
@@ -185,7 +180,6 @@ class IDS(object):
         
         noise_b_g = np.float(np.random.binomial(1, np.clip(effAct_gain_beta,0.001, 0.999)))
         noise_b_v = np.float(np.random.binomial(1, np.clip(effAct_velocity_alpha,0.001, 0.999)))
-        
 
         noise_gain = 2.0 * (1.0/(1.0+np.exp(-noise_e_g)) - 0.5);
         noise_velocity = 2.0 * (1.0/(1.0+np.exp(-noise_e_v)) - 0.5);
@@ -193,27 +187,22 @@ class IDS(object):
         noise_gain += (1-noise_gain) * noise_u_g * noise_b_g * effAct_gain_beta;
         noise_velocity += (1-noise_velocity) * noise_u_v * noise_b_v * effAct_velocity_alpha;
 
-
-        if hidden_gain  >= fatigueAmplificationStart:
-            hidden_gain = np.minimum(fatigueAmplificationMax,fatigueAmplification*hidden_gain)
-        elif effAct_gain_beta > actionTolerance:
-            hidden_gain = 0.9*hidden_gain + noise_gain/3.
-
-        if hidden_velocity  >= fatigueAmplificationStart:
-            hidden_velocity = np.minimum(fatigueAmplificationMax,fatigueAmplification*hidden_velocity)
-        elif effAct_velocity_alpha > actionTolerance:
-            hidden_velocity = 0.9*hidden_velocity + noise_velocity/3.
-
-
         if effAct_velocity_alpha <= actionTolerance:
             hidden_velocity = effAct_velocity_alpha
+        elif hidden_gain  >= fatigueAmplificationStart:
+            hidden_gain = np.minimum(fatigueAmplificationMax,fatigueAmplification*hidden_gain)
+        else:
+            hidden_gain = 0.9*hidden_gain + noise_gain/3.
 
         if effAct_gain_beta <= actionTolerance:
             hidden_gain = effAct_gain_beta
-
+        elif hidden_velocity  >= fatigueAmplificationStart:
+            hidden_velocity = np.minimum(fatigueAmplificationMax,fatigueAmplification*hidden_velocity)
+        else:
+            hidden_velocity = 0.9*hidden_velocity + noise_velocity/3.
 
         if np.maximum(hidden_velocity,hidden_gain) == fatigueAmplificationMax:
-            alpha = 1.0 / (1.0 + np.exp(-4.0*np.random.normal(0.6,0.1)))
+            alpha = 1.0 / (1.0 + np.exp(-np.random.normal(2.4,0.4)))
         else:
             alpha = np.maximum(noise_velocity,noise_gain)
 
@@ -243,12 +232,9 @@ class IDS(object):
             self.state['o'][:-1] = self.state['o'][1:]
             self.state['o'][-1] = o
 
-
-
     def updateOperationalCostConvolution(self):
         ConvArray=np.array([0.11111,0.22222,0.33333,0.22222,0.11111,0.,0.,0.,0.,0.])
         self.state['oc'] = np.dot(self.state['o'],ConvArray)
-
 
     def updateGS(self):
         setpoint = self.state['p']
@@ -261,15 +247,12 @@ class IDS(object):
         self.state['gs_sys_response'] = self.gsEnvironment._dynamics._system_response.value
         self.state['gs_phi_idx'] = self.gsEnvironment._dynamics._Phi_idx
 
-
     def updateOperationalCosts(self):
         rGS = self.state['MC']
         eNewHidden = self.state['oc'] - (self.CRGS * (rGS - 1.0))
         operationalcosts = eNewHidden - np.random.randn()*(1+0.005*eNewHidden)
         self.state['c'] = operationalcosts
 
-
-    # DONE: cost = reward und negativ
     def cost(self):
         # Dynmaics
         rD = -(self.state['f'])
@@ -277,13 +260,10 @@ class IDS(object):
         # Consumtion
         rE = - (self.state['c'])
         consumption = self.state['c']
-        self.state['cost'] = self.CRD*fatigue + self.CRE*consumption # DONE: MINUS --> cost in reward umwandeln mit rD und rE ?????
+        self.state['cost'] = self.CRD*fatigue + self.CRE*consumption
         self.state['reward'] = self.CRD*rD + self.CRE*rE
 
-
-
     def defineNewSequence(self):
-
         length = np.random.randint(1,100)
         self._p_steps = length
         self._p_step = 0
@@ -291,4 +271,3 @@ class IDS(object):
         if np.random.rand() < 0.1:
             p_ch *= 0.
         self._p_ch =  p_ch
-

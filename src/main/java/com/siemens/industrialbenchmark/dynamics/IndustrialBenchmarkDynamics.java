@@ -342,11 +342,11 @@ public class IndustrialBenchmarkDynamics implements Environment
 	 * @throws PropertiesException 
 	 */
 	private void updateFatigue() throws PropertiesException {
-		final float expLambda = 0.1f; // => scale = 1/lambda
+		final float expLambda = 0.1f;
 		final float actionTolerance = 0.05f;
-		final float fatigueAmplification = 1.1f;        
+		final float fatigueAmplification = 1.1f;   
 		final float fatigueAmplificationMax = 5.0f;
-		final float fatigueAmplificationStart = 1.2f;     
+		final float fatigueAmplificationStart = 1.2f;
 
 		// action
 		double velocity = markovState.getValue(MarkovianStateDescription.Action_Velocity);
@@ -357,12 +357,9 @@ public class IndustrialBenchmarkDynamics implements Environment
 		double hiddenStateVelocity = markovState.getValue(MarkovianStateDescription.FatigueLatent1); 
 		double hiddenStateGain = markovState.getValue(MarkovianStateDescription.FatigueLatent2);
 
-		// dyn variables
-		double dyn = 0.0f;
-
         EffectiveAction effAction = new EffectiveAction (new ActionAbsolute(velocity, gain, 0.0, this.mProperties), setpoint);
-        double  effActionVelocityAlpha = effAction.getVelocityAlpha(); // => gain
-        double  effActionGainBeta = effAction.getGainBeta();  // => velocity
+        double  effActionVelocity = effAction.getEffectiveVelocity();
+        double  effActionGain = effAction.getEffectiveGain();
 
         // base noise
         double noiseGain = 2.0 * (1.0/(1.0+Math.exp(-rda.nextExponential(expLambda))) - 0.5);
@@ -370,36 +367,33 @@ public class IndustrialBenchmarkDynamics implements Environment
 
         // add spikes
         // keep error within range of [0.001, 0.999] because otherwise Binomial.staticNextInt() will fail.
-        noiseGain += (1-noiseGain) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionGainBeta), 0.999)) * effActionGainBeta;
-        noiseVelocity += (1-noiseVelocity) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionVelocityAlpha), 0.999)) * effActionVelocityAlpha;
-           
+        noiseGain += (1-noiseGain) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionGain), 0.999)) * effActionGain;
+        noiseVelocity += (1-noiseVelocity) * rda.nextUniform(0,1) * rda.nextBinomial(1, Math.min(Math.max(0.001, effActionVelocity), 0.999)) * effActionVelocity;
+        
         // compute internal dynamics
-        if (hiddenStateGain >= fatigueAmplificationStart) {
+        if (effActionVelocity <= actionTolerance) {
+        	hiddenStateVelocity = effActionVelocity;
+        } else if (hiddenStateGain >= fatigueAmplificationStart) {
         	hiddenStateGain = Math.min(fatigueAmplificationMax,  hiddenStateGain*fatigueAmplification);
-        } else if (effActionGainBeta > actionTolerance) {
+        } else {
         	hiddenStateGain = (hiddenStateGain*0.9f) + ((float)noiseGain/3.0f);
         } 
                 
-        if (hiddenStateVelocity >= fatigueAmplificationStart) {
+        if (effActionGain <= actionTolerance) {
+        	hiddenStateGain = effActionGain;
+        } else if (hiddenStateVelocity >= fatigueAmplificationStart) {
         	hiddenStateVelocity = Math.min(fatigueAmplificationMax,  hiddenStateVelocity*fatigueAmplification);
-        } else if (effActionVelocityAlpha > actionTolerance) {
+        } else {
         	hiddenStateVelocity = (hiddenStateVelocity*0.9f) + ((float)noiseVelocity/3.0f);
         }
         
-        // reset hiddenState in case actionError is within actionTolerance 
-        if (effActionVelocityAlpha <= actionTolerance) {
-        	hiddenStateVelocity = effActionVelocityAlpha;
-        }        
-        if (effActionGainBeta <= actionTolerance) {
-        	hiddenStateGain = effActionGainBeta;
-        }
         
-        // compute observation variables
+		double alpha = 0.0f;
         if (Math.max(hiddenStateVelocity, hiddenStateGain) == fatigueAmplificationMax) {
         	// bad noise in case fatigueAmplificationMax is reached
-        	dyn = 1.0 / (1.0+Math.exp(-4.0 * rda.nextGaussian(0.6,  0.1)));
+        	alpha = 1.0 / (1.0+Math.exp(-rda.nextGaussian(2.4,0.4)));
         } else {
-        	dyn = Math.max(noiseGain,  noiseVelocity);
+        	alpha = Math.max(noiseGain,  noiseVelocity);
         }
         
         final float cDGain = getConst(C.DGain);
@@ -407,18 +401,18 @@ public class IndustrialBenchmarkDynamics implements Environment
         final float cDSetPoint = getConst(C.DSetPoint);
         final float cDynBase = getConst(C.DBase);
            
-        double dynOld = ((cDynBase / ((cDVelocity * velocity) + cDSetPoint)) - cDGain * gain*gain);
-        if(dynOld<0) dynOld=0;
-        dyn = ((2.f*dyn+1.0) * dynOld )/ 3.f;
+        double fb = ((cDynBase / ((cDVelocity * velocity) + cDSetPoint)) - cDGain * gain*gain);
+        if(fb<0) fb=0;
+        double f = ((2.f*alpha+1.0) * fb )/ 3.f;
 
-        markovState.setValue(MarkovianStateDescription.Fatigue, dyn);  
-        markovState.setValue(MarkovianStateDescription.FatigueBase, dynOld);  
+        markovState.setValue(MarkovianStateDescription.Fatigue, f);  
+        markovState.setValue(MarkovianStateDescription.FatigueBase, fb);  
 
         // hidden state variables for fatigue
     	markovState.setValue(MarkovianStateDescription.FatigueLatent1, hiddenStateVelocity); 
     	markovState.setValue(MarkovianStateDescription.FatigueLatent2, hiddenStateGain);
-    	markovState.setValue(MarkovianStateDescription.EffectiveActionVelocityAlpha, effActionVelocityAlpha); 
-    	markovState.setValue(MarkovianStateDescription.EffectiveActionGainBeta, effActionGainBeta);
+    	markovState.setValue(MarkovianStateDescription.EffectiveActionVelocityAlpha, effActionVelocity); 
+    	markovState.setValue(MarkovianStateDescription.EffectiveActionGainBeta, effActionGain);
 	}
 
 	

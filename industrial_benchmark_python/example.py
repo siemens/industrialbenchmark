@@ -1,4 +1,7 @@
 # coding=utf-8
+from IDS import IDS
+import numpy as np
+import pylab as plt
 '''
 The MIT License (MIT)
 
@@ -24,9 +27,6 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
-from IDS import IDS
-import numpy as np
-import pylab as plt
 
 n_trajectories = 10
 T = 1000
@@ -48,7 +48,3 @@ plt.plot(data.T)
 plt.xlabel('T')
 plt.ylabel('Reward')
 plt.show()
-
-
-
-
