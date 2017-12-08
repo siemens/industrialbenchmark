@@ -174,7 +174,7 @@ class OpenAI_IB(gym.Env):
                 markovian_states_values = [self.IB.state['p'],
                                            self.IB.state['v'],
                                            self.IB.state['g'],
-                                           self.IB.state['s'],
+                                           self.IB.state['h'],
                                            self.IB.state['f'],
                                            self.IB.state['c'],
                                            self.IB.state['o'][0],
