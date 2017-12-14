@@ -50,47 +50,46 @@ class IDS(object):
         #if inital_seed != None:
         np.random.seed(inital_seed)
 
-        self.maxRequiredStep = np.sin(15./180.*np.pi);
+        # constants
+        self.maxRequiredStep = np.sin(15./180.*np.pi)
         self.gsBound = 1.5
         self.gsSetPointDependency = 0.02
         self.gsScale = 2.*self.gsBound + 100.*self.gsSetPointDependency # scaling factor for shift
 
-        self.CRD = 3. # Reward Fatigue weighted
-        self.CRE = 1
+        # cost/reward weighting constants
+        self.CRF = 3.
+        self.CRC = 1.
         self.CRGS =  25.
 
-        self.dv = 1 # scaling factor for velocity
-        self.dg = 10 # scaling factor for gain
-        self.dh = (self.maxRequiredStep/0.9)*100./self.gsScale # scaling factor for shift
-
         self.stationary_p = stationary_p
-
-        self.gsEnvironment = GoldstoneEnvironment(24, self.maxRequiredStep, self.maxRequiredStep/2.0);
+        self.gsEnvironment = GoldstoneEnvironment(24, self.maxRequiredStep, self.maxRequiredStep/2.0)
 
         self.state = OrderedDict()
 
-        # gold stone
         self.state['o'] = np.zeros(10) #  operational cost buffer
         self.state['coc'] = 0 # current operational cost
+        self.state['fb'] = 0.  # basic fatigue: without bifurcation aspects
+        self.state['oc'] = 0 # current operational cost conv
         self.state['hg'] = 0. # hidden gain
         self.state['hv'] = 0. # hidden velocity
         self.state['he'] = 0. # hidden/ effective shift
-        self.state['gs_domain'] = self.gsEnvironment._dynamics._domain.value # miscalibration domain
-        self.state['gs_sys_response'] = self.gsEnvironment._dynamics._system_response.value # miscalibration System Response
-        self.state['gs_phi_idx'] = self.gsEnvironment._dynamics._Phi_idx # miscalibration Phi_idx/ direction
+
+        # goldstone variables
+        self.state['gs_domain'] = self.gsEnvironment._dynamics.Domain.positive.value # miscalibration domain
+        self.state['gs_sys_response'] = self.gsEnvironment._dynamics.System_Response.advantageous.value # miscalibration System Response
+        self.state['gs_phi_idx'] = 0 # miscalibration Phi_idx/ direction
         self.state['ge'] = 0. # effective action gain beta
         self.state['ve'] = 0. # effective action velocity alpha
-        self.state['MC'] = 0. # misCalibration
+        self.state['MC'] = 0. # Miscalibration
 
         # observables
-        self.state['c'] = 0. # consumption
+        self.observable_keys = ['p','v','g','h','f','c','cost','reward']
         self.state['p'] = p  # SetPoint
         self.state['v'] = 50. # Velocity
         self.state['g'] = 50.  # Gain
         self.state['h'] = 50.  # Shift
         self.state['f'] = 0.  # fatigue
-        self.state['fb'] = 0.  # basic fatigue: without bifurcation aspects
-        self.state['oc'] = 0 # current operational cost conv
+        self.state['c'] = 0. # consumption
         self.state['cost'] = 0. #  signal/ total
         self.state['reward'] = 0. # reward
 
@@ -99,19 +98,10 @@ class IDS(object):
         self.step(np.zeros(3))
 
     def visibleState(self):
-        return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['h'],self.state['f'],self.state['c'], self.state['cost'], self.state['reward']])
+        return np.concatenate([np.array(self.state[k]).ravel() for k in self.observable_keys])
 
     def markovState(self):
-        return np.hstack((self.state['o'], np.array([self.state[k] for k in self.state.keys()])))
-
-#---------------FOR TESTING---------------------------------------------------
-    #this 2 methods are only here for testing
-    def operational_cost_Buffer(self):
-        return np.array(self.state['o'])
-
-    def allStates(self):
-        return np.array([self.state['p'],self.state['v'],self.state['g'],self.state['h'],self.state['f'],self.state['c'],self.state['reward'], self.state['coc'], self.state['he'], self.state['ge'], self.state['ve'], self.state['MC'], self.state['fb'], self.state['oc'], self.state['gs_domain'], self.state['gs_sys_response'], self.state['gs_phi_idx'] ])
-# -----------------------------------------------------------------------------
+        return np.concatenate([np.array(self.state[k]).ravel() for k in self.state.keys()])
 
     def step(self,delta):
         self.updateSetPoint()
@@ -121,8 +111,7 @@ class IDS(object):
         self.updateOperationalCostConvolution()
         self.updateGS()
         self.updateOperationalCosts()
-        self.cost() # Update Reward
-        return self.markovState()
+        self.updateCost() 
 
     def updateSetPoint(self):
         if self.stationary_p == True:
@@ -145,9 +134,9 @@ class IDS(object):
 
     def addAction(self,delta):
         delta = np.clip(delta,-1,1)
-        self.state['v'] = np.clip(self.state['v'] + self.dv*delta[0],0.,100.)
-        self.state['g'] = np.clip(self.state['g'] + self.dg*delta[1],0.,100.)
-        self.state['h'] = np.clip(self.state['h'] + self.dh*delta[2],0.,100.)
+        self.state['v'] = np.clip(self.state['v'] + delta[0], 0., 100.)
+        self.state['g'] = np.clip(self.state['g'] + 10 * delta[1], 0., 100.)
+        self.state['h'] = np.clip(self.state['h'] + ((self.maxRequiredStep / 0.9) * 100. / self.gsScale) * delta[2], 0.,100.)
         self.state['he'] = np.clip(self.gsScale*self.state['h']/100. - self.gsSetPointDependency*self.state['p'] - self.gsBound,-self.gsBound,self.gsBound)
 
 
@@ -167,44 +156,44 @@ class IDS(object):
         hidden_velocity = self.state['hv']
 
         effAct =  EffectiveAction(velocity,gain,setpoint)
-        effAct_velocity_alpha = effAct.getEffectiveVelocity()
-        effAct_gain_beta = effAct.getEffectiveGain()
+        effAct_velocity = effAct.getEffectiveVelocity()
+        effAct_gain = effAct.getEffectiveGain()
 
-        self.state['ge'] = effAct_gain_beta
-        self.state['ve'] = effAct_velocity_alpha
+        self.state['ge'] = effAct_gain
+        self.state['ve'] = effAct_velocity
 
-        noise_e_g = np.random.exponential(expLambda);
-        noise_e_v = np.random.exponential(expLambda);
-        noise_u_g = np.random.rand();
-        noise_u_v = np.random.rand();
+        noise_e_g = np.random.exponential(expLambda)
+        noise_e_v = np.random.exponential(expLambda)
+        noise_u_g = np.random.rand()
+        noise_u_v = np.random.rand()
         
-        noise_b_g = np.float(np.random.binomial(1, np.clip(effAct_gain_beta,0.001, 0.999)))
-        noise_b_v = np.float(np.random.binomial(1, np.clip(effAct_velocity_alpha,0.001, 0.999)))
+        noise_b_g = np.float(np.random.binomial(1, np.clip(effAct_gain,0.001, 0.999)))
+        noise_b_v = np.float(np.random.binomial(1, np.clip(effAct_velocity,0.001, 0.999)))
 
-        noise_gain = 2.0 * (1.0/(1.0+np.exp(-noise_e_g)) - 0.5);
-        noise_velocity = 2.0 * (1.0/(1.0+np.exp(-noise_e_v)) - 0.5);
+        noise_gain = 2.0 * (1.0/(1.0+np.exp(-noise_e_g)) - 0.5)
+        noise_velocity = 2.0 * (1.0/(1.0+np.exp(-noise_e_v)) - 0.5)
 
-        noise_gain += (1-noise_gain) * noise_u_g * noise_b_g * effAct_gain_beta;
-        noise_velocity += (1-noise_velocity) * noise_u_v * noise_b_v * effAct_velocity_alpha;
+        noise_gain += (1-noise_gain) * noise_u_g * noise_b_g * effAct_gain
+        noise_velocity += (1-noise_velocity) * noise_u_v * noise_b_v * effAct_velocity
 
-        if effAct_velocity_alpha <= actionTolerance:
-            hidden_velocity = effAct_velocity_alpha
-        elif hidden_gain  >= fatigueAmplificationStart:
-            hidden_gain = np.minimum(fatigueAmplificationMax,fatigueAmplification*hidden_gain)
+        if effAct_gain <= actionTolerance:
+            hidden_gain = effAct_gain
+        elif hidden_gain >= fatigueAmplificationStart:
+            hidden_gain = np.minimum(fatigueAmplificationMax, fatigueAmplification * hidden_gain)
         else:
-            hidden_gain = 0.9*hidden_gain + noise_gain/3.
+            hidden_gain = 0.9 * hidden_gain + noise_gain / 3.
 
-        if effAct_gain_beta <= actionTolerance:
-            hidden_gain = effAct_gain_beta
-        elif hidden_velocity  >= fatigueAmplificationStart:
-            hidden_velocity = np.minimum(fatigueAmplificationMax,fatigueAmplification*hidden_velocity)
+        if effAct_velocity <= actionTolerance:
+            hidden_velocity = effAct_velocity
+        elif hidden_velocity >= fatigueAmplificationStart:
+            hidden_velocity = np.minimum(fatigueAmplificationMax, fatigueAmplification * hidden_velocity)
         else:
-            hidden_velocity = 0.9*hidden_velocity + noise_velocity/3.
+            hidden_velocity = 0.9 * hidden_velocity + noise_velocity / 3.
 
-        if np.maximum(hidden_velocity,hidden_gain) == fatigueAmplificationMax:
-            alpha = 1.0 / (1.0 + np.exp(-np.random.normal(2.4,0.4)))
+        if np.maximum(hidden_velocity, hidden_gain) == fatigueAmplificationMax:
+            alpha = 1.0 / (1.0 + np.exp(-np.random.normal(2.4, 0.4)))
         else:
-            alpha = np.maximum(noise_velocity,noise_gain)
+            alpha = np.maximum(noise_velocity, noise_gain)
 
         fb = np.maximum(0,((30000. / ((5*velocity) + 100)) - 0.01 * (gain**2)))
         self.state['hv'] = hidden_velocity
@@ -221,7 +210,7 @@ class IDS(object):
         velocity = self.state['v']
         setpoint = self.state['p']
 
-        costs = CostSetPoint * setpoint + CostGain * gain + CostVelocity * velocity;
+        costs = CostSetPoint * setpoint + CostGain * gain + CostVelocity * velocity
         o = np.exp(costs / 100.)
         self.state['coc'] = o
 
@@ -241,11 +230,15 @@ class IDS(object):
         shift = self.state['h']
         effective_shift = self.state['he']
 
-        reward = -self.gsEnvironment.state_transition(effective_shift)
-        self.state['MC'] = reward
-        self.state['gs_domain'] = self.gsEnvironment._dynamics._domain.value 
-        self.state['gs_sys_response'] = self.gsEnvironment._dynamics._system_response.value
-        self.state['gs_phi_idx'] = self.gsEnvironment._dynamics._Phi_idx
+        domain = self.state['gs_domain']
+        phi_idx = self.state['gs_phi_idx']
+        system_response = self.state['gs_sys_response']
+
+        reward, domain, phi_idx, system_response = self.gsEnvironment.state_transition(self.gsEnvironment._dynamics.Domain(domain), phi_idx, self.gsEnvironment._dynamics.System_Response(system_response), effective_shift)
+        self.state['MC'] = -reward
+        self.state['gs_domain'] = domain.value
+        self.state['gs_sys_response'] = system_response.value
+        self.state['gs_phi_idx'] = phi_idx
 
     def updateOperationalCosts(self):
         rGS = self.state['MC']
@@ -253,15 +246,13 @@ class IDS(object):
         operationalcosts = eNewHidden - np.random.randn()*(1+0.005*eNewHidden)
         self.state['c'] = operationalcosts
 
-    def cost(self):
-        # Dynmaics
-        rD = -(self.state['f'])
+    def updateCost(self):
         fatigue = self.state['f']
-        # Consumtion
-        rE = - (self.state['c'])
         consumption = self.state['c']
-        self.state['cost'] = self.CRD*fatigue + self.CRE*consumption
-        self.state['reward'] = self.CRD*rD + self.CRE*rE
+        cost = self.CRF * fatigue + self.CRC * consumption
+
+        self.state['cost'] =  cost
+        self.state['reward'] = -cost
 
     def defineNewSequence(self):
         length = np.random.randint(1,100)

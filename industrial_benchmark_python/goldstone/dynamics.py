@@ -43,80 +43,75 @@ class dynamics:
         self._strongest_penality_abs_idx = self.compute_strongest_penalty_absIdx(number_steps)
         self._penalty_functions_array = self._define_reward_functions(number_steps, max_required_step)
 
-        self.reset()
-
     def _check_safe_zone(self, safe_zone):
         if (safe_zone < 0):
             raise ValueError('safe_zone must be non-negative')
         return safe_zone
 
     def reset(self):
-        self._domain = self.Domain.positive
-        self._Phi_idx = 0
-        self._system_response = self.System_Response.advantageous
-        self._current_penalty_function = self.get_penalty_function()
+        return self.Domain.positive, 0, self.System_Response.advantageous
 
-    def reward(self, pos):
-        return self._current_penalty_function.reward(pos)
+    def reward(self, Phi_idx, position):
+        return self.get_penalty_function(Phi_idx).reward(position)
 
-    def state_transition(self, new_control_value):
+    def state_transition(self, domain, phi_idx, system_response, position):
 
-        old_domain = self._domain
+        old_domain = domain
 
         # (0) compute new domain
-        self._domain = self._compute_domain(new_control_value)
+        domain = self._compute_domain(old_domain, position)
 
         # (1) if domain change: system_response <- advantageous
-        if self._domain != old_domain:
-            self._system_response = self.System_Response.advantageous
+        if domain != old_domain:
+            system_response = self.System_Response.advantageous
 
         # (2) compute & apply turn direction
-        self._Phi_idx += self._compute_angular_step(new_control_value)
+        phi_idx += self._compute_angular_step(domain, phi_idx, system_response, position)
 
         # (3) Update system response if necessary
-        self._system_response = self._updated_system_response(self._Phi_idx, new_control_value)
+        system_response = self._updated_system_response(phi_idx, system_response)
 
         # (4) apply symmetry
-        self._Phi_idx = self._apply_symmetry(self._Phi_idx)
+        phi_idx = self._apply_symmetry(phi_idx)
 
         # (5) if self._Phi_idx == 0: reset internal state
-        if (self._Phi_idx == 0) and (abs(new_control_value) <= self._safe_zone):
-            self.reset()
+        if (phi_idx == 0) and (abs(position) <= self._safe_zone):
+            domain, phi_idx, system_response = self.reset()
 
-        self._current_penalty_function = self.get_penalty_function()
+        return domain, phi_idx, system_response
 
-    def _compute_domain(self, new_position):
+    def _compute_domain(self, domain, position):
         #compute the new domain of control action
-        if abs(new_position) <= self._safe_zone:
-            return self._domain
+        if abs(position) <= self._safe_zone:
+            return domain
         else:
-            return self.Domain(sign(new_position))
+            return self.Domain(sign(position))
 
-    def _compute_angular_step(self, new_position):
+    def _compute_angular_step(self, domain, phi_idx, system_response, position):
         # cool down: when position close to zero
-        if abs(new_position) <= self._safe_zone:  # cool down
-            return -sign(self._Phi_idx)
+        if abs(position) <= self._safe_zone:  # cool down
+            return -sign(phi_idx)
 
-        if self._Phi_idx == -self._domain.value * self._strongest_penality_abs_idx:
+        if phi_idx == -domain.value * self._strongest_penality_abs_idx:
             return 0
-        return self._system_response.value * sign(new_position)
+        return system_response.value * sign(position)
 
-    def _updated_system_response(self, new_Phi_idx, new_position):
-        if abs(new_Phi_idx) >= self._strongest_penality_abs_idx:
+    def _updated_system_response(self, phi_idx, system_response):
+        if abs(phi_idx) >= self._strongest_penality_abs_idx:
             return self.System_Response.disadvantageous
         else:
-            return self._system_response
+            return system_response
 
-    def _apply_symmetry(self, Phi_idx):
-        if abs(Phi_idx) < self._strongest_penality_abs_idx:
-            return Phi_idx
+    def _apply_symmetry(self, phi_idx):
+        if abs(phi_idx) < self._strongest_penality_abs_idx:
+            return phi_idx
 
-        Phi_idx = (Phi_idx + (4 * self._strongest_penality_abs_idx)) % (4 * self._strongest_penality_abs_idx)
-        Phi_idx = 2 * self._strongest_penality_abs_idx - Phi_idx
-        return Phi_idx
+        phi_idx = (phi_idx + (4 * self._strongest_penality_abs_idx)) % (4 * self._strongest_penality_abs_idx)
+        phi_idx = 2 * self._strongest_penality_abs_idx - phi_idx
+        return phi_idx
 
-    def get_penalty_function(self):
-        idx = int(self._strongest_penality_abs_idx + self._Phi_idx)
+    def get_penalty_function(self, phi_idx):
+        idx = int(self._strongest_penality_abs_idx + phi_idx)
         if idx < 0:
             idx = idx + len(self._penalty_functions_array)
         return self._penalty_functions_array[idx]
@@ -135,4 +130,3 @@ class dynamics:
 
         _strongest_penality_abs_idx = number_steps // 4
         return _strongest_penality_abs_idx
-

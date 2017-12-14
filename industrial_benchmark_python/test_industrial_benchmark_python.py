@@ -1,42 +1,41 @@
-# coding: utf8
 import unittest
 from IDS import IDS
 import numpy as np
-from numpy import genfromtxt
-
 
 class TestIB(unittest.TestCase):
 
+    def all_states(self,env):
+        array = [env.state['o'][0],env.state['o'][1],env.state['o'][2],env.state['o'][3],env.state['o'][4],env.state['o'][5],env.state['o'][6],env.state['o'][7],env.state['o'][8],env.state['o'][9],env.state['coc'],env.state['hg'], env.state['hv'], env.state['he'], env.state['gs_domain'], env.state['gs_sys_response'], env.state['gs_phi_idx'], env.state['ge'], env.state['ve'],env.state['MC'],env.state['c'],env.state['p'],env.state['v'],env.state['g'],env.state['h'], env.state['f'], env.state['fb'], env.state['oc'], env.state['reward'] ]
+        return array
     def test_example(self):
         # fixed seed for setpoint
         np.random.seed(501)
         p = []
+        trajectories = 10
+        T = 1000 # perform 1000 actions/ steps
 
         # generate different values of setpoint
-        for value in range(5):
-            p.append(np.random.randint(1, 1000))
+        for value in range(10):
+            p.append(np.random.randint(1, 100))
 
-        for i in range(5):
+        # perform 1000 actions per trajectory
+        for i in range(trajectories):
             # generate IB with fixed seed. If no seed is given, IB is generated with random values
             env = IDS(p[i], inital_seed=1005 + i)
-            at = 2 * np.random.rand(3) - 1
 
-            # perform action
-            markovStates = env.step(at)
+            for j in range(T):
+                at = 2 * np.random.rand(3) - 1
+                # perform action
+                env.step(at)
+                markovStates = self.all_states(env)
+                if (j==0):
+                    markovStates_all = np.array(markovStates)
+                else:
+                    markovStates_all = np.vstack([markovStates_all, markovStates])
 
-            # get results: all States and all operational costs
-            all_States = env.allStates()
-            operational_States = env.operational_cost_Buffer()
+            #np.savetxt('markovStates_test' + str(i) + '.csv',  markovStates_all, delimiter=',')
 
-            # before the actual test: generate files with which all test files can be compared
-            #np.savetxt('all_States'+str(i)+'.csv', all_States)
-            #np.savetxt('operational_States'+str(i)+'.csv', operational_States)
-
-            # test files
-            test_all_States = genfromtxt('all_States'+str(i)+'.csv', delimiter=',')
-            test_operational_States = genfromtxt('operational_States'+str(i)+'.csv', delimiter=',')
+            compare_file_markovStates = np.genfromtxt('test_data/markovStates'+str(i)+'.csv', delimiter=',')
 
             # test if test files and original files are equal
-            np.testing.assert_array_almost_equal(test_all_States, all_States)
-            np.testing.assert_array_almost_equal(test_operational_States, operational_States)
-
+            np.testing.assert_array_almost_equal(compare_file_markovStates, markovStates_all)

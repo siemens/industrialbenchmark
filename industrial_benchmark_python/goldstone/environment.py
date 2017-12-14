@@ -31,18 +31,10 @@ from dynamics import dynamics
 class environment:
     def __init__(self, number_steps, max_required_step, safe_zone):
         self._dynamics = dynamics(number_steps, max_required_step, safe_zone)
-        self.reset_position_zero()
 
-    def reset_position_zero(self):
-        self._control_position = self.reset_position(0)
+    def reward(self, phi_idx, position):
+        return self._dynamics.reward(phi_idx, position)
 
-    def reset_position(self, control_start_value):
-        self._control_position = control_start_value
-
-    def reward(self):
-        return self._dynamics.reward(self._control_position)
-
-    def state_transition(self, control_value):
-        self._control_position = control_value
-        self._dynamics.state_transition(self._control_position)
-        return self.reward()
+    def state_transition(self, domain, phi_idx, system_response, position):
+        domain, phi_idx, system_response = self._dynamics.state_transition(domain, phi_idx, system_response, position)
+        return self.reward(phi_idx, position), domain, phi_idx, system_response
