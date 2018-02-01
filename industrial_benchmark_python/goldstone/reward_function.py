@@ -2,7 +2,7 @@
 from __future__ import division
 import numpy as np
 from numpy import pi, sin, sign
-from nlgp import nlgp
+from .nlgp import nlgp
 '''
 The MIT License (MIT)
 

@@ -26,7 +26,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 '''
 
-from dynamics import dynamics
+from .dynamics import dynamics
 
 class environment:
     def __init__(self, number_steps, max_required_step, safe_zone):

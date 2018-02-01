@@ -1,7 +1,7 @@
 # coding: utf8
 import numpy as np
 from numpy import pi, sign
-import reward_function
+from . import reward_function
 from enum import Enum
 '''
 The MIT License (MIT)
