@@ -1,7 +1,7 @@
 # coding=utf-8
 from IDS import IDS
 import numpy as np
-import pylab as plt
+import matplotlib.pyplot as plt
 '''
 The MIT License (MIT)
 
