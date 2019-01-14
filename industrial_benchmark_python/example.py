@@ -41,9 +41,6 @@ for k in range(n_trajectories):
         markovStates = env.step(at)
         data[k,t] = env.visibleState()[-1]
 
-        all_States = env.allStates()
-
-
 plt.plot(data.T)
 plt.xlabel('T')
 plt.ylabel('Reward')
