@@ -1,7 +1,7 @@
 # coding=utf-8
 from IDS import IDS
 import numpy as np
-import pylab as plt
+import matplotlib.pyplot as plt
 '''
 The MIT License (MIT)
 
@@ -40,9 +40,6 @@ for k in range(n_trajectories):
         at = 2 * np.random.rand(3) -1
         markovStates = env.step(at)
         data[k,t] = env.visibleState()[-1]
-
-        all_States = env.allStates()
-
 
 plt.plot(data.T)
 plt.xlabel('T')
