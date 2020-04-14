@@ -1,8 +1,8 @@
-/target/
-/IB.log
-/.settings/
-/dyn-markov.csv
-/dyn-observable.csv
+/industrial_benchmark_java/target/
+/industrial_benchmark_java/IB.log
+/industrial_benchmark_java/.settings/
+/industrial_benchmark_java/dyn-markov.csv
+/industrial_benchmark_java/dyn-observable.csv
 *.pyc
 *.idea/
 *.settings/
