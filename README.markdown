@@ -69,3 +69,8 @@ Additional references mentioning Industrial Benchmark:
 	D. Marino, and M. Manic. "Modeling and planning under uncertainty using deep neural networks." IEEE Transactions 
 		on Industrial Informatics, 2019.
 	
+	J. Fu, A. Kumar, O. Nachum, G. Tucker, and S. Levine. "Datasets for Data-Driven Reinforcement Learning." arXiv 
+	preprint arXiv:2004.07219, 2020.
+	
+	M. Schaarschmidt. "End-to-end deep reinforcement learning in computer systems." PhD Thesis, University of 
+	Cambridge, 2020.
