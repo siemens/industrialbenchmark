@@ -70,7 +70,7 @@ Additional references mentioning Industrial Benchmark:
 		on Industrial Informatics, 2019.
 	
 	J. Fu, A. Kumar, O. Nachum, G. Tucker, and S. Levine. "Datasets for Data-Driven Reinforcement Learning." arXiv 
-	preprint arXiv:2004.07219, 2020.
+		preprint arXiv:2004.07219, 2020.
 	
 	M. Schaarschmidt. "End-to-end deep reinforcement learning in computer systems." PhD Thesis, University of 
-	Cambridge, 2020.
+		Cambridge, 2020.
