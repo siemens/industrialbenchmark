@@ -8,6 +8,10 @@ You can install the Benchmark as a package after cloning, using:
 
 	pip install dist/industrial_benchmark_python-2.0-py3-none-any.whl
 
+To test whether it works and to check out how current RL methods implemented in the stable_baselines package do on the benchmark:
+
+	python industrial_benchmark_python/test_baselines.py
+
 Documentation: The documentation is available online at: https://arxiv.org/abs/1709.09480
 
 	Source: D. Hein, S. Depeweg, M. Tokic, S. Udluft, A. Hentschel, T.A. Runkler, and V. Sterzing. "A benchmark 
