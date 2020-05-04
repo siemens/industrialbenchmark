@@ -1,6 +1,12 @@
-# Industrial Benchmark 
+﻿# Industrial Benchmark 
 
-Requires: Java 8 and Apache Maven 3.x or Python 2.7
+Requires: Java 8 and Apache Maven 3.x or Python 3.7
+
+For the Python Version, the industrial benchmark environment is contained in industrial_benchmark_python/IDS.py, and there is an OpenAI Gym compliant wrapper in industrial_benchmark_python/IBGym.py
+
+You can install the Benchmark as a package after cloning, using:
+
+	pip install dist/industrial_benchmark_python-2.0-py3-none-any.whl
 
 Documentation: The documentation is available online at: https://arxiv.org/abs/1709.09480
 
