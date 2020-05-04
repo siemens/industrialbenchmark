@@ -1,5 +1,5 @@
 import unittest
-from IDS import IDS
+from industrial_benchmark_python.IDS import IDS
 import numpy as np
 
 class TestIB(unittest.TestCase):
