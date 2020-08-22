@@ -63,6 +63,12 @@ Additional references using Industrial Benchmark:
 	
 	F. Linker. "Industrial Benchmark for Fuzzy Particle Swarm Reinforcement Learning." 
 		http://felixlinker.de/doc/ib_fpsrl.pdf, 2019
+	
+	H. Zhang, A. Zhou, and X. Lin. "Interpretable policy derivation for reinforcement learning based on 
+		evolutionary feature synthesis." Complex & Intelligent Systems, 2020. pp. 1-13.
+	
+	P. Swazinna, S. Udluft, and T.A. Runkler. "Overcoming Model Bias for Robust Offline Deep Reinforcement 
+		Learning." arXiv preprint arXiv:2008.05533, 2020.
 
 Additional references mentioning Industrial Benchmark:
 
