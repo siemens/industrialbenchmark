@@ -37,26 +37,26 @@ Additional references using Industrial Benchmark:
 		preprint arXiv:1605.07127, 2016.
 
 	D. Hein, S. Udluft, M. Tokic, A. Hentschel, T.A. Runkler, and V. Sterzing. "Batch reinforcement 
-		learning on the industrial benchmark: First experiences," in 2017 International Joint Conference on Neural
-		Networks (IJCNN), 2017, pp. 4214–4221.
+		learning on the industrial benchmark: First experiences," in 2017 International Joint Conference on 
+		Neural Networks (IJCNN), 2017, pp. 4214–4221.
 
 	S. Depeweg, J. M. Hernández-Lobato, F. Doshi-Velez, and S. Udluft. "Uncertainty decomposition 
 		in Bayesian neural networks with latent variables." arXiv preprint arXiv:1605.07127, 2017.
 		
 	D. Hein, A. Hentschel, T. A. Runkler, and S. Udluft. "Particle Swarm Optimization for Model Predictive 
-		Control in Reinforcement Learning Environments," in Y. Shi (Ed.), Critical Developments and Applications 
-		of Swarm Intelligence, IGI Global, Hershey, PA, USA, 2018, pp. 401–427.
+		Control in Reinforcement Learning Environments," in Y. Shi (Ed.), Critical Developments and 
+		Applications of Swarm Intelligence, IGI Global, Hershey, PA, USA, 2018, pp. 401–427.
 		
 	S. Depeweg, J. M. Hernandez-Lobato, F. Doshi-Velez, and S. Udluft. "Decomposition of Uncertainty in Bayesian 
-		Deep Learning for Efficient and Risk-sensitive Learning." 35th International Conference on Machine Learning, 
-		ICML 2018. Vol. 3. 2018.
+		Deep Learning for Efficient and Risk-sensitive Learning." 35th International Conference on Machine 
+		Learning, ICML 2018. Vol. 3. 2018.
 	
 	D. Hein, S. Udluft, and T.A. Runkler. "Interpretable policies for reinforcement learning by genetic programming." 
 		Engineering Applications of Artificial Intelligence, 76, 2018, pp. 158-169.
 	
 	D. Hein, S. Udluft, and T.A. Runkler. "Generating interpretable fuzzy controllers using particle swarm 
-		optimization and genetic programming," in Proceedings of the Genetic and Evolutionary Computation Conference 
-		Companion, ACM, 2018, pp. 1268-1275.
+		optimization and genetic programming," in Proceedings of the Genetic and Evolutionary Computation 
+		Conference Companion, ACM, 2018, pp. 1268-1275.
 	
 	N. Di Palo, and H. Valpola. "Improving Model-Based Control and Active Exploration with Reconstruction 
 		Uncertainty Optimization." arXiv preprint arXiv:1812.03955, 2018.
