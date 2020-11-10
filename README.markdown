@@ -99,3 +99,6 @@ Additional references mentioning Industrial Benchmark:
 	
 	M. Schaarschmidt. "End-to-end deep reinforcement learning in computer systems." PhD Thesis, 
 		University of Cambridge, 2020.
+	
+	T. Gangwani, Y. Zhou, and J. Peng. "Learning Guidance Rewards with Trajectory-space Smoothing." 
+		Advances in Neural Information Processing Systems 33, 2020.
