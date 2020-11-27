@@ -1,4 +1,12 @@
 ﻿# Industrial Benchmark 
+ 
+ The "Industrial Benchmark" is a realistic benchmark for offline RL and online RL, used to find those RL algorithms that are best suited for real-world applications.
+
+The Industrial Benchmark includes a variety of aspects that we have identified as essential in industrial applications. It is designed to have the same difficulty and complexity as real RL applications. State- and action-space are continuous, the state-space is rather high-dimensional and only partially observable. The actions consist of three continuous components and act on three steerings. There are delayed effects.
+
+The optimization task is multi-criterial in the sense that there are two reward components, which have opposing dependencies on the actions. The dynamical behavior is heteroskedastic with state-dependent observation noise and state-dependent probability distributions, based on latent variables. The industrial benchmark is designed in such a way that the optimal policy does not approach a fixed operating point in the three steerings.
+Each specific choice is based on our experience with industrial challenges.
+
 
 Requires: Java 8 and Apache Maven 3.x or Python 3.7
 
