@@ -1,6 +1,6 @@
 ﻿# Industrial Benchmark 
  
- The "Industrial Benchmark" is a realistic benchmark for offline RL and online RL, used to find those RL algorithms that are best suited for real-world applications.
+The "Industrial Benchmark" is a realistic benchmark for offline RL and online RL, used to find those RL algorithms that are best suited for real-world applications.
 
 The Industrial Benchmark includes a variety of aspects that we have identified as essential in industrial applications. It is designed to have the same difficulty and complexity as real RL applications. State- and action-space are continuous, the state-space is rather high-dimensional and only partially observable. The actions consist of three continuous components and act on three steerings. There are delayed effects.
 
