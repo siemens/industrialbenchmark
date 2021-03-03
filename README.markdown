@@ -110,3 +110,7 @@ Additional references mentioning Industrial Benchmark:
 	
 	T. Gangwani, Y. Zhou, and J. Peng. "Learning Guidance Rewards with Trajectory-space Smoothing." 
 		Advances in Neural Information Processing Systems 33, 2020.
+	
+	A. Zubow, S. Rösler, P. Gawłowicz, F. Dressler. "GrGym: When GNU Radio goes to (AI) Gym," in 
+		Proceedings of the 22nd International Workshop on Mobile Computing Systems and 
+		Applications, 2021, pp. 8-14.
