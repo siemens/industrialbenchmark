@@ -35,8 +35,8 @@ class IBGym(gym.Env):
     """
     OpenAI Gym Wrapper for the industrial benchmark
     """
-    def __init__(self, setpoint, reward_type, action_type, observation_type="classic", reset_after_timesteps=1000,
-                 init_seed=None, n_past_timesteps=30):
+    def __init__(self, setpoint, reward_type="classic", action_type="continuous", observation_type="classic",
+                 reset_after_timesteps=1000, init_seed=None, n_past_timesteps=30):
         """
         Initializes the underlying environment, seeds numpy and initializes action / observation spaces
         as well as other necessary variables
