@@ -20,7 +20,12 @@ Or directly from PyPI:
 
 	pip install industrial_benchmark_python
 
-To test whether it works and to check out how current RL methods implemented in the stable_baselines package do on the benchmark:
+To test whether it works you can run
+
+    cd industrial_benchmark_python
+    python test_gym_wrapper.py
+
+and to check out how current RL methods implemented in the stable_baselines package do on the benchmark (stable baselines needs to be installed):
 
 	python industrial_benchmark_python/test_baselines.py
 
