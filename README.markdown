@@ -86,6 +86,16 @@ Additional references using Industrial Benchmark:
 	
 	P. Swazinna, S. Udluft, and T.A. Runkler. "Overcoming Model Bias for Robust Offline Deep 
 		Reinforcement Learning." arXiv preprint arXiv:2008.05533, 2020.
+	
+	R. Qin, S. Gao, X. Zhang, Z. Xu, S. Huang, Z. Li, Z. Weinan, and Y. Yu. "NeoRL: A Near 
+		Real-World Benchmark for Offline Reinforcement Learning." arXiv preprint 
+		arXiv:2102.00714, 2021.
+	
+	P. Swazinna, S. Udluft, D. Hein, and T.A. Runkler. "Behavior Constraining in Weight 
+		Space for Offline Reinforcement Learning." arXiv preprint arXiv:2107.05479, 2021.
+		
+	V. Kurenkov, and S. Kolesnikov. "Showing Your Offline Reinforcement Learning Work: Online 
+		Evaluation Budget Matters." arXiv preprint arXiv:2110.04156, 2021.
 
 Additional references mentioning Industrial Benchmark:
 
@@ -119,3 +129,17 @@ Additional references mentioning Industrial Benchmark:
 	A. Zubow, S. Rösler, P. Gawłowicz, F. Dressler. "GrGym: When GNU Radio goes to (AI) Gym," in 
 		Proceedings of the 22nd International Workshop on Mobile Computing Systems and 
 		Applications, 2021, pp. 8-14.
+		
+	J. McLeod, H. Stojic, V. Adam, D. Kim, J. Grau-Moya, P. Vrancx, and F. Leibfried. "Bellman: 
+		A Toolbox for Model-Based Reinforcement Learning in TensorFlow." arXiv preprint 
+		arXiv:2103.14407, 2021.
+
+	B. Han, Z. Ren, Z. Wu, Y. Zhou, and J. Peng. "Off-Policy Reinforcement Learning with 
+		Delayed Rewards." arXiv preprint arXiv:2106.11854, 2021.
+		
+	M. Kaiser. "Structured Models with Gaussian Processes." Doctoral dissertation, Technische 
+		Universität München, 2021.
+		
+	M. Videau. "Découverte de Politiques Interprétables pour l'Apprentissage par Renforcement 
+		via la Programmation Génétique." Doctoral dissertation, Université Paris Dauphine-PSL,
+		2021.
