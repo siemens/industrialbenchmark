@@ -1,4 +1,4 @@
-The Industrial Benchmark Offline RL Datasets
+# The Industrial Benchmark Offline RL Datasets
 
 This folder contains the datasets generated with the industrial benchmark that are in multiple publications used for offline Reinforcement Learning. The datasets are collected under three different baseline policys - bad, mediocre, and optimized. See the referenced papers below for details about the baselines. The baselines are then mixed with varying levels of uniform random exploration - variants with 0%, 20%, 40%, 60%, and 80% exist for each baseline. Additionally, a dataset with 100% random actions is provided.
 The datasets are pickled python lists, containing 100k tuples of length 5, where each tuple consists of (state, action, reward, done, next_state). Note that the rewards have been scaled (divided by 100) to keep them in a nicer range.
