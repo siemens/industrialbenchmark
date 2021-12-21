@@ -13,4 +13,4 @@ Example to open a dataset:
 
 See the papers in which the datasets were introduced for additional details on the datasets, their baselines and experimental results of various algorithms on them:
 
-    [<a href="https://arxiv.org/abs/2008.05533">MOOSE</a>] Swazinna, P., Udluft, S., and Runkler, T. (2021b). Overcom-ing model bias for robust offline deep reinforcement learn-ing.Engineering Applications of Artificial Intelligence, 104,104366.
+* [<a href="https://arxiv.org/abs/2008.05533">MOOSE</a>] Swazinna, P., Udluft, S., and Runkler, T. (2021b). Overcom-ing model bias for robust offline deep reinforcement learn-ing.Engineering Applications of Artificial Intelligence, 104,104366.
