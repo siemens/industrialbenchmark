@@ -6,11 +6,11 @@ The datasets are pickled python lists, containing 100k tuples of length 5, where
 Example to open a dataset:
 
     >> import pickle
-    >> datafile = open("bad/bad_0.2_100x1000.pickle", "rb")
+    >> datafile = open("bad/bad_0.2_100x1000_30frames.pickle", "rb")
     >> tuples = pickle.load(datafile)
     >> print(len(tuples), len(tuples[0]))
     100000 5
 
-See the papers in which the datasets were introduced for additional details on the datasets, their baselines and experimental results of various algorithms on them:
+See the papers in which the datasets were introduced for additional details on the datasets, their baselines, and experimental results of various algorithms on them:
 
-* [<a href="https://arxiv.org/abs/2008.05533">MOOSE</a>] Swazinna, P., Udluft, S., and Runkler, T. (2021b). Overcoming model bias for robust offline deep reinforcement learning. Engineering Applications of Artificial Intelligence, 104,104366.
+* [<a href="https://arxiv.org/abs/2008.05533">MOOSE</a>] Swazinna, P., Udluft, S., and Runkler, T. Overcoming model bias for robust offline deep reinforcement learning. Engineering Applications of Artificial Intelligence, 104,104366.
