@@ -4,6 +4,7 @@ This folder contains the datasets generated with the industrial benchmark that a
 The datasets are pickled python lists, containing 100k tuples of length 5, where each tuple consists of (state, action, reward, done, next_state). Note that the rewards have been scaled (divided by 100) to keep them in a nicer range.
 
 Example to open a dataset:
+
     >> import pickle
     >> datafile = open("bad/bad_0.2_100x1000.pickle", "rb")
     >> tuples = pickle.load(datafile)
@@ -11,4 +12,5 @@ Example to open a dataset:
     100000 5
 
 See the papers in which the datasets were introduced for additional details on the datasets, their baselines and experimental results of various algorithms on them:
+
     [<a href="https://arxiv.org/abs/2008.05533">MOOSE</a>] Swazinna, P., Udluft, S., and Runkler, T. (2021b). Overcom-ing model bias for robust offline deep reinforcement learn-ing.Engineering Applications of Artificial Intelligence, 104,104366.
