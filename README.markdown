@@ -87,6 +87,9 @@ Additional references using Industrial Benchmark:
 	P. Swazinna, S. Udluft, and T.A. Runkler. "Overcoming Model Bias for Robust Offline Deep 
 		Reinforcement Learning." arXiv preprint arXiv:2008.05533, 2020.
 	
+	A. Kumar. "Policy Optimization for Industrial Benchmark Using Deep Reinforcement Learning."
+		PhD Thesis, Colorado State University, 2020.
+	
 	R. Qin, S. Gao, X. Zhang, Z. Xu, S. Huang, Z. Li, Z. Weinan, and Y. Yu. "NeoRL: A Near 
 		Real-World Benchmark for Offline Reinforcement Learning." arXiv preprint 
 		arXiv:2102.00714, 2021.
