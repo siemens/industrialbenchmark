@@ -156,8 +156,7 @@ Additional references mentioning Industrial Benchmark:
 	
 	Z. Ren, R. Guo, Y. Zhou, and J. Peng. "Learning Long-Term Reward Redistribution via Randomized 
 		Return Decomposition." arXiv preprint arXiv:2111.13485, 2021.
-
-		
+	
 	M. Videau, A. Leite, O. Teytaud, and M. Schoenauer. "Multi-objective Genetic Programming for 
 		Explainable Reinforcement Learning," in European Conference on Genetic Programming 
 		(Part of EvoStar), Springer, Cham, 2022, pp. 278-293.
