@@ -99,6 +99,13 @@ Additional references using Industrial Benchmark:
 		
 	V. Kurenkov, and S. Kolesnikov. "Showing Your Offline Reinforcement Learning Work: Online 
 		Evaluation Budget Matters." arXiv preprint arXiv:2110.04156, 2021.
+	
+	P. Swazinna, S. Udluft, and T.A. Runkler. "Measuring Data Quality for Dataset Selection in 
+		Offline Reinforcement Learning," in 2021 IEEE Symposium Series on Computational 
+		Intelligence (SSCI), 2021, pp. 1-8.
+	
+	P. Swazinna, S. Udluft, D. Hein, and T.A. Runkler. "Comparing Model-free and Model-based 
+		Algorithms for Offline Reinforcement Learning." arXiv preprint arXiv:2201.05433, 2022.
 
 Additional references mentioning Industrial Benchmark:
 
@@ -146,3 +153,11 @@ Additional references mentioning Industrial Benchmark:
 	M. Videau. "Découverte de Politiques Interprétables pour l'Apprentissage par Renforcement 
 		via la Programmation Génétique." Doctoral dissertation, Université Paris Dauphine-PSL,
 		2021.
+	
+	Z. Ren, R. Guo, Y. Zhou, and J. Peng. "Learning Long-Term Reward Redistribution via Randomized 
+		Return Decomposition." arXiv preprint arXiv:2111.13485, 2021.
+
+		
+	M. Videau, A. Leite, O. Teytaud, and M. Schoenauer. "Multi-objective Genetic Programming for 
+		Explainable Reinforcement Learning," in European Conference on Genetic Programming 
+		(Part of EvoStar), Springer, Cham, 2022, pp. 278-293.
