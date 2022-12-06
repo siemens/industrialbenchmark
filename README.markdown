@@ -106,6 +106,12 @@ Additional references using Industrial Benchmark:
 	
 	P. Swazinna, S. Udluft, D. Hein, and T.A. Runkler. "Comparing Model-free and Model-based 
 		Algorithms for Offline Reinforcement Learning." arXiv preprint arXiv:2201.05433, 2022.
+	
+	C. Feng, and G. Jinyan. "Reliable Offline Model-based Optimization for Industrial Process 
+		Control." arXiv preprint arXiv:2205.07250, 2022.
+		
+	P. Swazinna, S. Udluft, and T.A. Runkler. "User-Interactive Offline Reinforcement Learning." 
+		arXiv preprint arXiv:2205.10629, 2022.
 
 Additional references mentioning Industrial Benchmark:
 
@@ -143,6 +149,12 @@ Additional references mentioning Industrial Benchmark:
 	J. McLeod, H. Stojic, V. Adam, D. Kim, J. Grau-Moya, P. Vrancx, and F. Leibfried. "Bellman: 
 		A Toolbox for Model-Based Reinforcement Learning in TensorFlow." arXiv preprint 
 		arXiv:2103.14407, 2021.
+		
+	T. Xu, and Y. Liang. "Provably Efficient Offline Reinforcement Learning with Trajectory-Wise 
+		Reward." arXiv preprint arXiv:2206.06426, 2022.
+		
+	F.M. Luo, T. Xu, H. Lai, X.H. Chen, W. Zhang, and Y. Yu. "A survey on model-based reinforcement 
+		learning." arXiv preprint arXiv:2206.09328, 2022.
 
 	B. Han, Z. Ren, Z. Wu, Y. Zhou, and J. Peng. "Off-Policy Reinforcement Learning with 
 		Delayed Rewards." arXiv preprint arXiv:2106.11854, 2021.
@@ -160,3 +172,22 @@ Additional references mentioning Industrial Benchmark:
 	M. Videau, A. Leite, O. Teytaud, and M. Schoenauer. "Multi-objective Genetic Programming for 
 		Explainable Reinforcement Learning," in European Conference on Genetic Programming 
 		(Part of EvoStar), Springer, Cham, 2022, pp. 278-293.
+	
+	X.-Y. Liu, Z. Xia, J. Rui, J. Gao, H. Yang, M. Zhu, C.D. Wang, Z. Wang, and J. Guo. 
+		"FinRL-Meta: Market Environments and Benchmarks for Data-Driven Financial 
+		Reinforcement Learning." arXiv preprint arXiv:2211.03107, 2022.
+		
+	T. Xu. "Towards the Understanding of Sample Efficient Reinforcement Learning Algorithms." 
+		Doctoral dissertation, The Ohio State University, 2022.
+	
+	M. Schlappa, J. Hegemann, and S. Spinler. "Optimizing Control of Waste Incineration Plants 
+		Using Reinforcement Learning and Digital Twins." IEEE Transactions on Engineering 
+		Management, 2022.
+		
+	F. Vignat, N. Béraud, and T.T.D. Montcel. "Toolpath Calculation Using Reinforcement Learning 
+		in Machining," in International Joint Conference on Mechanics, Design Engineering & 
+		Advanced Manufacturing, Springer, Cham, 2023, pp. 1149-1158.
+		
+	F. Huang, J. Xu, D. Wu, Y. Cui, Z. Yan, W. Xing, and X.Zhang. "A general motion controller 
+		based on deep reinforcement learning for an autonomous underwater vehicle with 
+		unknown disturbances." Engineering Applications of Artificial Intelligence 117, 2023.
