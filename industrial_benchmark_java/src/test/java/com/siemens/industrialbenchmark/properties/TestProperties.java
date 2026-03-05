@@ -15,26 +15,26 @@ limitations under the License.
 */
 package com.siemens.industrialbenchmark.properties;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import com.siemens.industrialbenchmark.properties.PropertiesException;
-import com.siemens.industrialbenchmark.properties.PropertiesUtil;
+class TestProperties {
 
-public class TestProperties {
-
-	@Test (expected=PropertiesException.class)
-	public void testExceptions() throws IOException, PropertiesException {
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
-		PropertiesUtil.getBoolean(props, "NOT_IN_PROPERTIES_FILES", true);
+	@Test
+	void testExceptions() throws IOException {
+		var props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
+		assertThrows(PropertiesException.class, () ->
+			PropertiesUtil.getBoolean(props, "NOT_IN_PROPERTIES_FILES", true)
+		);
 	}
-	
-	@Test 
-	public void testReadProperty() throws IOException, PropertiesException {
-		Properties props = PropertiesUtil.setpointProperties(new File ("src/main/resources/sim.properties"));
+
+	@Test
+	void testReadProperty() throws IOException, PropertiesException {
+		var props = PropertiesUtil.setpointProperties(new File("src/main/resources/sim.properties"));
 		PropertiesUtil.getFloat(props, "CRD", true);
 	}
 }

@@ -1,8 +1,4 @@
-# coding=utf-8
-from __future__ import print_function
-from __future__ import division
-import numpy as np
-'''
+"""
 The MIT License (MIT)
 
 Copyright 2017 Siemens AG
@@ -26,41 +22,48 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-'''
+"""
 
-class EffectiveAction(object):
+from __future__ import annotations
 
-    def __init__(self, velocity,gain, setpoint):
+
+class EffectiveAction:
+
+    def __init__(self, velocity: float, gain: float, setpoint: float) -> None:
         self.setpoint = setpoint
-        self.effectiveVelocity = self.calcEffectiveVelocity(velocity, gain, setpoint)
-        self.effectiveGain = self.calcEffectiveGain(gain, setpoint)
+        self.effective_velocity = self._calc_effective_velocity(velocity, gain, setpoint)
+        self.effective_gain = self._calc_effective_gain(gain, setpoint)
 
-    def calcEffectiveVelocity(self, a, b, setpoint):
-        minAlphaUnscaled = self.calcEffectiveVelocityUnscaled(self.calcEffectiveA(100, setpoint), self.calcEffectiveB(0, setpoint))
-        maxAlphaUnscaled = self.calcEffectiveVelocityUnscaled(self.calcEffectiveA(0, setpoint), self.calcEffectiveB(100, setpoint))
-        alphaUnscaled = self.calcEffectiveVelocityUnscaled(self.calcEffectiveA(a, setpoint), self.calcEffectiveB(b, setpoint))
-        return (alphaUnscaled - minAlphaUnscaled) / (maxAlphaUnscaled - minAlphaUnscaled)
+    def _calc_effective_velocity(self, a: float, b: float, setpoint: float) -> float:
+        min_unscaled = self._calc_velocity_unscaled(self._effective_a(100, setpoint), self._effective_b(0, setpoint))
+        max_unscaled = self._calc_velocity_unscaled(self._effective_a(0, setpoint), self._effective_b(100, setpoint))
+        unscaled = self._calc_velocity_unscaled(self._effective_a(a, setpoint), self._effective_b(b, setpoint))
+        return (unscaled - min_unscaled) / (max_unscaled - min_unscaled)
 
-    def calcEffectiveGain(self, b, setpoint):
-        minBetaUnscaled = self.calcEffectiveGainUnscaled(self.calcEffectiveB(100, setpoint))
-        maxBetaUnscaled = self.calcEffectiveGainUnscaled(self.calcEffectiveB(0, setpoint))
-        betaUnscaled = self.calcEffectiveGainUnscaled(self.calcEffectiveB(b, setpoint))
-        return (betaUnscaled - minBetaUnscaled) / (maxBetaUnscaled - minBetaUnscaled)
+    def _calc_effective_gain(self, b: float, setpoint: float) -> float:
+        min_unscaled = self._calc_gain_unscaled(self._effective_b(100, setpoint))
+        max_unscaled = self._calc_gain_unscaled(self._effective_b(0, setpoint))
+        unscaled = self._calc_gain_unscaled(self._effective_b(b, setpoint))
+        return (unscaled - min_unscaled) / (max_unscaled - min_unscaled)
 
-    def calcEffectiveA(self, a, setpoint):
-        return a + 101. - setpoint
+    @staticmethod
+    def _effective_a(a: float, setpoint: float) -> float:
+        return a + 101.0 - setpoint
 
-    def calcEffectiveB(self, b, setpoint):
-        return b + 1. + setpoint
+    @staticmethod
+    def _effective_b(b: float, setpoint: float) -> float:
+        return b + 1.0 + setpoint
 
-    def calcEffectiveVelocityUnscaled(self, effectiveA, effectiveB):
-        return (effectiveB + 1.0) / effectiveA
+    @staticmethod
+    def _calc_velocity_unscaled(effective_a: float, effective_b: float) -> float:
+        return (effective_b + 1.0) / effective_a
 
-    def calcEffectiveGainUnscaled(self, effectiveB):
-        return 1.0 / effectiveB
+    @staticmethod
+    def _calc_gain_unscaled(effective_b: float) -> float:
+        return 1.0 / effective_b
 
-    def getEffectiveVelocity(self):
-        return self.effectiveVelocity
+    def getEffectiveVelocity(self) -> float:
+        return self.effective_velocity
 
-    def getEffectiveGain(self):
-        return self.effectiveGain
+    def getEffectiveGain(self) -> float:
+        return self.effective_gain

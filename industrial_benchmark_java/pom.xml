@@ -2,12 +2,14 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.siemens.oss.industrialbenchmark</groupId>
 	<artifactId>industrialbenchmark</artifactId>
-	<version>1.1.2-SNAPSHOT</version>
+	<version>2.0.0-SNAPSHOT</version>
 
 	<properties>
-		<javaSource>1.8</javaSource>
-		<javaTarget>1.8</javaTarget>
+		<javaSource>21</javaSource>
+		<javaTarget>21</javaTarget>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<junit.version>5.11.4</junit.version>
+		<slf4j.version>2.0.16</slf4j.version>
 	</properties>
 
 	<name>Industrial Benchmark</name>
@@ -53,7 +55,6 @@ approximation of any real system, but to pose the same hardness and complexity.
 		<tag>HEAD</tag>
 	</scm>
 
-
 	<distributionManagement>
 		<repository>
 			<id>ossrh</id>
@@ -68,56 +69,75 @@ approximation of any real system, but to pose the same hardness and complexity.
 	</distributionManagement>
 
 	<dependencies>
+
+		<!-- Logging: SLF4J 2.x + Logback (replaces EOL Log4j 1.x with critical CVEs) -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.21</version>
-		</dependency>
-		<dependency>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.7.21</version>
-			<groupId>org.slf4j</groupId>
+			<version>${slf4j.version}</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.2.2</version>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.5.15</version>
 		</dependency>
+
+		<!-- Collections: commons-collections4 (typed generics, replaces pre-generics 3.x) -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.5.0-M3</version>
+		</dependency>
+
 		<dependency>
 			<groupId>commons-io</groupId>
 			<artifactId>commons-io</artifactId>
-			<version>2.7</version>
+			<version>2.18.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>net.sf.jchart2d</groupId>
 			<artifactId>jchart2d</artifactId>
 			<version>3.3.2</version>
 		</dependency>
+
+		<!-- Guava: updated from 29.0 to current (security + performance fixes) -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>32.0.0-jre</version>
+			<version>33.4.0-jre</version>
 		</dependency>
+
+		<!-- JUnit 5 (migrated from JUnit 4.13.1) -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.13.1</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
 		</dependency>
+		<!-- JUnit 4 vintage engine for backward compatibility with unmigrated tests -->
+		<dependency>
+			<groupId>org.junit.vintage</groupId>
+			<artifactId>junit-vintage-engine</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>com.beust</groupId>
 			<artifactId>jcommander</artifactId>
-			<version>1.32</version>
+			<version>1.82</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-csv</artifactId>
-			<version>1.2</version>
+			<version>1.12.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
-			<version>3.4</version>
+			<version>3.17.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -131,7 +151,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
+				<version>1.7.0</version>
 				<extensions>true</extensions>
 				<configuration>
 					<serverId>ossrh</serverId>
@@ -142,42 +162,36 @@ approximation of any real system, but to pose the same hardness and complexity.
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.3.2</version>
+				<version>3.13.0</version>
 				<configuration>
 					<source>${javaSource}</source>
 					<target>${javaTarget}</target>
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
-			<!-- Build deliverables: JAR -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.1</version>
+				<version>3.4.2</version>
 				<configuration>
 					<archive>
 						<manifest>
 							<addClasspath>true</addClasspath>
-							<!-- Configures the classpath prefix. This configuration option is 
-								used to specify that all needed libraries are found under lib/ directory. -->
 							<classpathPrefix>lib/</classpathPrefix>
-							<!-- Specifies the main class of the application -->
 							<mainClass>com.siemens.industrialbenchmark.ExampleMain</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
 			</plugin>
-			<!-- Execute unit tests -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.10</version>
+				<version>3.5.2</version>
 			</plugin>
-			<!-- Build numer plugin -->
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
 				<artifactId>buildnumber-maven-plugin</artifactId>
-				<version>1.1</version>
+				<version>3.2.1</version>
 				<executions>
 					<execution>
 						<phase>validate</phase>
@@ -187,11 +201,10 @@ approximation of any real system, but to pose the same hardness and complexity.
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Maven central release plugins -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
-				<version>2.5.2</version><!--$NO-MVN-MAN-VER$ -->
+				<version>3.1.1</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
 					<useReleaseProfile>false</useReleaseProfile>
@@ -199,11 +212,9 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<goals>deploy</goals>
 				</configuration>
 			</plugin>
-
-			<!-- Build deliverables: Assembly as ZIP and Tar/GZ. -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<version>2.2.1</version>
+				<version>3.7.1</version>
 				<executions>
 					<execution>
 						<id>create-distribution-package</id>
@@ -219,7 +230,6 @@ approximation of any real system, but to pose the same hardness and complexity.
 					</execution>
 				</executions>
 			</plugin>
-			<!-- Build deliverables: Self-contained JAR with all dependencies -->
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
@@ -244,7 +254,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-javadoc-plugin</artifactId>
-						<version>2.8</version>
+						<version>3.11.2</version>
 						<executions>
 							<execution>
 								<id>attach-javadocs</id>
@@ -261,7 +271,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-source-plugin</artifactId>
-						<version>2.1.2</version>
+						<version>3.3.1</version>
 						<executions>
 							<execution>
 								<id>attach-sources</id>
@@ -275,7 +285,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.6</version>
+						<version>3.2.7</version>
 						<executions>
 							<execution>
 								<id>sign-artifacts</id>
@@ -288,7 +298,7 @@ approximation of any real system, but to pose the same hardness and complexity.
 					</plugin>
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
-						<version>2.2.1</version>
+						<version>3.7.1</version>
 						<executions>
 							<execution>
 								<id>create-distribution-package</id>

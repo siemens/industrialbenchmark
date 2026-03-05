@@ -4,9 +4,22 @@ import numpy as np
 
 class TestIB(unittest.TestCase):
 
-    def all_states(self,env):
-        array = [env.state['o'][0],env.state['o'][1],env.state['o'][2],env.state['o'][3],env.state['o'][4],env.state['o'][5],env.state['o'][6],env.state['o'][7],env.state['o'][8],env.state['o'][9],env.state['coc'],env.state['hg'], env.state['hv'], env.state['he'], env.state['gs_domain'], env.state['gs_sys_response'], env.state['gs_phi_idx'], env.state['ge'], env.state['ve'],env.state['MC'],env.state['c'],env.state['p'],env.state['v'],env.state['g'],env.state['h'], env.state['f'], env.state['fb'], env.state['oc'], env.state['reward'] ]
+    def all_states(self, env):
+        s = env.state
+        array = [
+            s.operational_cost_buffer[0], s.operational_cost_buffer[1],
+            s.operational_cost_buffer[2], s.operational_cost_buffer[3],
+            s.operational_cost_buffer[4], s.operational_cost_buffer[5],
+            s.operational_cost_buffer[6], s.operational_cost_buffer[7],
+            s.operational_cost_buffer[8], s.operational_cost_buffer[9],
+            s.current_operational_cost, s.hidden_gain, s.hidden_velocity,
+            s.hidden_shift, s.gs_domain, s.gs_sys_response, s.gs_phi_idx,
+            s.effective_gain, s.effective_velocity, s.miscalibration,
+            s.consumption, s.setpoint, s.velocity, s.gain, s.shift,
+            s.fatigue, s.fatigue_base, s.operational_cost_conv, s.reward,
+        ]
         return array
+
     def test_example(self):
         # fixed seed for setpoint
         np.random.seed(501)
@@ -21,7 +34,7 @@ class TestIB(unittest.TestCase):
         # perform 1000 actions per trajectory
         for i in range(trajectories):
             # generate IB with fixed seed. If no seed is given, IB is generated with random values
-            env = IDS(p[i], inital_seed=1005 + i)
+            env = IDS(p[i], initial_seed=1005 + i)
 
             for j in range(T):
                 at = 2 * np.random.rand(3) - 1

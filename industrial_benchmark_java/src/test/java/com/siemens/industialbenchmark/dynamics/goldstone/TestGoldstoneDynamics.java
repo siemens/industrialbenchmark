@@ -15,72 +15,55 @@ limitations under the License.
  */
 package com.siemens.industialbenchmark.dynamics.goldstone;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.google.common.base.Preconditions;
 import com.siemens.industrialbenchmark.dynamics.goldstone.GoldStoneEnvironmentDynamics;
 
-public class TestGoldstoneDynamics {
+class TestGoldstoneDynamics {
 
 	@Test
-	public void test() {
+	void test() throws IOException {
 
-		// parse regression data file
-		ClassLoader classLoader = getClass().getClassLoader();
-		File f = new File (classLoader.getResource("dynamics_class_regression_data.xa").getFile());
+		var classLoader = getClass().getClassLoader();
+		var f = new File(classLoader.getResource("dynamics_class_regression_data.xa").getFile());
 
-		ArrayList<Double> position = new ArrayList<Double>();			
-		ArrayList<Double> penalty = new ArrayList<Double>();
+		var position = new ArrayList<Double>();
+		var penalty = new ArrayList<Double>();
 
-		try {
-
-			BufferedReader reader = new BufferedReader(new FileReader(f));
-
+		try (var reader = new BufferedReader(new FileReader(f))) {
 			while (reader.ready()) {
-				String line = reader.readLine();
-
-				// only catch non-comment lines
-				if (!line.startsWith("#")){
-					String[] fields = line.split(" ");
-
-					Preconditions.checkArgument(fields.length == 3, 
-							"three fields (step, action, penalty) are expected, but " + fields.length + " fields were parsed.");
-
+				var line = reader.readLine();
+				if (!line.startsWith("#")) {
+					var fields = line.split(" ");
+					Preconditions.checkArgument(fields.length == 3,
+							"three fields expected, but %s parsed.", fields.length);
 					position.add(Double.parseDouble(fields[1]));
-					penalty.add(Double.parseDouble(fields[2]));	
+					penalty.add(Double.parseDouble(fields[2]));
 				}
 			}
-
-			reader.close();
-			System.out.println ("Goldstone dynamics class regression test: read " + position.size() + " rows.");
-
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
 
-		// TODO: implement Test
+		System.out.println("Goldstone dynamics class regression test: read " + position.size() + " rows.");
+
 		int numberOfSteps = 24;
 		double maxRequiredStep = 0.25;
 		double safeZone = 0.5 * maxRequiredStep;
-		GoldStoneEnvironmentDynamics dyn = new GoldStoneEnvironmentDynamics(numberOfSteps, maxRequiredStep, safeZone);
-		for (int step=0; step< position.size(); step++) {
+		var dyn = new GoldStoneEnvironmentDynamics(numberOfSteps, maxRequiredStep, safeZone);
 
+		for (int step = 0; step < position.size(); step++) {
 			dyn.stateTransition(position.get(step));
-			double reward = dyn.rewardAt(position.get(step));
-//			System.out.println ("step: " + step + ", pos=" + position.get(step) + ", reward=" + reward);
-			if(Math.abs(position.get(step))<=1.5) {
-				assertEquals (-penalty.get(step), reward, 1e-8);
+			var reward = dyn.rewardAt(position.get(step));
+			if (Math.abs(position.get(step)) <= 1.5) {
+				assertEquals(-penalty.get(step), reward, 1e-8);
 			}
 		}
 	}

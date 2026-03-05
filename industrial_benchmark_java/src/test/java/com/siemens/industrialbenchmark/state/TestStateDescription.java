@@ -15,49 +15,39 @@ limitations under the License.
 */
 package com.siemens.industrialbenchmark.state;
 
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.ArrayList;
-import java.util.List;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import com.siemens.industrialbenchmark.datavector.state.MarkovianStateDescription;
 import com.siemens.industrialbenchmark.datavector.state.ObservableStateDescription;
 
-public class TestStateDescription {
+class TestStateDescription {
 
 	@Test
-	public void testObservableStateDescription() {
-
-		// test ObservableStateDescription 
-		ObservableStateDescription o1 = new ObservableStateDescription();
-		ObservableStateDescription o2 = new ObservableStateDescription();
-		assertTrue (o1.equals(o2));
-		
+	void testObservableStateDescription() {
+		var o1 = new ObservableStateDescription();
+		var o2 = new ObservableStateDescription();
+		assertEquals(o1, o2);
 	}
-	@Test
-	public void testMarkovianStateDescription() {
 
-		
-		// test MarkovianStateDescription 
-		List <String> mNames = new ArrayList<String>();
+	@Test
+	void testMarkovianStateDescription() {
+		var mNames = new ArrayList<String>();
 		mNames.add("TestVar");
-		
-		MarkovianStateDescription m1 = new MarkovianStateDescription(mNames);
-		MarkovianStateDescription m2 = new MarkovianStateDescription(mNames);		
 
-		assertTrue (m1.toString().equals(m2.toString()));	
+		var m1 = new MarkovianStateDescription(mNames);
+		var m2 = new MarkovianStateDescription(mNames);
+
+		assertEquals(m1.toString(), m2.toString());
 	}
-	
+
 	@Test
-	public void testSizes() {
-		
-		ObservableStateDescription o1 = new ObservableStateDescription();
-		ObservableStateDescription o2 = new ObservableStateDescription();
-		
-		assertTrue (o1.getNumberVariables() == o2.getVarNames().size());
-				
+	void testSizes() {
+		var o1 = new ObservableStateDescription();
+		var o2 = new ObservableStateDescription();
+		assertEquals(o1.getNumberVariables(), o2.getVarNames().size());
 	}
-	
 }

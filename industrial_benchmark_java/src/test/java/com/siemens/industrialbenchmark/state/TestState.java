@@ -14,43 +14,39 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 package com.siemens.industrialbenchmark.state;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import org.junit.Test;
+import static org.junit.jupiter.api.Assertions.*;
+
+import org.junit.jupiter.api.Test;
 
 import com.siemens.industrialbenchmark.datavector.state.ObservableState;
 import com.siemens.industrialbenchmark.datavector.state.ObservableStateDescription;
 
-public class TestState {
-	
-	@Test(expected=IllegalArgumentException.class)
-	public void testRuntimeException() {
-		ObservableState s = new ObservableState();
-		// the following should throw the RuntimeException, because key "NOT_DEFINED" does not exists
-		System.out.println ("value=" + s.getValue("NOT_DEFINED")); 
-	}
-	
+class TestState {
+
 	@Test
-	public void testNAN() {
-		ObservableState s = new ObservableState();
-		// read unset value
-		double gainValue = s.getValue(ObservableStateDescription.Action_Gain);
-		System.out.println ("gain: actual=" + gainValue + ", expected=NaN");
-		assertTrue (Double.isNaN(gainValue));
+	void testRuntimeException() {
+		var s = new ObservableState();
+		assertThrows(IllegalArgumentException.class, () -> s.getValue("NOT_DEFINED"));
 	}
 
 	@Test
-	public void testSetAndCheckValues() {
-		
-		ObservableState s = new ObservableState();
-		
-		double value = 1.2345;
+	void testNAN() {
+		var s = new ObservableState();
+		var gainValue = s.getValue(ObservableStateDescription.Action_Gain);
+		assertTrue(Double.isNaN(gainValue));
+	}
+
+	@Test
+	void testSetAndCheckValues() {
+		var s = new ObservableState();
+
+		var value = 1.2345;
 		s.setValue(ObservableStateDescription.SetPoint, value);
 		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
-		
+
 		value = value * 2.0f;
 		s.setValue(ObservableStateDescription.SetPoint, value);
-		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);		
-	}	
+		assertEquals(value, s.getValue(ObservableStateDescription.SetPoint), 0.0001);
+	}
 }
